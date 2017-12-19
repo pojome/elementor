@@ -43,7 +43,6 @@ class Frontend {
 			add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		}
 
-		add_action( 'wp_head', [ $this, 'print_google_fonts' ] );
 		add_action( 'wp_footer', [ $this, 'wp_footer' ] );
 
 		// Add Edit with the Elementor in Admin Bar.
@@ -339,11 +338,6 @@ class Frontend {
 
 		// Print used fonts
 		if ( ! empty( $this->google_fonts ) ) {
-			foreach ( $this->google_fonts as &$font ) {
-				$font = str_replace( ' ', '+', $font ) . ':100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic';
-			}
-
-			$fonts_url = sprintf( 'https://fonts.googleapis.com/css?family=%s', implode( '|', $this->google_fonts ) );
 
 			$subsets = [
 				'ru_RU' => 'cyrillic',
@@ -357,12 +351,16 @@ class Frontend {
 				'pl_PL' => 'latin-ext',
 			];
 			$locale = get_locale();
-
-			if ( isset( $subsets[ $locale ] ) ) {
-				$fonts_url .= '&subset=' . $subsets[ $locale ];
+			
+			foreach ( $this->google_fonts as &$font ) {
+				$font = str_replace( ' ', '+', $font ) . ':100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic';
+				if ( isset( $subsets[ $locale ] ) ) {
+					$font .= ':' . $subsets[ $locale ];
+				}
 			}
 
-			echo '<link rel="stylesheet" type="text/css" href="' . $fonts_url . '">';
+			echo '<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+				<script>WebFont.load({google: {families: [\''.implode("','",$this->google_fonts).'\']}});</script>';
 			$this->google_fonts = [];
 		}
 
