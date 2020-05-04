@@ -27,7 +27,7 @@ a {
 }
 
 body {
-    color: $editor-dark;
+    color: $theme-color-panel-text;
     font-family: $admin-font-family;
     font-size: 13px;
     font-weight: normal;
@@ -51,7 +51,7 @@ body {
 		color: $editor-info;
 
 		&:hover {
-			color: $editor-accent;
+			color: $theme-color-editor-accent;
 		}
 	}
 

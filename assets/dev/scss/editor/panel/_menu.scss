@@ -28,10 +28,10 @@
 		height: 40px;
 		cursor: pointer;
 		margin-bottom: 1px;
-		background-color: #fff;
+		background-color: $theme-color-panel-menu-item-bg;
 
 		&:hover {
-			background-color: rgba( 255, 255, 255, .8 );
+			background-color: $theme-color-panel-menu-item-bg-hover;
 		}
 
 		> * {
@@ -42,7 +42,7 @@
 		&-icon {
 			text-align: center;
 			width: 50px;
-			color: $editor-light;
+			color: $theme-color-panel-menu-item-icon;
 
 			.eicon-editor-external-link {
 				font-size: 18px;
@@ -58,7 +58,7 @@
 		}
 
 		a {
-			color: $editor-dark;
+			color: $theme-color-panel-menu-item-text;
 		}
 
 		&-exit-to-dashboard {

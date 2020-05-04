@@ -8,7 +8,7 @@
 	left: 0;
 	right: 0;
 	height: 40px;
-	background-color: $editor-darkest;
+	background-color: $theme-color-footer-bg;
 }
 
 #elementor-panel-footer-tools {
@@ -23,7 +23,7 @@
 	vertical-align: middle;
 	text-align: center;
 	cursor: pointer;
-	color: $editor-light;
+	color: $theme-color-footer-icons;
 	transition: $transition-hover;
 
 	#elementor-panel-saver-button-update {
@@ -45,13 +45,13 @@
 	}
 
 	&.elementor-open {
-		color: #fff;
+		color: $theme-color-footer-icons-open;
 	}
 
 	&:not(.elementor-open) {
 
 		&:hover {
-			color: $editor-lightest;
+			color: $theme-color-footer-icons-hover;
 		}
 
 		.elementor-panel-footer-sub-menu-wrapper {
@@ -65,7 +65,7 @@
 	bottom: 100%;
 	left: 0;
 	width: 100%;
-	background-color: $editor-darker;
+	background-color: $theme-color-footer-submenu-bg;
 	padding: 10px;
 	box-shadow: $panel-top-shadow;
 	cursor: default;
@@ -78,7 +78,7 @@
 }
 
 .elementor-panel-footer-sub-menu-item {
-	background-color: $editor-darkest;
+	background-color: $theme-color-footer-submenu-item-bg;
 	display: table;
 	table-layout: fixed;
 	width: 100%;
@@ -88,7 +88,7 @@
 
 		.elementor-icon,
 		.elementor-title {
-			color: $editor-dark;
+			color: $theme-color-footer-submenu-item-disabled;
 		}
 	}
 
@@ -97,11 +97,11 @@
 	}
 
 	&:hover {
-		background-color: rgba(0, 0, 0, 0.2);
+		background-color: $theme-color-footer-submenu-item-bg-hover;
 	}
 
 	&.active {
-		background-color: rgba(0, 0, 0, 0.3);
+		background-color: $theme-color-footer-submenu-item-bg-hover;
 	}
 
 	> * {
@@ -112,12 +112,12 @@
 
 	.elementor-icon {
 		width: 40px;
-		color: $editor-light;
+		color: $theme-color-footer-submenu-item-icon;
 	}
 
 	.elementor-title {
 		text-align: $start;
-		color: $editor-lightest;
+		color: $theme-color-footer-submenu-item-text;
 	}
 
 	.elementor-description {
@@ -125,14 +125,8 @@
 		text-align: $start;
 		font-size: 11px;
 		font-style: italic;
-		color: $editor-light;
+		color: $theme-color-footer-submenu-item-description;
 	}
-}
-
-#elementor-panel-footer-help-title {
-	text-align: $start;
-	padding: 10px 0;
-	color: $editor-lightest;
 }
 
 #elementor-panel-footer-responsive {
@@ -160,12 +154,12 @@
 
 #elementor-panel-footer-saver-options {
 	width: 35px;
-	@include border-start(1px solid $editor-darkest);
+	@include border-start(1px solid $theme-color-footer-bg);
 
 	.elementor-last-edited-wrapper {
 		font-size: 11px;
 		font-style: italic;
-		color: $editor-light;
+		color: $theme-color-panel-neutral;
 		padding: 5px 0 15px;
 
 		&:not(.elementor-state-active) {
@@ -196,7 +190,7 @@
 	&button-{
 		&preview {
 			a {
-				color: $editor-light;
+				color: $theme-color-btn-success-text;
 			}
 		}
 
@@ -207,8 +201,8 @@
 			height: 26px;
 
 			&.elementor-disabled {
-				background-color: $editor-darker;
-				color: $editor-light;
+				background-color: $theme-color-btn-update-disabled-bg;
+				color: $theme-color-btn-update-disabled-text;
 			}
 		}
 

@@ -34,7 +34,7 @@
 	&__upload {
 		margin: 20px 45px;
 		padding-top: 35px;
-		border-top: 1px solid $editor-background;
+		border-top: 1px solid $editor-color-level-30;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -44,7 +44,7 @@
 		}
 
 		&__title {
-			color: $editor-light;
+			color: $editor-color-level-60;
 			font-size: 11px;
 			text-transform: uppercase;
 		}
@@ -69,7 +69,7 @@
 
 		input {
 			padding: 8px 15px;
-			background-color: #fff;
+			background-color: $editor-color-level-0;
 			border: none;
 
 			&::placeholder {
@@ -94,7 +94,7 @@
 		}
 
 		&__title {
-			color: $editor-darker;
+			color: $editor-color-level-80;
 			font-size: 16px;
 			font-weight: 500;
 			text-align: $start;
@@ -137,7 +137,7 @@
 
 		&__icon {
 			font-size: 60px;
-			color: $editor-lighter;
+			color: $editor-color-level-50;
 		}
 
 		&__text {
@@ -157,7 +157,7 @@
 	&__tab-link {
 		@include padding(15px, 0, 15px, 45px);
 		font-size: 14px;
-		color: $editor-dark;
+		color: $editor-color-level-70;
 		text-align: $start;
 		cursor: pointer;
 		position: relative;
@@ -165,7 +165,7 @@
 		i {
 			font-size: 20px;
 			@include padding-end(15px);
-			color: $editor-light;
+			color: $editor-color-level-60;
 		}
 
 		@media (max-width: $editor-screen-lg-max) {
@@ -185,7 +185,7 @@
 		}
 
 		&.elementor-active {
-			background-color: #fff;
+			background-color: $editor-color-level-0;
 			box-shadow: 0 6px 20px 0 rgba(0,0,0,0.1);
 
 			&:after {
@@ -208,7 +208,7 @@
 		position: relative;
 		height: 0;
 		padding-bottom: 100%;
-		background-color: #fff;
+		background-color: $editor-color-level-0;
 		box-shadow: 0 1px 12px rgba(0,0,0,.05);
 		border-radius: 3px;
 		cursor: pointer;
@@ -234,11 +234,11 @@
 
 		&__icon {
 			font-size: 25px;
-			color: $editor-dark;
+			color: $editor-color-level-70;
 		}
 
 		&__name {
-			color: $editor-lighter;
+			color: $editor-color-level-50;
 			font-size: 11px;
 			padding: 13px 20px 0;
 			max-width: 100%;

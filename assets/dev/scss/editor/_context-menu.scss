@@ -1,8 +1,8 @@
 .elementor-context-menu {
 	position: absolute;
 	width: 200px;
-	background-color: #fff;
-	border: 1px solid $editor-background;
+	background-color: $editor-color-level-0;
+	border: 1px solid $editor-color-level-30;
 	border-radius: 3px;
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.09);
 	user-select: none;
@@ -14,7 +14,7 @@
 			padding: 5px 0;
 
 			&:not(:last-child) {
-				border-bottom: 1px solid $editor-background;
+				border-bottom: 1px solid $editor-color-level-30;
 			}
 		}
 
@@ -26,7 +26,7 @@
 
 			&--disabled {
 				cursor: default;
-				color: $editor-lightest;
+				color: $editor-color-level-40;
 			}
 
 			&:not(.elementor-context-menu-list__item--disabled) {
@@ -35,14 +35,14 @@
 					background-color: $editor-info;
 
 					> * {
-						color: #fff;
+						color: $editor-color-level-0;
 					}
 				}
 			}
 
 			&__icon {
 				width: 20px;
-				color: $editor-lighter;
+				color: $editor-color-level-50;
 			}
 
 			&__title {
@@ -51,7 +51,7 @@
 			}
 
 			&__shortcut {
-				color: $editor-lightest;
+				color: $editor-color-level-40;
 			}
 
 			&.elementor-context-menu-list__item-delete {

@@ -7,17 +7,18 @@
 }
 
 .elementor-control-type-tab {
+	background: $theme-color-input-bg;
 	text-align: center;
 	width: 100%;
 	padding: 0;
 	line-height: $control-unit;
-	border-top: 1px solid $editor-lightest;
-	border-bottom: 1px solid $editor-lightest;
-	@include border-end(1px solid $editor-lightest);
+	border-top: 1px solid $theme-color-input-border;
+	border-bottom: 1px solid $theme-color-input-border;
+	@include border-end(1px solid $theme-color-input-border);
 	cursor: pointer;
 
 	&:first-child {
-		@include border-start(1px solid $editor-lightest);
+		@include border-start(1px solid $theme-color-input-border);
 		@include _dimension_side_property(border-top, start, radius, 3px);
 		@include _dimension_side_property(border-bottom, start, radius, 3px);
 	}
@@ -28,9 +29,9 @@
 	}
 
 	&.elementor-tab-active {
-		background-color: $editor-light;
-		border-color: $editor-light;
-		color: #ffffff;
+		background-color: $theme-color-input-choose-bg-active;
+		border-color: $theme-color-input-choose-bg-active;
+		color: $theme-color-input-choose-text-active;
 	}
 }
 

@@ -30,16 +30,18 @@
 	}
 
 	.elementor-control-popover-toggle-reset-label {
-		color: $editor-lighter;
+		color: $theme-color-panel-text;
 		@include margin-end(5px);
 	}
 
 	.elementor-control-popover-toggle-toggle-label {
 		height: $control-unit;
+		color: $theme-color-panel-highlight;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		border-radius: 3px;
-		border: 1px solid $editor-lightest;
+		border: 1px solid $theme-color-input-border;
+		background: $theme-color-input-bg;
 	}
 }

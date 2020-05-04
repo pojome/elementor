@@ -2,10 +2,10 @@
 	&.elementor-preview-loading-error {
 		.dialog {
 			&-header {
-				color: $editor-darkest;
+				color: $editor-color-level-90;
 			}
 			&-message a {
-				color: $editor-dark;
+				color: $editor-color-level-70;
 				text-decoration: underline;
 				font-style: italic;
 			}

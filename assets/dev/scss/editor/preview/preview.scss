@@ -1,5 +1,6 @@
 @import "../../helpers/variables";
 @import "../../helpers/mixins";
+@import "../themes/colors";
 
 @import "../units";
 @import "../breakpoints";
@@ -674,7 +675,7 @@ html.elementor-html {
 
 		.elementor-add-section-inner {
 			border: 2px dashed $editor-lightest;
-			background-color: rgba(255, 255, 255, .5);
+			background-color: rgba(255, 255, 255, 0.5);
 		}
 	}
 

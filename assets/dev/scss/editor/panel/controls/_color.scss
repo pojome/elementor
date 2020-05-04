@@ -21,3 +21,12 @@
 		}
 	}
 }
+
+body .pcr-app {
+	background-color: $theme-color-popover-bg;
+}
+
+.pcr-button {
+	background-image: $theme-checkersboard-pattern;
+	background-color: $theme-color-checkersboard-bg;
+}

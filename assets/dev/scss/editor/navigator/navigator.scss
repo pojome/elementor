@@ -4,7 +4,7 @@
 	width: 240px;
 	height: 339px;
 	@include end(30px);
-	background-color: #fff;
+	background-color: $theme-color-panel-back-bg;
 	box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
 	user-select: none;
 	overflow: hidden; // Ensure the bottom border radius is visible
@@ -23,7 +23,6 @@
 
 	&__inner {
 		height: 100%;
-		background-color: $editor-background;
 	}
 
 	&__header {
@@ -31,9 +30,26 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 12px 10px;
-		background-color: #fff;
-		border-bottom: 1px solid $editor-background;
+		border-bottom: 1px solid $theme-color-panel-highlight-bg;
 		cursor: move;
+	}
+
+	&__footer {
+		position: absolute;
+		width: 100%;
+		left: 0;
+		bottom: 0;
+		text-align: center;
+		border-top: 1px solid $theme-color-panel-highlight-bg;
+		color: $theme-color-panel-neutral;
+
+		.elementor-navigator-docked & {
+			display: none;
+		}
+	}
+
+	&__header, &__footer {
+		background-color: $theme-color-navigator-header-footer-bg;
 	}
 
 	&__close,
@@ -42,7 +58,7 @@
 		cursor: pointer;
 
 		&:not(:hover) {
-			color: $editor-light;
+			color: $theme-color-panel-neutral;
 		}
 	}
 
@@ -67,21 +83,6 @@
 			padding: 25px;
 		}
 	}
-
-	&__footer {
-		position: absolute;
-		width: 100%;
-		left: 0;
-		bottom: 0;
-		text-align: center;
-		background-color: #fff;
-		border-top: 1px solid $editor-background;
-		color: $editor-light;
-
-		.elementor-navigator-docked & {
-			display: none;
-		}
-	}
 }
 
 .elementor-navigator {
@@ -91,10 +92,15 @@
 		display: flex;
 		height: 30px;
 		font-size: 11px;
-		border-bottom: 1px solid $editor-background;
+		border-bottom: 1px solid $theme-color-panel-back-bg;
+		background: $theme-color-panel-front-bg;
 		cursor: pointer;
 		transition: padding .5s linear;
 		overflow: hidden;
+
+		&:hover, .elementor-empty-view {
+			background: $theme-color-panel-highlight-bg;
+		}
 
 		&:not(.elementor-active) {
 
@@ -120,26 +126,26 @@
 
 		.elementor-empty-view {
 			padding: 10px;
-			border-bottom: 1px solid $editor-background;
+			border-bottom: 1px solid $theme-color-panel-back-bg;
 
 			&__title {
 				@include margin-start(23px);
-				color: $editor-lighter;
+				color: $theme-color-panel-neutral;
 				font-size: 10px;
 				font-style: italic;
 			}
 		}
 
 		.ui-sortable-helper {
-			background-color: #fff;
+			background-color: $theme-color-panel-front-bg;
 			box-shadow: 1px 2px 5px 0 rgba(0, 0, 0, 0.1);
 			transform: rotate(4deg);
-			border: 1px solid $editor-background;
+			border: 1px solid $theme-color-panel-back-bg;
 			pointer-events: none;
 		}
 
 		.ui-sortable-placeholder {
-			background-color: $editor-background-light;
+			background-color: $theme-color-panel-back-bg;
 		}
 	}
 
@@ -189,10 +195,10 @@
 			> .elementor-navigator__item {
 
 				&.elementor-editing {
-					background-color: $editor-info;
+					background-color: $theme-color-navigator-item-active-bg;
 
 					> * {
-						color: #fff;
+						color: $theme-color-navigator-item-active-text;
 					}
 				}
 			}
@@ -201,7 +207,7 @@
 		&__list-toggle {
 			@include margin-end(7px);
 			transition: transform .3s;
-			color: $editor-light;
+			color: $theme-color-panel-neutral;
 		}
 
 		&__element-type {
@@ -218,8 +224,8 @@
 
 				&[contenteditable="true"] {
 					outline: none;
-					color: $editor-dark;
-					background-color: #fff;
+					color: $theme-color-input-text;
+					background-color: $theme-color-input-bg;
 					padding: 2px 3px;
 					box-shadow: 0 0 4px rgba(0,0,0,0.2);
 				}
@@ -257,9 +263,9 @@
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
-			color: $editor-dark;
-			background-color: #fff;
-			@include border-start(1px solid $editor-background);
+			color: $theme-color-panel-highlight;
+			background-color: $theme-color-navigator-item-active-bg;
+			@include border-start(1px solid $theme-color-panel-back-bg);
 
 			&:first-child {
 				@include border-start(3px solid $editor-info);
@@ -270,7 +276,7 @@
 			}
 
 			&:hover {
-				color: $editor-darkest;
+				color: $theme-color-panel-super-highlight;
 			}
 		}
 
@@ -283,18 +289,18 @@
 		}
 
 		&-column {
-			background-color: lighten($editor-background-light, 3%);
+			background-color: $theme-color-panel-highlight-bg;
 
 			> .elementor-navigator__item {
 
 				.elementor-navigator__element__element-type {
-					color: $editor-light;
+					color: $theme-color-panel-neutral;
 				}
 			}
 		}
 
 		&-section {
-			background-color: #fff;
+			background-color: $theme-color-panel-front-bg;
 		}
 	}
 }

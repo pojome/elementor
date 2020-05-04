@@ -46,11 +46,11 @@
 }
 
 #elementor-panel-elements-search-input {
-	background-color: rgba(255,255,255,.7);
+	background-color: $theme-color-panel-search-bar-bg;
 	font-size: 11px;
 	@include padding(10px, 10px, 10px, 29px);
 	font-style: italic;
-	color: $editor-light;
+	color: $theme-color-panel-search-bar-text;
 	border: none;
 	transition: all 1s;
 	border-radius: 3px;
@@ -62,12 +62,12 @@
 		position: absolute;
 		@include start(10px);
 		top: 50%;
-		color: $editor-light;
+		color: $theme-color-panel-search-bar-placeholder;
 		transform: translateY(-50%);
 	}
 
 	&:focus {
-		background-color: rgba(255,255,255,1);
+		background-color: $theme-color-panel-search-bar-bg-focus;
 		@include padding-end(15px);
 	}
 }
@@ -76,7 +76,7 @@
 
 	.elementor-element {
 		border-radius: 3px;
-		background-color: #fff;
+		background-color: $theme-color-widget-tile-bg;
 		cursor: move;
 		position: relative;
 
@@ -98,7 +98,7 @@
 
 		.icon,
 		.title {
-			color: $editor-darker;
+			color: $theme-color-widget-tile-text;
 			transition: $transition-hover;
 		}
 
@@ -106,7 +106,7 @@
 			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 
 			.icon, .title {
-				color: $editor-accent;
+				color: $theme-color-editor-accent;
 			}
 		}
 
@@ -131,7 +131,7 @@
 			position: absolute;
 			top: 5px;
 			@include end(5px);
-			color: $editor-background;
+			color: $theme-color-widget-tile-lock;
 		}
 	}
 }
@@ -140,7 +140,7 @@
 	position: absolute;
 	width: 300px;
 	z-index: 1;
-	background-color: #fff;
+	background-color: $theme-color-panel-front-bg;
 	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
 
@@ -151,7 +151,11 @@
 		@include end(100%);
 		transform: scaleY(0.7);
 		border: 10px solid transparent;
-		@include border-end-property(color, #fff);
+		@include border-end-property(color, $theme-color-panel-front-bg);
+	}
+
+	&__title {
+		font-size: 14px;
 	}
 
 	&__title {
@@ -163,12 +167,12 @@
 		&-header {
 			display: flex;
 			padding: 20px;
-			color: $editor-darkest;
-			border-bottom: 1px solid $editor-background;
+			color: $theme-color-dialog-highlight;
+			border-bottom: 1px solid $theme-color-dialog-header-border;
 			font-weight: 500;
 
 			i {
-				color: $editor-light;
+				color: $theme-color-panel-neutral;
 			}
 
 			.eicon-pro-icon {

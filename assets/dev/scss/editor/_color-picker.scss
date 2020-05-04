@@ -9,32 +9,32 @@
 	&__swatch-tool {
 		position: relative;
 		box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.15);
-		background-color: #fff;
+		background-color: $editor-color-level-0;
 
 		i {
 			position: absolute;
 			top: 50%;
 			left: 50%;
 			transform: translateX(-50%) translateY(-50%);
-			color: $editor-dark;
+			color: $editor-color-level-70;
 			font-size: 13px;
 		}
 	}
 
 	&__swatch-placeholder {
-		border: 1px dashed $editor-lighter;
+		border: 1px dashed $editor-color-level-50;
 	}
 
 	&__dropping-area {
 		margin-top: 10px;
 		padding: 15px;
-		border: 1px dashed $editor-lightest;
+		border: 1px dashed $editor-color-level-40;
 		text-align: center;
-		color: $editor-dark;
+		color: $editor-color-level-70;
 		display: none;
 
 		&.elementor-active {
-			border-color: $editor-light;
+			border-color: $editor-color-level-60;
 
 			i {
 				color: $editor-warning;
@@ -60,12 +60,12 @@
 	&.pcr-active {
 
 		~ .elementor-color-picker__add-swatch {
-			background-color: $editor-lightest;
+			background-color: $editor-color-level-40;
 			pointer-events: none;
 			box-shadow: none;
 
 			i {
-				color: #fff;
+				color: $editor-color-level-0;
 			}
 		}
 	}

@@ -3,7 +3,7 @@
 //
 
 .elementor-control {
-	background-color: #fff;
+	background-color: $theme-color-panel-front-bg;
 	position: relative;
 	padding: 0 20px 15px;
 
@@ -41,12 +41,12 @@
 
 		.elementor-control-content {
 			border-width: 0;
-			border-color: $editor-background;
+			border-color: $theme-color-panel-back-bg;
 			border-style: solid;
 			border-top-width: 1px;
 
 			//For the next control in the panel
-			background-color: #ffffff;
+			background-color: $theme-color-panel-front-bg;
 			height: 15px;
 		}
 	}
@@ -79,7 +79,7 @@
 				width: 100%;
 				top: 0;
 				left: 0;
-				background-color: $editor-background;
+				background-color: $theme-color-panel-back-bg;
 			}
 		}
 
@@ -92,7 +92,7 @@
 				width: 100%;
 				bottom: 0;
 				left: 0;
-				background-color: $editor-background;
+				background-color: $theme-color-panel-back-bg;
 			}
 
 			+ .elementor-control-type-tabs,
@@ -239,7 +239,7 @@
 	height: 40px;
 	padding: 0 20px;
 	width: 100%;
-	border-bottom: 1px solid $editor-background;
+	border-bottom: 1px solid $theme-color-panel-back-bg;
 	cursor: pointer;
 
 	> * {
@@ -249,11 +249,11 @@
 
 	&-toggle {
 		width: 20px;
-		color: $editor-darkest;
+		color: $theme-color-panel-text;
 	}
 
 	&-title {
-		color: $editor-darkest;
+		color: $theme-color-panel-text;
 		font-weight: bold;
 	}
 }
@@ -341,10 +341,11 @@
 		display: none;
 
 		&:not(:checked) + label {
-			color: $editor-light;
+			color: $theme-color-units-choices;
 		}
 
 		&:checked + label {
+			color: $theme-color-units-choices-active;
 			text-decoration: underline;
 		}
 	}
@@ -382,7 +383,7 @@ $item-size: 2em;
 		position: absolute;
 		width: 100%;
 		top: 0;
-		background-color: #fff;
+		background-color: $theme-color-responsive-switchers-bg;
 		border-radius: 3px;
 		transition: 0.15s;
 		border: 1px transparent solid;
@@ -404,6 +405,7 @@ $item-size: 2em;
 		.elementor-control-responsive-switchers__holder {
 			top: calc(-1 * var(--selected-option) * #{$item-size});
 			box-shadow: 0 0 3px rgba(0,0,0,0.2);
+			background-color: $theme-color-responsive-switchers-bg-open;
 		}
 	}
 }
@@ -423,7 +425,7 @@ $item-size: 2em;
 }
 
 a.elementor-responsive-switcher {
-	color: $editor-light;
+	color: $theme-color-responsive-switcher;
 
 	&:hover {
 		color: $editor-info;

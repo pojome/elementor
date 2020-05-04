@@ -31,7 +31,8 @@
 			align-items: center;
 			justify-content: center;
 			flex-shrink: 0;
-			border: 1px solid $editor-lightest;
+			border: 1px solid $theme-color-input-border;
+			background: $theme-color-input-bg;
 			border-left: none;
 			cursor: pointer;
 
@@ -77,7 +78,7 @@
 				//instead of the original style
 				height: 15px;
 				width: 15px;
-				border: 1px solid $editor-lightest;
+				border: 1px solid $editor-color-level-40;
 
 				//align the mark in the input
 				display: inline-flex;
@@ -154,14 +155,14 @@
 		&:not(:focus) {
 
 			+ .elementor-control-url-more {
-				border-color: $editor-lightest;
+				border-color: $editor-color-level-40;
 			}
 		}
 
 		&:focus {
 
 			~ div {
-				border-color: $editor-light;
+				border-color: $editor-color-level-60;
 			}
 		}
 	}
@@ -175,9 +176,9 @@
 //Autocomplete URL
 .elementor-autocomplete-menu {
 	position: absolute;
-	background: #fff;
-	color: $editor-darkest;
-	border: 1px solid $editor-light;
+	background: $editor-color-level-0;
+	color: $editor-color-level-90;
+	border: 1px solid $editor-color-level-60;
 	margin: 0;
 	list-style: none;
 	padding: 4px 0;
@@ -205,7 +206,7 @@
 		&.ui-state-hover,
 		&.ui-state-active,
 		&.ui-state-focus {
-			background: $editor-background;
+			background: $editor-color-level-30;
 		}
 	}
 

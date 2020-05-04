@@ -2,7 +2,7 @@
 	position: absolute;
 	width: 250px;
 	padding: 30px 20px;
-	background-color: #fff;
+	background-color: $editor-color-level-0;
 	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.07);
 	text-align: center;
 	border-radius: 3px;
@@ -12,7 +12,7 @@
 		position: absolute;
 		border: solid transparent;
 		border-width: 7px 5px;
-		border-bottom-color: #fff;
+		border-bottom-color: $editor-color-level-0;
 		top: -14px;
 		left: 50%;
 		transform: translateX(-50%);
@@ -21,7 +21,7 @@
 	.dialog {
 
 		&-header {
-			color: $editor-dark;
+			color: $editor-color-level-70;
 			font-size: 16px;
 		}
 
@@ -29,7 +29,7 @@
 			font-size: 13px;
 			line-height: 1.6;
 			margin-top: 10px;
-			color: $editor-light;
+			color: $editor-color-level-60;
 		}
 
 		&-buttons-wrapper {

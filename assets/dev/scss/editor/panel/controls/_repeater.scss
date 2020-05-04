@@ -22,7 +22,7 @@
 	}
 
 	.elementor-repeater-row-controls {
-		border: 1px solid $editor-lightest;
+		border: 1px solid $editor-color-level-40;
 		border-top-width: 0;
 		padding-top: 15px;
 
@@ -35,14 +35,14 @@
 		display: table;
 		table-layout: fixed;
 		width: 100%;
-		color: $editor-darker;
-		background-color: $editor-lightest;
+		color: $editor-color-level-80;
+		background-color: $theme-color-repeater-border;
 		height: 40px;
 		border-spacing: 1px;
 		transition: all .5s;
 
 		&:hover {
-			background-color: $editor-light;
+			background-color: $theme-color-repeater-border-hover;
 		}
 
 		> div {
@@ -52,11 +52,11 @@
 			cursor: pointer;
 
 			&:not(.elementor-repeater-row-handle-sortable) {
-				background-color: #fff;
+				background-color: $theme-color-repeater-bg;
 			}
 
 			&:hover {
-				opacity: .95;
+				opacity: .85;
 			}
 		}
 
@@ -84,7 +84,7 @@
 		.elementor-repeater-row-handle-sortable {
 			cursor: move;
 			width: 10px;
-			color: #fff;
+			color: $editor-color-level-0;
 		}
 	}
 

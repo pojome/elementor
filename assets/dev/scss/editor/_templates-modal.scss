@@ -23,7 +23,7 @@ $remote-templates-items-space: 30px;
 
 #elementor-template-library-header-menu {
 	text-align: center;
-	color: $editor-dark;
+	color: $editor-color-level-70;
 	font-size: 13px;
 }
 
@@ -34,8 +34,8 @@ $remote-templates-items-space: 30px;
 	cursor: pointer;
 
 	&.elementor-active {
-		background-image: linear-gradient(to bottom, $editor-background-light, #fff);
-		border-bottom: 3px solid $editor-accent;
+		background-image: $theme-gradient-modal-tab;
+		border-bottom: 3px solid $theme-color-editor-accent;
 	}
 }
 
@@ -57,24 +57,24 @@ $remote-templates-items-space: 30px;
 	}
 
 	.elementor-template-library-template-insert {
-		color: #fff;
+		color: $editor-color-level-0;
 		background-color: $editor-success;
 	}
 
 	.elementor-go-pro {
 		background-color: $editor-accent;
-		color: #fff;
+		color: $editor-color-level-0;
 	}
 }
 
 #elementor-template-library-header-preview-back {
 	@include padding(16.5px, 16.5px, 15px, 0);
-	@include border-end(1px solid $editor-background);
+	@include border-end(1px solid $editor-color-level-30);
 	cursor: pointer;
 	transition: color .5s;
 
 	&:not(:hover) {
-		color: $editor-light;
+		color: $editor-color-level-60;
 	}
 
 	i {
@@ -103,7 +103,7 @@ $remote-templates-items-space: 30px;
 			&:checked {
 
 				+ .elementor-template-library-order-label {
-					color: $editor-dark;
+					color: $editor-color-level-70;
 				}
 			}
 		}
@@ -120,7 +120,7 @@ $remote-templates-items-space: 30px;
 			&:checked {
 
 				+ .elementor-template-library-order-label {
-					color: $editor-darkest;
+					color: $editor-color-level-90;
 				}
 			}
 		}
@@ -200,7 +200,7 @@ $remote-templates-items-space: 30px;
 
 #elementor-template-library-order {
 	display: flex;
-	@include border-end(1px solid $editor-lightest);
+	@include border-end(1px solid $editor-color-level-40);
 }
 
 .elementor-template-library-order-label {
@@ -213,12 +213,12 @@ label.elementor-template-library-order-label {
 	cursor: pointer;
 
 	&:hover {
-		color: $editor-darker;
+		color: $editor-color-level-80;
 	}
 }
 
 #elementor-template-library-filter {
-	@include border-end(1px solid $editor-lightest);
+	@include border-end(1px solid $editor-color-level-40);
 
 	.select2 {
 		text-align: $start;
@@ -249,7 +249,7 @@ label.elementor-template-library-order-label {
 	&:checked {
 
 		+ #elementor-template-library-filter-my-favorites-label {
-			color: $editor-darkest;
+			color: $editor-color-level-90;
 
 			i {
 
@@ -267,7 +267,7 @@ label.elementor-template-library-order-label {
 	text-transform: uppercase;
 
 	&:hover {
-		color: $editor-darker;
+		color: $editor-color-level-80;
 
 		i {
 
@@ -281,7 +281,7 @@ label.elementor-template-library-order-label {
 		@include padding-end(5px);
 
 		&:after {
-			color: $editor-light;
+			color: $editor-color-level-60;
 			content: '\e923';
 		}
 	}
@@ -301,14 +301,14 @@ label.elementor-template-library-order-label {
 
 #elementor-template-library-filter-text {
 	border: none;
-	border-bottom: 1px solid $editor-lightest;
+	border-bottom: 1px solid $editor-color-level-40;
 	border-radius: 0;
 	font-size: 11px;
 	padding: 8px 15px 8px 0;
 	transition: border 0.5s;
 
 	&:focus {
-		border-color: $editor-lighter;
+		border-color: $editor-color-level-50;
 	}
 
 	&::placeholder {
@@ -317,14 +317,14 @@ label.elementor-template-library-order-label {
 	}
 
 	&:focus {
-		border-color: $editor-lighter;
+		border-color: $editor-color-level-50;
 	}
 }
 
 .elementor-template-library-template-remote {
 	margin: $remote-templates-items-space / 2;
 	padding: 8px;
-	background-color: #fff;
+	background-color: $theme-color-panel-front-bg;
 	box-shadow: 0 1px 20px 0 rgba(0, 0, 0, .07);
 	border-radius: 3px;
 
@@ -358,7 +358,7 @@ label.elementor-template-library-order-label {
 				top: 5px;
 				@include end(5px);
 				background-color: $editor-accent;
-				color: $editor-lightest;
+				color: $editor-color-level-40;
 				padding: 2px 4px 0;
 				font-size: 9px;
 				border-radius: 2px;
@@ -382,7 +382,7 @@ label.elementor-template-library-order-label {
 			bottom: 0;
 			@include start(0);
 			padding: 10px;
-			background-color: #fff;
+			background-color: $editor-color-level-0;
 			transition: transform .5s;
 		}
 
@@ -428,7 +428,7 @@ label.elementor-template-library-order-label {
 
 		i {
 			font-size: 20px;
-			color: $editor-lightest;
+			color: $editor-color-level-40;
 			@include absolute-center;
 		}
 	}
@@ -451,7 +451,7 @@ label.elementor-template-library-order-label {
 
 	.elementor-template-library-template-name {
 		text-align: $start;
-		color: $editor-dark;
+		color: $editor-color-level-70;
 		flex-grow: 1;
 		@include ellipsis;
 		@include padding-end(5px);
@@ -522,7 +522,7 @@ label.elementor-template-library-order-label {
 		font-weight: 500;
 
 		&:not(:hover) {
-			color: $editor-light;
+			color: $editor-color-level-60;
 		}
 	}
 }
@@ -531,18 +531,18 @@ label.elementor-template-library-order-label {
 	height: 50px;
 	width: 100%;
 	margin-top: 1px;
-	background-color: #fff;
+	background-color: $editor-color-level-0;
 	transition: background-color .3s linear;
 
 	&:hover {
-		background-color: lighten($editor-background-light, 3%);
+		//background-color: lighten($editor-color-level-20, 3%);
 	}
 
 	&:not(:hover) {
 
 		.elementor-template-library-template-insert {
 			background: none;
-			color: $editor-light;
+			color: $editor-color-level-60;
 		}
 	}
 
@@ -564,7 +564,7 @@ label.elementor-template-library-order-label {
 	}
 
 	.elementor-template-library-template-meta {
-		color: $editor-light;
+		color: $editor-color-level-60;
 	}
 
 	.elementor-template-library-template-name,
@@ -581,7 +581,7 @@ label.elementor-template-library-order-label {
 
 		&,
 		& a {
-			color: $editor-light;
+			color: $editor-color-level-60;
 		}
 
 		> div {
@@ -605,7 +605,7 @@ label.elementor-template-library-order-label {
 
 		&:hover,
 		a:hover {
-			color: $editor-darker;
+			color: $editor-color-level-80;
 		}
 
 		.elementor-template-library-template-delete {
@@ -624,7 +624,7 @@ label.elementor-template-library-order-label {
 	.elementor-template-library-template-more {
 		display: none;
 		position: absolute;
-		background-color: #fff;
+		background-color: $editor-color-level-0;
 		padding: 3px 20px;
 		border-radius: 3px;
 		box-shadow: 1px 3px 11px rgba(0,0,0,0.3);
@@ -638,7 +638,7 @@ label.elementor-template-library-order-label {
 			position: absolute;
 			border: solid transparent;
 			border-width: 8px 4px;
-			border-bottom-color: #fff;
+			border-bottom-color: $editor-color-level-0;
 			transform: translateY(-100%);
 		}
 
@@ -679,7 +679,7 @@ label.elementor-template-library-order-label {
 .elementor-template-library-blank-icon {
 	font-size: 65px;
 	margin-top: 45px;
-	color: $editor-lighter;
+	color: $editor-color-level-50;
 	line-height: 1;
 
 	img {
@@ -702,7 +702,7 @@ label.elementor-template-library-order-label {
 
 .elementor-template-library-blank-message {
 	font-size: 18px;
-	color: $editor-light;
+	color: $editor-color-level-60;
 	margin-top: 15px;
 	font-weight: 300;
 
@@ -726,9 +726,9 @@ label.elementor-template-library-order-label {
 
 #elementor-template-library-save-template-name {
 	width: 500px;
-	background-color: #fff;
+	background-color: $editor-color-level-0;
 	font-weight: 300;
-	color: $editor-light;
+	color: $editor-color-level-60;
 	@include padding-start(25px);
 	border-radius: getValueByDirection(3px 0 0 3px, 0 3px 3px 0);
 	border: none;
@@ -749,7 +749,7 @@ label.elementor-template-library-order-label {
 		width: 95%;
 		background-color: rgba(255, 255, 255, 0.5);
 		padding: 60px;
-		border: 2px dashed $editor-lightest;
+		border: 2px dashed $editor-color-level-40;
 		margin: 35px auto;
 		transition: background-color 0.5s;
 
@@ -846,7 +846,7 @@ label.elementor-template-library-order-label {
 	bottom: 70px;
 	left: 50%;
 	transform: translateX(-50%);
-	color: $editor-light;
+	color: $editor-color-level-60;
 	font-style: italic;
 
 	@media (max-height: 700px) {
@@ -857,7 +857,7 @@ label.elementor-template-library-order-label {
 #elementor-template-library-footer-banner {
 
 	i {
-		color: $editor-lighter;
+		color: $editor-color-level-50;
 		font-size: 56px;
 		margin-top: 40px;
 	}
@@ -867,7 +867,7 @@ label.elementor-template-library-order-label {
 	}
 
 	.elementor-excerpt {
-		color: $editor-light;
+		color: $editor-color-level-60;
 		font-size: 15px;
 		font-weight: 500;
 		margin: 20px 0;

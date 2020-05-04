@@ -30,6 +30,19 @@
 
 			.elementor-slider {
 
+				.noUi-origin {
+
+					.noUi-handle {
+						border-radius: 1px 3px 3px 1px;
+					}
+
+					& + .noUi-origin {
+						.noUi-handle {
+							border-radius: 3px 1px 1px 3px;
+						}
+					}
+				}
+
 				.noUi-handle {
 					border-radius: 0;
 					width: 10px;
@@ -42,14 +55,14 @@
 						height: 12px;
 						width: 11px;
 						transform: rotate(45deg);
-						background-color: #fff;
-						border-radius: 3px;
+						background-color: $theme-color-slider-handle;
+						border-radius: 2px;
 					}
 
 					&-lower {
 
 						&:after {
-							left: 5px;
+							left: 3px;
 							box-shadow: 2px -2px 3px 0px rgba(0,0,0,.1);
 						}
 					}
@@ -57,7 +70,7 @@
 					&-upper {
 
 						&:after {
-							right: 5px;
+							right: 3px;
 							box-shadow: -2px 2px 3px 0px rgba(0,0,0,.1);
 						}
 					}
@@ -84,7 +97,7 @@
 .elementor-slider {
 	flex-grow: 1;
 	height: 4px;
-	background-color: $editor-lightest;
+	background-color: $theme-color-slider-track;
 	border-radius: 5px;
 	position: relative;
 	cursor: pointer;
@@ -104,7 +117,7 @@
 
 	&__label {
 		font-size: 9px;
-		color: $editor-lighter;
+		color: $editor-color-level-50;
 	}
 
 	&__scales {
@@ -118,7 +131,7 @@
 	&__scale {
 		width: 1px;
 		height: 21px;
-		background-color: $editor-light;
+		background-color: $editor-color-level-60;
 	}
 
 	.noUi {
@@ -126,7 +139,7 @@
 		&-handle {
 			height: 16px;
 			width: 16px;
-			background-color: #fff;
+			background: $theme-color-slider-handle;
 			@include end(0);
 			transform: translateY(calc(50% - 14px)) translateX(getValueByDirection(8px, -8px));
 			position: absolute;
@@ -149,7 +162,7 @@
 			width: 100%;
 			will-change: transform;
 			transform-origin: 0 0;
-			background-color: $editor-light;
+			background-color: $theme-color-slider-track-highlight;
 		}
 
 		&-tooltip {
@@ -161,3 +174,4 @@
 		}
 	}
 }
+

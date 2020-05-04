@@ -5,13 +5,13 @@
 	max-height: 300px;
 	overflow: auto;
 	padding-bottom: 5px;
-	background-color: #fff;
-	border: 1px solid $editor-light;
+	background-color: $editor-color-level-0;
+	border: 1px solid $editor-color-level-60;
 	border-radius: 3px;
 	z-index: $first-layer;
 
 	&__group-title {
-		color: $editor-darkest;
+		color: $editor-color-level-90;
 		font-weight: bold;
 		font-size: 12px;
 		padding: 10px 15px;
@@ -37,17 +37,17 @@
 		}
 
 		&:hover {
-			background-color: $editor-background;
+			background-color: $editor-color-level-30;
 		}
 	}
 
 	&__teaser {
-		border-top: 2px solid $editor-lightest;
+		border-top: 2px solid $editor-color-level-40;
 		padding-top: 4px;
 		margin-top: 4px;
 
 		&-title {
-			color: $editor-dark;
+			color: $editor-color-level-70;
 		}
 
 		&-text {
@@ -80,12 +80,12 @@
 
 	&__settings,
 	&__remove {
-		color: $editor-lighter;
+		color: $editor-color-level-50;
 		cursor: pointer;
 		transition: $transition-hover;
 
 		&:hover {
-			color: $editor-light;
+			color: $editor-color-level-60;
 		}
 	}
 
@@ -97,7 +97,7 @@
 .elementor-tag-settings-popup {
 	position: absolute;
 	width: 260px;
-	background-color: $editor-background;
+	background-color: $editor-color-level-30;
 	box-shadow: 1px 1px 10px rgba(0, 0, 0, .3);
 	z-index: 1;
 
@@ -109,7 +109,7 @@
 		top: -#{$triangle-size * 2};
 		@include start(5px);
 		border: $triangle-size solid transparent;
-		border-bottom-color: #fff;
+		border-bottom-color: $editor-color-level-0;
 	}
 
 	.elementor-control {
@@ -124,7 +124,7 @@
 }
 
 .elementor-tag-controls-stack-empty {
-	background-color: #fff;
+	background-color: $editor-color-level-0;
 	padding: 10px;
 	font-size: 13px;
 	text-align: center;
@@ -139,9 +139,9 @@
 		flex-shrink: 0;
 		height: $control-unit;
 		cursor: pointer;
-		border: 1px solid $editor-lightest;
+		border: 1px solid $theme-color-input-border;
 		border-radius: 3px;
-		background: #fff;
+		background: $theme-color-input-bg;
 
 		&-wrapper {
 			display: flex;

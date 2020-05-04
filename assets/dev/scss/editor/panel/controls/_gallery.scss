@@ -3,7 +3,7 @@
 	.elementor-control {
 
 		&-media__content {
-			border: 1px solid $editor-lightest;
+			border: 1px solid $editor-color-level-40;
 			border-radius: 3px;
 		}
 
@@ -11,7 +11,7 @@
 			font-size: 12px;
 			height: 27px;
 			@include padding-start(10px);
-			border-bottom: 1px solid $editor-lightest;
+			border-bottom: 1px solid $editor-color-level-40;
 			display: flex;
 
 			> * {
@@ -57,7 +57,7 @@
 			bottom: 0;
 			left: 0;
 			right: 0;
-			background-color: rgba($editor-dark, .3);
+			background-color: rgba($editor-color-level-70, .3);
 			padding: 10px;
 			font-size: 11px;
 			transition: all .3s ease-in-out;
@@ -71,8 +71,8 @@
 				@include end(10px);
 				width: 21px;
 				height: 21px;
-				background-color: rgba(#fff, .9);
-				color: $editor-light;
+				background-color: rgba($editor-color-level-0, .9);
+				color: $editor-color-level-60;
 				box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
 				border-radius: 3px;
 
@@ -86,13 +86,13 @@
 		&-gallery-add {
 			width: 48px;
 			height: 48px;
-			color: #fff;
-			background-color: $editor-lightest;
+			color: $editor-color-level-0;
+			background-color: $editor-color-level-40;
 			font-size: 14px;
 			border-radius: 0;
 
 			&:hover {
-				background-color: $editor-lighter;
+				background-color: $editor-color-level-50;
 			}
 
 			i {
@@ -124,7 +124,7 @@
 	&.elementor-control-dynamic {
 
 		.elementor-control-gallery-clear {
-			border: solid $editor-lightest;
+			border: solid $editor-color-level-40;
 			border-width: 0 1px;
 		}
 	}

@@ -1,0 +1,166 @@
+$theme-dark-gray-darkest: #34383C;
+/*
+	20 - loading-bg
+
+	30 - panel, mode switcher, tag-settings-popup, control-separator-before,
+
+	40 - scheme-color-system-items, popover-toggle-toggle-label, media-upload-button
+		 gallery-add, url-more, choices-label:last-child
+
+	70 - inputs bg, ~dynamic-switcher
+
+	80 - elementor-panel-footer-sub-menu-wrapper
+
+	?  - global-widget-locked-unlink
+
+	X - control-type-tab
+*/
+
+$theme-dark-gray-darker: #475158;
+$theme-dark-gray-dark: #404349;
+$theme-dark-gray: #4C4F56;
+$theme-dark-gray-light: #64666A;
+$theme-dark-gray-lighter: #7D7E82;
+$theme-dark-gray-lightest: #B4B5B7;
+
+$theme-dark-light: #E0E1E3;
+$theme-dark-dark: #26292C;  // #fff
+$theme-dark-accent: #71D7F7;
+$theme-dark-danger: #F84343;
+
+$theme-dark-gradient-start: #34383C;
+$theme-dark-gradient-end: #4C4F56;
+$theme-dark-panel-bottom-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+
+$editor-accent: $theme-dark-accent;
+$editor-danger: $theme-dark-danger;
+
+:root {
+	--editor-lightness-0: 0%;
+	--editor-lightness-100: 16%;
+	--editor-lightness-200: 22%;
+	--editor-lightness-300: 27%;
+	--editor-lightness-350: 32%;
+	--editor-lightness-400: 40%;
+	--editor-lightness-450: 50%;
+	--editor-lightness-500: 73%;
+	--editor-lightness-600: 73%;
+	--editor-lightness-700: 88%;
+	--editor-lightness-800: 88%;
+	--editor-lightness-900: 88%;
+	--editor-lightness-1000: 100%;
+	--editor-hue: 210;
+	--editor-saturation: 7%;
+
+	--editor-color-level-0:   hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-100));
+	--editor-color-level-10:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-100));
+	--editor-color-level-20:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-200));
+	--editor-color-level-30:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-300));
+	--editor-color-level-35:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-350));
+	--editor-color-level-40:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-400));
+	--editor-color-level-45:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-450));
+	--editor-color-level-50:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-500));
+	--editor-color-level-60:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-600));
+	--editor-color-level-70:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-700));
+	--editor-color-level-80:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-800));
+	--editor-color-level-90:  hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-900));
+	--editor-color-level-100: hsl(var(--editor-hue), var(--editor-saturation), var(--editor-lightness-1000));
+
+	--theme-color-editor-accent: 				#{$theme-dark-accent};
+	--theme-color-panel-back-bg: 				var(--editor-color-level-20);
+	--theme-color-panel-front-bg: 				var(--editor-color-level-30);
+	--theme-color-panel-text: 					var(--editor-color-level-70);
+	--theme-color-panel-highlight: 				var(--editor-color-level-80);
+	--theme-color-panel-super-highlight: 		var(--editor-color-level-100);
+	--theme-color-panel-neutral: 				var(--editor-color-level-50);
+	--theme-color-panel-highlight-bg: 			var(--editor-color-level-35);
+
+	--theme-color-dialog-highlight: 			var(--theme-color-panel-highlight);
+	--theme-color-dialog-header-border: 		var(--editor-color-level-40);
+	--theme-color-dialog-bg: 					var(--editor-color-level-20);
+	--theme-color-dialog-header-bg: 			var(--editor-color-level-10);
+	--theme-color-loading-screen-bg: 			var(--editor-color-level-20);
+	--theme-color-loading-loader-bg: 			var(--editor-color-level-35);
+	--theme-color-loading-loader-boxes: 		var(--editor-color-level-80);
+	--theme-color-loading-text: 				var(--editor-color-level-60);
+	--theme-color-loading-preview-bg: 			var(--editor-color-level-100);
+	--theme-color-loading-preview-icon: 		var(--editor-color-level-80);
+	--theme-color-panel-nav-bg: 				var(--theme-color-panel-front-bg);
+	--theme-color-panel-search-bar-bg: 			var(--editor-color-level-35);
+	--theme-color-panel-search-bar-bg-focus: 	var(--editor-color-level-30);
+	--theme-color-panel-search-bar-text: 		var(--theme-color-panel-highlight);
+	--theme-color-panel-search-bar-placeholder: var(--theme-color-input-placeholder);
+	--theme-color-input-bg: 					var(--editor-color-level-20);
+	--theme-color-input-bg-disabled: 			var(--editor-color-level-35);
+	--theme-color-input-text: 					var(--theme-color-panel-highlight);
+	--theme-color-input-placeholder: 			var(--theme-color-panel-neutral);
+	--theme-color-input-border: 				var(--editor-color-level-40);
+	--theme-color-input-border-focus: 			var(--editor-color-level-45);
+	--theme-color-input-choose-bg: 				var(--theme-color-input-bg);
+	--theme-color-input-choose-bg-active: 		var(--theme-color-input-border-focus);
+	--theme-color-input-choose-text-active: 	var(--theme-color-input-text);
+	--theme-color-responsive-switcher: 			var(--editor-color-level-80);
+	--theme-color-responsive-switchers-bg: 		var(--theme-color-panel-front-bg);
+	--theme-color-responsive-switchers-bg-open: var(--theme-color-input-bg);
+	--theme-color-header-bg: 					var(--editor-color-level-10);
+	--theme-color-header-text: 					var(--editor-color-level-100);
+	--theme-color-footer-bg: 					var(--editor-color-level-10);
+	--theme-color-footer-icons: 				var(--editor-color-level-60);
+	--theme-color-footer-icons-hover: 			var(--editor-color-level-80);
+	--theme-color-footer-icons-open: 			var(--editor-color-level-100);
+	--theme-color-widget-tile-bg: 				var(--theme-color-panel-front-bg);
+	--theme-color-widget-tile-text: 			var(--theme-color-panel-highlight);
+	--theme-color-widget-tile-lock: 			var(--editor-color-level-40);
+	--theme-color-repeater-bg: 					var(--editor-color-level-35);
+	--theme-color-repeater-border: 				var(--editor-color-level-40);
+	--theme-color-repeater-border-hover: 		var(--editor-color-level-45);
+	--theme-color-media-control-plus-sign: 		var(--theme-color-panel-highlight);
+	--theme-color-btn-default-bg: 				var(--editor-color-level-40);
+	--theme-color-btn-default-bg-hover: 		var(--editor-color-level-35);
+	--theme-color-btn-default-text: 			var(--editor-color-level-100);
+	--theme-color-btn-success-text: 			var(--editor-color-level-100);
+	--theme-color-btn-update-disabled-bg: 		var(--editor-color-level-40);
+	--theme-color-btn-update-disabled-text: 	var(--theme-color-panel-neutral);
+	--theme-color-slider-track: 				var(--editor-color-level-40);
+	--theme-color-slider-track-highlight: 		#{$theme-dark-accent};
+	--theme-color-slider-handle: 				var(--theme-color-panel-highlight);
+	--theme-color-switch-handle: 				var(--editor-color-level-100);
+	--theme-color-dimensions-label: 			var(--editor-color-level-60);
+	--theme-color-panel-menu-item-bg: 			var(--theme-color-panel-front-bg);
+	--theme-color-panel-menu-item-bg-hover: 	var(--theme-color-panel-highlight-bg);
+	--theme-color-panel-menu-item-icon: 		var(--theme-color-panel-neutral);
+	--theme-color-panel-menu-item-text: 		var(--editor-color-level-80);
+	--theme-color-footer-submenu-bg: 			var(--theme-color-panel-back-bg);
+	--theme-color-footer-submenu-item-bg: 		var(--theme-color-panel-menu-item-bg);
+	--theme-color-footer-submenu-item-bg-hover: var(--theme-color-panel-menu-item-bg-hover);
+	--theme-color-footer-submenu-item-text: 	var(--theme-color-panel-menu-item-text);
+	--theme-color-footer-submenu-item-icon: 	var(--theme-color-panel-menu-item-icon);
+	--theme-color-footer-submenu-item-description: var(--editor-color-level-50);
+	--theme-color-footer-submenu-item-disabled: var(--editor-color-level-45);
+	--theme-color-units-choices: 				var(--theme-color-panel-neutral);
+	--theme-color-units-choices-active: 		var(--theme-color-panel-highlight);
+	--theme-color-popover-bg: 					var(--theme-color-panel-highlight-bg);
+	--theme-color-select2-highlighted-option-bg: var(--theme-color-panel-highlight-bg);
+	--theme-color-select2-multiple-selection-choice-bg: var(--theme-color-panel-highlight-bg);
+	--theme-color-navigator-header-footer-bg: 	var(--theme-color-panel-back-bg);
+	--theme-color-navigator-item-icon: 			var(--editor-color-level-100);
+	--theme-color-navigator-item-active-bg: 	var(--theme-color-panel-highlight-bg);
+	--theme-color-navigator-item-active-text: 	var(--editor-color-level-100);
+	--theme-color-wysiwyg-editor-bg: var(--theme-color-panel-highlight-bg);
+	--theme-color-wysiwyg-editor-text: var(--theme-color-panel-highlight);
+	--theme-color-wysiwyg-editor-border: var(--theme-color-input-border-focus);
+
+	--theme-gradient-navigation-tab: linear-gradient(to bottom, var(--editor-color-level-20), var(--editor-color-level-35));
+	--theme-gradient-modal-tab: linear-gradient(to bottom, var(--editor-color-level-10), var(--editor-color-level-20));
+	--theme-color-checkersboard-bg:				var(--editor-color-level-40);
+	--theme-color-checkersboard-front:			var(--editor-color-level-20);
+}
+
+/*
+	$editor-accent
+	$editor-info
+	$editor-success
+	$editor-warning
+	$editor-danger
+	$editor-orange
+*/

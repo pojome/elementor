@@ -5,8 +5,8 @@
 	display: flex;
 	align-items: center;
 	height: 40px;
-	color: #fff;
-	background-color: $editor-dark;
+	color: $editor-color-level-0;
+	background-color: $editor-color-level-70;
 	padding: 0 50px;
 
 	&__message {
@@ -33,7 +33,7 @@
 	}
 
 	a {
-		color: #fff;
+		color: $editor-color-level-0;
 	}
 
 	a,

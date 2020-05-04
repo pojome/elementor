@@ -16,7 +16,7 @@
 	table-layout: fixed;
 	width: 100%;
 	height: 40px;
-	background-color: #fff;
+	background-color: $theme-color-panel-front-bg;
 	box-shadow: $panel-bottom-shadow;
 
 	.elementor-button {
@@ -50,7 +50,7 @@
 .elementor-panel-scheme-reset, .elementor-panel-scheme-discard {
 
 	.elementor-button {
-		color: $editor-light;
+		color: $editor-color-level-60;
 		background: none;
 	}
 }
@@ -69,7 +69,7 @@
 	text-align: center;
 	text-transform: uppercase;
 	margin: 10px 0;
-	color: $editor-lighter;
+	color: $editor-color-level-50;
 	font-size: 8px;
 }
 
@@ -107,7 +107,7 @@
 
 	.elementor-title {
 		font-size: 11px;
-		color: $editor-light;
+		color: $editor-color-level-60;
 		font-style: italic;
 		margin-top: 5px;
 	}
@@ -119,11 +119,12 @@
 	overflow: hidden;
 	padding: 3px;
 	border-radius: 3px;
-	border: 1px solid $editor-lightest;
+	border: 1px solid $theme-color-input-border;
+	background: $theme-color-input-bg;
 	cursor: pointer;
 
 	&:hover {
-		border: 1px solid $editor-light;
+		border: 1px solid $theme-color-input-border-focus;
 	}
 }
 

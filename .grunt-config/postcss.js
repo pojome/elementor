@@ -35,8 +35,8 @@ module.exports = {
 		files: [ {
 			expand: true,
 			src: [
-				'assets/css/*.css',
-				'!assets/css/*.min.css'
+				'assets/css/**/*.css',
+				'!*.min.css'
 			],
 			ext: '.min.css'
 		} ]

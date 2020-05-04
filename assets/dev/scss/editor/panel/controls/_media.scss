@@ -15,17 +15,17 @@
 	}
 
 	.elementor-control-input-wrapper {
-		border: 1px solid $editor-lightest;
+		border: 1px solid $editor-color-level-40;
 	}
 
 	.eicon-plus-circle {
 		@include absolute-center;
-		color: #fff;
+		color: $theme-color-media-control-plus_sign;
 		font-size: 20px;
 	}
 
 	&-upload-button {
-		background-color: $editor-lightest;
+		background-color: $editor-color-level-40;
 	}
 
 	&__preview {
@@ -35,10 +35,10 @@
 	}
 
 	&-area {
-		background-image: linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd), linear-gradient(45deg, #ddd 25%, transparent 25%, transparent 75%, #ddd 75%, #ddd);
+		background-image: $theme-checkersboard-pattern;
 		background-size: 16px 16px;
 		background-position: 0 0, 8px 8px;
-		background-color: #f6f6f6;
+		background-color: $theme-color-checkersboard-bg;
 
 		&:not(:hover) {
 
@@ -105,13 +105,13 @@
 		align-items: center;
 		justify-content: center;
 		flex-grow: 1;
-		color: #fff;
-		background-color: rgba($editor-dark, .85);
+		color: $editor-color-level-0;
+		background-color: rgba($editor-color-level-70, .85);
 		font-size: 11px;
 		transition: background .3s;
 
 		&:hover {
-			background-color: rgba($editor-dark, .95);
+			background-color: rgba($editor-color-level-70, .95);
 		}
 	}
 
@@ -126,14 +126,14 @@
 		width: 20px;
 		height: 20px;
 		font-size: 11px;
-		background-color: rgba(#fff, .9);
-		color: $editor-light;
+		background-color: rgba($editor-color-level-0, .9);
+		color: $editor-color-level-60;
 		border-radius: 3px;
 		box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.1);
 		transition: all .3s ease-in-out;
 
 		&:hover {
-			background-color: rgba(#fff, 1);
+			background-color: rgba($editor-color-level-0, 1);
 			box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
 		}
 	}
@@ -141,11 +141,11 @@
 	.elementor-control-dynamic-switcher {
 		border: none;
 		border-radius: 0;
-		background-color: rgba($editor-dark, .85);
-		color: #fff;
+		background-color: rgba($editor-color-level-70, .85);
+		color: $editor-color-level-0;
 
 		&:hover {
-			background-color: rgba($editor-dark, .95);
+			background-color: rgba($editor-color-level-70, .95);
 		}
 	}
 }

@@ -570,7 +570,8 @@ class Editor {
 			'inlineEditing' => Plugin::$instance->widgets_manager->get_inline_editing_config(),
 			'dynamicTags' => Plugin::$instance->dynamic_tags->get_config(),
 			'ui' => [
-				'darkModeStylesheetURL' => ELEMENTOR_ASSETS_URL . 'css/editor-dark-mode' . $suffix . '.css',
+				'darkModeStylesheetURL' => ELEMENTOR_ASSETS_URL . 'css/themes/dark' . $suffix . '.css',
+				'lightModeStylesheetURL' => ELEMENTOR_ASSETS_URL . 'css/themes/light' . $suffix . '.css',
 			],
 			'i18n' => [
 				'elementor' => __( 'Elementor', 'elementor' ),
@@ -819,6 +820,35 @@ class Editor {
 
 		$direction_suffix = is_rtl() ? '-rtl' : '';
 
+		$editor_preferences_model = SettingsManager::get_settings_managers( 'editorPreferences' )->get_model();
+		$ui_theme = $editor_preferences_model->get_settings( 'ui_theme' );
+		$ui_themes = [ 'light', 'dark' ];
+		$color_theme_dependencise = [];
+
+		if ( 'auto' === $ui_theme ) {
+			foreach ( $ui_themes as $theme ) {
+				$handle = 'elementor-editor-' . $theme . '-mode-css';
+				wp_register_style(
+					$handle,
+					ELEMENTOR_ASSETS_URL . 'css/themes/' . $theme . $suffix . '.css',
+					[],
+					ELEMENTOR_VERSION,
+					'(prefers-color-scheme: ' . $theme . ')'
+				);
+				array_push( $color_theme_dependencise, $handle );
+			}
+		} else {
+			$handle = 'elementor-editor-' . $ui_theme . '-mode-css';
+			wp_register_style(
+				$handle,
+				ELEMENTOR_ASSETS_URL . 'css/themes/' . $ui_theme . $suffix . '.css',
+				[],
+				ELEMENTOR_VERSION,
+				'all'
+			);
+			$color_theme_dependencise = [ $handle ];
+		}
+
 		wp_register_style(
 			'font-awesome',
 			ELEMENTOR_ASSETS_URL . 'lib/font-awesome/css/font-awesome' . $suffix . '.css',
@@ -854,9 +884,7 @@ class Editor {
 			'1.5.0'
 		);
 
-		wp_register_style(
-			'elementor-editor',
-			ELEMENTOR_ASSETS_URL . 'css/editor' . $direction_suffix . $suffix . '.css',
+		$editor_style_dependencies = array_merge(
 			[
 				'elementor-common',
 				'elementor-select2',
@@ -866,30 +894,17 @@ class Editor {
 				'flatpickr',
 				'pickr',
 			],
+			$color_theme_dependencise
+		);
+
+		wp_register_style(
+			'elementor-editor',
+			ELEMENTOR_ASSETS_URL . 'css/editor' . $direction_suffix . $suffix . '.css',
+			$editor_style_dependencies,
 			ELEMENTOR_VERSION
 		);
 
 		wp_enqueue_style( 'elementor-editor' );
-
-		$ui_theme = SettingsManager::get_settings_managers( 'editorPreferences' )->get_model()->get_settings( 'ui_theme' );
-
-		if ( 'light' !== $ui_theme ) {
-			$ui_theme_media_queries = 'all';
-
-			if ( 'auto' === $ui_theme ) {
-				$ui_theme_media_queries = '(prefers-color-scheme: dark)';
-			}
-
-			wp_enqueue_style(
-				'elementor-editor-dark-mode',
-				ELEMENTOR_ASSETS_URL . 'css/editor-dark-mode' . $suffix . '.css',
-				[
-					'elementor-editor',
-				],
-				ELEMENTOR_VERSION,
-				$ui_theme_media_queries
-			);
-		}
 
 		if ( Responsive::has_custom_breakpoints() ) {
 			$breakpoints = Responsive::get_breakpoints();

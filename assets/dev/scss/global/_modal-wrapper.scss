@@ -2,7 +2,6 @@
 
 	.dialog-widget-content {
 		font-family: $admin-font-family;
-		background-color: $editor-background-light;
 		width: 100%;
 
 		@media (max-width: $library_screen_breakpoint) {
@@ -71,6 +70,7 @@
 		align-items: center;
 		justify-content: space-between;
 		height: 50px;
+		background-color: $theme-color-dialog-header-bg;
 
 		&__logo {
 			line-height: 1;

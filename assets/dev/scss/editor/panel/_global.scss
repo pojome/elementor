@@ -4,7 +4,7 @@
 
 .elementor-panel-box {
 	margin-top: 10px;
-	background-color: #fff;
+	background-color: $theme-color-panel-front-bg;
 }
 
 .elementor-panel-box-content {
@@ -17,7 +17,7 @@
 
 // Alert
 .elementor-panel-alert {
-    background-color: $editor-background-lighter;
+    background-color: $theme-color-panel-highlight-bg;
 	padding: 15px;
     @include border-start(3px solid transparent);
 	position: relative;
@@ -60,7 +60,7 @@
 	font-size: 75%;
 	font-weight: 700;
 	line-height: 1;
-	color: #fff;
+	color: $editor-color-level-0;
 	text-align: center;
 	white-space: nowrap;
 	vertical-align: baseline;
@@ -68,7 +68,7 @@
 	text-transform: capitalize;
 
 	&.elementor-label-default {
-		background-color: $editor-light;
+		background-color: $editor-color-level-60;
 	}
 
 	&.elementor-label-info {
@@ -92,8 +92,9 @@
 	font-size: 11px;
 	font-style: italic;
 	line-height: 1.4;
-	color: $editor-light;
+	color: $editor-color-level-60;
 }
+
 
 .elementor-controls-popover {
 	display: none;
@@ -104,9 +105,9 @@
 	right: 0;
 	margin: -4px auto 5px;
 	padding-top: 15px;
-	width: 90%;
+	width: calc(100% - 30px);
 	z-index: $super-layer; // Above the select2 select boxes
-	background-color: #fff;
+	background-color: $theme-color-popover-bg;
 
 	$triangle-size: 8px;
 
@@ -114,9 +115,9 @@
 		content: '';
 		position: absolute;
 		top: -$triangle-size * 2;
-		@include end(22px);
+		@include end(10px);
 		border: $triangle-size solid transparent;
-		border-bottom-color: #fff;
+		border-bottom-color: $theme-color-popover-bg;
 	}
 
 	div.elementor-control { // Harder selector to override default settings

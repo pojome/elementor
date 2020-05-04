@@ -24,7 +24,7 @@
 		height: inherit;
 		font-size: 7px;
 		text-transform: uppercase;
-		background: #eceeef;
+		background: $theme-color-panel-back-bg;
 		border-radius: inherit;
 		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
 		transition: 0.15s ease-out;
@@ -46,7 +46,7 @@
 		&:before {
 			content: attr(data-off);
 			right: 3px;
-			color: $editor-light;
+			color: $editor-color-level-60;
 			text-shadow: 0 1px rgba(255, 255, 255, 0.5);
 		}
 
@@ -78,14 +78,13 @@
 		left: 1px;
 		width: 18px;
 		height: 18px;
-		background: white;
+		background: $theme-color-switch-handle;
 		border-radius: 10px;
 		transition: left 0.15s ease-out;
 	}
 
 	.elementor-switch-input:checked ~ .elementor-switch-handle {
-		left: initial;
-		right: 1px;
+		left: calc(100% - 19px);
 		box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
 	}
 }

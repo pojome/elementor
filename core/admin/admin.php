@@ -101,9 +101,17 @@ class Admin extends App {
 		$direction_suffix = is_rtl() ? '-rtl' : '';
 
 		wp_register_style(
+			'elementor-ui-color-theme',
+			$this->get_css_assets_url( 'themes/light' ),
+			[],
+			ELEMENTOR_VERSION
+		);
+
+		wp_register_style(
 			'elementor-admin',
 			$this->get_css_assets_url( 'admin' . $direction_suffix ),
 			[
+				'elementor-ui-color-theme',
 				'elementor-common',
 			],
 			ELEMENTOR_VERSION

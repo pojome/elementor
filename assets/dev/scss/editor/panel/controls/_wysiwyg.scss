@@ -12,11 +12,11 @@
 	}
 
 	.wp-editor-container {
-		border: 1px solid $editor-background;
+		border: 1px solid $theme-color-wysiwyg-editor-bg;
 	}
 
 	.wp-editor-tabs {
-		border: 1px solid $editor-lightest;
+		border: 1px solid $theme-color-wysiwyg-editor-border;
 		border-bottom: none;
 		border-radius: 3px 3px 0 0;
 	}
@@ -25,7 +25,7 @@
 		height: initial;
 		line-height: 24px;
 		font-size: 10px;
-		background-color: $editor-background;
+		background-color: $theme-color-wysiwyg-editor-bg;
 		min-height: initial;
 	}
 
@@ -47,13 +47,13 @@
 		position: static;
 		border: none;
 		margin: 0;
-		color: $editor-dark;
+		color: $theme-color-wysiwyg-editor-text;
 		font-size: 10px;
 		padding: 3px 9px 4px;
 	}
 
 	.switch-html {
-		border: solid $editor-lightest;
+		border: solid $theme-color-wysiwyg-editor-border;
 		border-width: 0 1px;
 	}
 
@@ -64,14 +64,14 @@
 		}
 
 		.switch-html {
-			background-color: $editor-background;
+			background-color: $theme-color-wysiwyg-editor-bg;
 		}
 	}
 
 	.tmce-active {
 
 		.switch-tmce {
-			background-color: $editor-background;
+			background-color: $theme-color-wysiwyg-editor-bg;
 		}
 
 		.switch-html {
@@ -80,7 +80,7 @@
 	}
 
 	.mce-toolbar-grp, .quicktags-toolbar {
-		background-color: $editor-background;
+		background-color: $theme-color-wysiwyg-editor-bg;
 	}
 
 	.mce-toolbar-grp {
@@ -95,16 +95,17 @@
 	}
 
 	.mce-ico {
-		color: $editor-dark;
+		color: $theme-color-wysiwyg-editor-text;
 		font-size: 16px;
 	}
 
-	.mce-btn {
+	.mce-btn-group .mce-btn {
 		margin-right: 0;
 		margin-left: 0;
 
 		&:hover, &:active, &.mce-active {
-			border-color: $editor-lightest;
+			background-color: $theme-color-panel-front-bg;
+			box-shadow: none;
 		}
 	}
 
@@ -114,10 +115,40 @@
 
 	.mce-path-item {
 		font-size: 12px;
-		color: $editor-dark;
+		color: $theme-color-wysiwyg-editor-text;
 	}
 
 	.elementor-control-dynamic-switcher {
 		border: none;
+	}
+
+	.mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
+		border-radius: 3px;
+		border-color: $theme-color-wysiwyg-editor-border;
+		background: $theme-color-input-bg;
+
+		button {
+			color: $theme-color-input-text;
+		}
+
+		i.mce-caret {
+			border-top-color: $theme-color-input-text;
+			border-bottom-color: $theme-color-input-text;
+		}
+
+		&:focus {
+			border-color: $theme-color-input-border-focus;
+		}
+	}
+
+	.button {
+		border-color: $theme-color-wysiwyg-editor-border;
+		color: $theme-color-wysiwyg-editor-text;
+		background-color: $theme-color-wysiwyg-editor-bg;
+
+		&:hover {
+			border-color: $theme-color-panel-highlight;
+			color: $theme-color-panel-highlight;
+		}
 	}
 }

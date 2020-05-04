@@ -3,7 +3,7 @@
 //
 
 .elementor-panel-navigation {
-	background-color: $white;
+	background-color: $theme-color-panel-nav-bg;
 	box-shadow: $panel-bottom-shadow;
 	display: table;
 	table-layout: fixed;
@@ -13,8 +13,8 @@
 		display: table-cell;
 
 		&.elementor-active {
-			background-image: linear-gradient(to bottom, $editor-background-light, #fff);
-			border-bottom: 3px solid $editor-accent;
+			background-image: $theme-gradient-navigation-tab;
+			border-bottom: 3px solid $theme-color-editor-accent;
 		}
 
 		a {
@@ -22,7 +22,7 @@
 			text-align: center;
 			padding: 12px 0 8px;
 			font-size: 10px;
-			color: $editor-dark;
+			color: $theme-color-panel-highlight;
 
 			&:before {
 				font-family: eicons;
@@ -80,14 +80,14 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		color: $editor-dark;
+		color: $editor-color-level-70;
 		font-size: 12px;
 		font-weight: 500;
 		transition: $transition-hover;
 
 		i {
 			padding: 0 5px;
-			color: $editor-light;
+			color: $editor-color-level-60;
 			font-size: 18px;
 			position: relative;
 
@@ -106,7 +106,7 @@
 		}
 
 		&:hover {
-			color: $editor-darkest;
+			color: $editor-color-level-90;
 
 			i {
 				color: $editor-info;
@@ -116,7 +116,7 @@
 				}
 
 				&:after {
-					background: #fff;
+					background: $editor-color-level-0;
 				}
 			}
 		}

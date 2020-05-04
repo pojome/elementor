@@ -8,7 +8,7 @@
 
 	&-menu {
 		box-shadow: 1px 2px 3px -2px #222;
-		background-color: $editor-dark;
+		background-color: $editor-color-level-70;
 		position: fixed;
 		overflow: hidden;
 		border-radius: 3px;
@@ -19,7 +19,7 @@
 			content: '';
 			position: absolute;
 			border: 6px solid transparent;
-			border-top-color: $editor-dark;
+			border-top-color: $editor-color-level-70;
 			left: 50%;
 			transform: translateX(-50%);
 		}
@@ -41,12 +41,12 @@
 		height: 35px;
 		padding: 0 10px;
 		font-size: 21px;
-		color: $editor-lightest;
+		color: $editor-color-level-40;
 		cursor: pointer;
 		user-select: none;
 
 		&:hover {
-			background: $editor-darker;
+			background: $editor-color-level-80;
 		}
 
 		&[data-group],
@@ -62,13 +62,13 @@
 				@include start(0);
 				height: 60%;
 				width: 1px;
-				background-color: $editor-darker;
+				background-color: $editor-color-level-80;
 			}
 		}
 
 		&.active {
-			background-color: $editor-darker;
-			box-shadow: inset 2px 2px 4px $editor-darker;
+			background-color: $editor-color-level-80;
+			box-shadow: inset 2px 2px 4px $editor-color-level-80;
 		}
 	}
 
@@ -102,11 +102,11 @@
 					border: none;
 					outline: none;
 					box-shadow: none;
-					color: #fff;
+					color: $editor-color-level-0;
 				}
 
 				&::placeholder {
-					color: $editor-lightest;
+					color: $editor-color-level-40;
 				}
 			}
 		}
@@ -132,7 +132,7 @@
 		display: none;
 
 		&:checked + i {
-			color: #fff;
+			color: $editor-color-level-0;
 		}
 	}
 }

@@ -2,30 +2,33 @@
 // Forms
 //
 
-input, select, textarea, .elementor-input-style {
+input, select, textarea, .select2-selection, .elementor-input-style {
 	border-radius: 3px;
-	font-size: 12px;
 	width: 100%;
-	background: none;
+	background: $theme-color-input-bg;
 	box-shadow: none;
-	color: $editor-dark;
+	color: $theme-color-input-text;
 	border: 1px solid;
 	outline: none;
 
 	&:not(:focus) {
-		border-color: $editor-lightest;
+		border-color: $theme-color-input-border;
 	}
 
 	&:focus {
 
 		&, + .elementor-control-dynamic-switcher {
-			border-color: $editor-light;
+			border-color: $theme-color-input-border-focus;
 		}
 	}
 
 	&::placeholder {
-		color: $editor-light;
+		color: $theme-color-input-placeholder;
 	}
+}
+
+input, select, textarea, .elementor-input-style {
+	font-size: 12px;
 }
 
 .elementor-error {
@@ -56,7 +59,7 @@ input[type="radio"] {
 }
 
 input[disabled] {
-	background-color: $editor-background;
+	background-color: $theme-color-input-bg-disabled;
 	cursor: not-allowed;
 	opacity: 1;
 }
@@ -64,4 +67,9 @@ input[disabled] {
 select {
 	outline: none;
 	height: $control-unit;
+}
+
+.pickr {
+	border-color: $theme-color-input-border;
+	background: $theme-color-input-bg;
 }

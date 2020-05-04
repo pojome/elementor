@@ -13,7 +13,7 @@
 			display: block;
 			text-align: center;
 			width: 100%;
-			border-color: $editor-lightest;
+			border-color: $theme-color-input-border;
 			height: $control-unit;
 		}
 
@@ -24,20 +24,20 @@
 
 			&:focus {
 				border-left: solid 1px;
-				border-color: $editor-light;
+				border-color: $theme-color-input-border-focus;
 				margin-left: -1px;
 				width: calc(100% + 1px);
 
 				+ .elementor-control-dimension-label {
-					color: $editor-light;
+					color: $theme-color-panel-text;
 				}
 			}
 		}
 
 		.elementor-link-dimensions {
-			border: 1px solid $editor-lightest;
+			border: 1px solid $theme-color-input-border;
 			border-left: none;
-			background-color: #fff;
+			background-color: $theme-color-input-border-focus;
 			padding: 0;
 			outline: none;
 			border-radius: 0 3px 3px 0;
@@ -47,11 +47,11 @@
 		&:first-child {
 
 			input {
-				border-left: 1px solid $editor-lightest;
+				border-left: 1px solid $theme-color-input-border;
 				border-radius: 3px 0 0 3px;
 
 				&:focus {
-					border-color: $editor-light;
+					border-color: $theme-color-input-border-focus;
 					margin-left: 0;
 					width: 100%;
 				}
@@ -62,7 +62,7 @@
 	.elementor-control-dimension-label {
 		display: block;
 		text-align: center;
-		color: $editor-lightest;
+		color: $theme-color-dimensions-label;
 		font-size: 9px;
 		text-transform: uppercase;
 		padding-top: 5px;
@@ -71,7 +71,8 @@
 	.elementor-link-dimensions {
 
 		&.unlinked {
-			background-color: #fff;
+			background-color: $theme-color-input-bg;
+			color: $theme-color-input-text;
 
 			.elementor-linked {
 				display: none;
@@ -79,8 +80,8 @@
 		}
 
 		&:not(.unlinked) {
-			background-color: $editor-light;
-			border-color: $editor-light;
+			background-color: $theme-color-input-border-focus;
+			border-color: $theme-color-input-border-focus;
 
 			.elementor-unlinked {
 				display: none;
@@ -88,8 +89,7 @@
 		}
 
 		.elementor-linked {
-			color: #fff;
+			color: $theme-color-header-text;
 		}
-
 	}
 }

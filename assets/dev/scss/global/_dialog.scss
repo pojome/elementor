@@ -3,7 +3,7 @@
 //
 
 .dialog-widget-content {
-	background-color: #fff;
+	background-color: $theme-color-dialog-bg;
 	position: absolute;
 	border-radius: 3px;
 	box-shadow: 2px 8px 23px 3px rgba(0, 0, 0, 0.2);
@@ -33,7 +33,7 @@
 
 	.dialog-header {
 		font-size: 15px;
-		color: $editor-darkest;
+		color: $theme-color-dialog-highlight;
 		padding: 30px 0 10px;
 		font-weight: 500;
 	}

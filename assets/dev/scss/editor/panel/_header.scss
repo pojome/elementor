@@ -6,8 +6,8 @@
 	display: table;
 	height: 40px;
 	width: 100%;
-	background-color: $editor-accent;
-	color: #fff;
+	background-color: $theme-color-header-bg;
+	color: $theme-color-header-text;
 
 	> * {
 		display: table-cell;
@@ -32,7 +32,7 @@
 		}
 
 		&:hover {
-			color: $editor-lightest;
+			opacity: 0.8;
 		}
 	}
 }

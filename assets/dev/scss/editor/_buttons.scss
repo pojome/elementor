@@ -28,10 +28,10 @@
 	}
 
 	&.elementor-button-success {
-		color: #fff;
+		color: $theme-color-btn-success-text;
 
 		&[disabled] {
-			background-color: $editor-lighter;
+			background-color: $theme-color-btn-update-disabled-bg;
 		}
 
 		&:not([disabled]) {
@@ -49,11 +49,11 @@
 	}
 
 	&.elementor-button-warning {
-		background-color: $editor-light;
-		color: #fff;
+		background-color: $editor-color-level-60;
+		color: $editor-color-level-0;
 
 		&[disabled] {
-			background-color: $editor-lighter;
+			background-color: $editor-color-level-50;
 		}
 
 		&:not([disabled]) {
@@ -72,10 +72,10 @@
 
 	&.elementor-button-danger {
 		background-color: $editor-danger;
-		color: #fff;
+		color: $editor-color-level-0;
 
 		&[disabled] {
-			background-color: $editor-lighter;
+			background-color: $editor-color-level-50;
 		}
 
 		&:not([disabled]) {
@@ -94,17 +94,17 @@
 	&.elementor-edit-template {
 		display: inline-block;
 		margin-top: 15px;
-		color: #fff;
+		color: $editor-color-level-0;
 	}
 
 	&.elementor-button-default {
-		background-color: $editor-light;
-		color: #fff;
+		background-color: $theme-color-btn-default-bg;
+		color: $theme-color-btn-default-text;
 		font-size: 11px;
 		padding: 7px 21px;
 
 		&:hover {
-			background-color: $editor-dark;
+			background-color: $theme-color-btn-default-bg-hover;
 			box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.2);
 		}
 
@@ -113,7 +113,7 @@
 		}
 
 		&:visited {
-			color: #fff;
+			color: $editor-color-level-0;
 		}
 	}
 

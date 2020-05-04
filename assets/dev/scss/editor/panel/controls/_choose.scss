@@ -12,15 +12,16 @@
 	display: flex;
 	height: $control-unit;
 	line-height: $control-unit;
+	background: $theme-color-input-bg;
 	text-align: center;
 	border-spacing: 1px;
 	border-radius: 3px;
 	overflow: hidden;
 
 	.elementor-choices-label {
-		border-top: 1px solid $editor-lightest;
-		border-bottom: 1px solid $editor-lightest;
-		@include border-start(1px solid $editor-lightest);
+		border-top: 1px solid $theme-color-input-border;
+		border-bottom: 1px solid $theme-color-input-border;
+		@include border-start(1px solid $theme-color-input-border);
 		@include border-end(none);
 		font-size: 12px;
 		transition: all .5s;
@@ -33,7 +34,7 @@
 		}
 
 		&:last-child {
-			@include border-end(1px solid $editor-lightest);
+			@include border-end(1px solid $theme-color-input-border);
 			@include _dimension_side_property(border-top, end, radius, 3px);
 			@include _dimension_side_property(border-bottom, end, radius, 3px);
 		}
@@ -43,9 +44,9 @@
 		display: none;
 
 		&:checked + .elementor-choices-label {
-			color: #fff;
-			background-color: $editor-light;
-			border-color: $editor-light;
+			color: $theme-color-input-choose-text-active;
+			background-color: $theme-color-input-choose-bg-active;
+			border-color: $theme-color-input-border-focus;
 		}
 	}
 }
@@ -69,7 +70,7 @@
 			.elementor-choices-label {
 
 				&:nth-child(2) {
-					@include border-end(1px solid $editor-lightest);
+					@include border-end(1px solid $theme-color-input-border);
 					border-radius: 3px 0 0 3px;
 				}
 
