@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0
  */
-class Control_Box_Shadow extends Control_Base_Multiple {
+class Control_Box_Shadow extends Base_Data_Control {
 
 	/**
 	 * Get box shadow control type.
@@ -28,6 +28,21 @@ class Control_Box_Shadow extends Control_Base_Multiple {
 	 */
 	public function get_type() {
 		return 'box_shadow';
+	}
+
+	/**
+	 * Get Value Type
+	 *
+	 * Check whether the default value of the control is single (such as string, int) or multiple (array).
+	 * Default value is 'single', can also be 'multiple'.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @return string Value Type
+	 */
+	public function get_value_type() {
+		return 'multiple';
 	}
 
 	/**

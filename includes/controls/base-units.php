@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  * @abstract
  */
-abstract class Control_Base_Units extends Control_Base_Multiple {
+abstract class Control_Base_Units extends Base_Data_Control {
 
 	/**
 	 * Get units control default value.
@@ -30,6 +30,21 @@ abstract class Control_Base_Units extends Control_Base_Multiple {
 		return [
 			'unit' => 'px',
 		];
+	}
+
+	/**
+	 * Get Value Type
+	 *
+	 * Check whether the default value of the control is single (such as string, int) or multiple (array).
+	 * Default value is 'single', can also be 'multiple'.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @return string Value Type
+	 */
+	public function get_value_type() {
+		return 'multiple';
 	}
 
 	/**

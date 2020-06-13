@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 2.6.0
  */
-class Control_Icons extends Control_Base_Multiple {
+class Control_Icons extends Base_Data_Control {
 
 	/**
 	 * Get media control type.
@@ -31,6 +31,21 @@ class Control_Icons extends Control_Base_Multiple {
 	 */
 	public function get_type() {
 		return 'icons';
+	}
+
+	/**
+	 * Get Value Type
+	 *
+	 * Check whether the default value of the control is single (such as string, int) or multiple (array).
+	 * Default value is 'single', can also be 'multiple'.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @return string Value Type
+	 */
+	public function get_value_type() {
+		return 'multiple';
 	}
 
 	/**

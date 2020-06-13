@@ -24,10 +24,44 @@ abstract class Base_Data_Control extends Base_Control {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return string Control default value.
+	 * @return string|array Control default value.
 	 */
 	public function get_default_value() {
-		return '';
+		return 'single' === $this->get_value_type() ? '' : [];
+	}
+
+	/**
+	 * Get Value Type
+	 *
+	 * Check whether the default value of the control is single (such as string, int) or multiple (array).
+	 * Default value is 'single', can also be 'multiple'.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @return string Value Type
+	 */
+	public function get_value_type() {
+		return 'single';
+	}
+
+	/**
+	 * Retrieve default control settings.
+	 *
+	 * Get the default settings of the control. Used to return the default
+	 * settings while initializing the control.
+	 *
+	 * @since 2.0.0
+	 * @access protected
+	 *
+	 * @return array Control default settings.
+	 */
+	protected function get_default_settings() {
+		$default_settings = parent::get_default_settings();
+
+		$default_settings['dynamic'] = [];
+
+		return $default_settings;
 	}
 
 	/**
@@ -54,7 +88,21 @@ abstract class Base_Data_Control extends Base_Control {
 			$value = $control['default'];
 		}
 
-		return $value;
+		// if value is a single value just return it
+		if ( 'single' === $this->get_value_type() ) {
+			return $value;
+		}
+
+		// Multiple logic
+		$control['default'] = array_merge(
+			$this->get_default_value(),
+			$control['default']
+		);
+
+		return array_merge(
+			$control['default'],
+			$value
+		);
 	}
 
 	/**
@@ -98,6 +146,10 @@ abstract class Base_Data_Control extends Base_Control {
 	 * @return string Control style value.
 	 */
 	public function get_style_value( $css_property, $control_value, array $control_data ) {
+		if ( is_array( $control_value ) ) {
+			return $control_value[ strtolower( $css_property ) ];
+		}
+
 		if ( 'DEFAULT' === $css_property ) {
 			return $control_data['default'];
 		}

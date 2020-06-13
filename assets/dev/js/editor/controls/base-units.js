@@ -1,7 +1,7 @@
-var ControlBaseMultipleItemView = require( 'elementor-controls/base-multiple' ),
+var ControlBaseDataView = require( 'elementor-controls/base-data' ),
 	ControlBaseUnitsItemView;
 
-ControlBaseUnitsItemView = ControlBaseMultipleItemView.extend( {
+ControlBaseUnitsItemView = ControlBaseDataView.extend( {
 
 	getCurrentRange: function() {
 		return this.getUnitRange( this.getControlValue( 'unit' ) );
