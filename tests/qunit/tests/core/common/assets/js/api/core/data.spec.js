@@ -187,29 +187,27 @@ jQuery( () => {
 		} );
 
 		QUnit.test( 'prepareEndpoint(): basic endpoint should not be changed ', ( assert ) => {
-			const oldBaseUrl = $e.data.baseEndpointAddress;
+			const { version, namespace } = $e.data.args,
+				endpoint = 'component/command?a=1&b=2',
+				result = $e.data.prepareEndpoint( { endpoint } ),
+				expected = `${ $e.data.args.baseEndpointAddress }${ namespace }/v${ version }/${ endpoint }`;
 
-			$e.data.baseEndpointAddress = 'https://example.com/wp-json/';
-			const endpoint = 'component/command?a=1&b=2';
-
-			const result = $e.data.prepareEndpoint( endpoint );
-
-			assert.equal( result, 'https://example.com/wp-json/' + endpoint );
-
-			$e.data.baseEndpointAddress = oldBaseUrl;
+			assert.equal( result, expected );
 		} );
 
 		QUnit.test( 'prepareEndpoint(): permalinks in plain mode ', ( assert ) => {
-			const oldBaseUrl = $e.data.baseEndpointAddress;
+			const baseEndpointAddressOrig = $e.data.args.baseEndpointAddress;
 
-			$e.data.baseEndpointAddress = 'https://example.com/index.php?route=/';
-			const endpoint = 'component/command?a=1&b=2';
+			$e.data.args.baseEndpointAddress = 'https://example.com/index.php?route=/';
 
-			const result = $e.data.prepareEndpoint( endpoint );
+			const { version, namespace } = $e.data.args,
+				endpoint = 'component/command?a=1&b=2',
+				result = $e.data.prepareEndpoint( { endpoint } ),
+				expectedPrefix = `${ $e.data.args.baseEndpointAddress }${ namespace }/v${ version }/`;
 
-			assert.equal( result, 'https://example.com/index.php?route=/' + 'component/command&a=1&b=2' );
+			assert.equal( result, expectedPrefix + 'component/command&a=1&b=2' );
 
-			$e.data.baseEndpointAddress = oldBaseUrl;
+			$e.data.args.baseEndpointAddress = baseEndpointAddressOrig;
 		} );
 
 		/**
@@ -250,7 +248,7 @@ jQuery( () => {
 			eData.restoreFetch();
 
 			await $e.data.fetch( requestData, ( input ) => {
-				assert.equal( input, $e.data.baseEndpointAddress + command + '?param1=valueA' );
+				assert.equal( input, $e.data.getEndpointAddress( requestData, command + '?param1=valueA' ) );
 				return Promise.resolve( new Response( JSON.stringify( {} ) ) );
 			} );
 		} );
@@ -286,7 +284,7 @@ jQuery( () => {
 					args,
 				},
 				result = await $e.data.fetch( requestData, ( input ) => {
-					assert.equal( input, $e.data.baseEndpointAddress + command + '?param1=valueA' );
+					assert.equal( input, $e.data.getEndpointAddress( requestData, command + '?param1=valueA' ) );
 					return Promise.resolve( new Response( JSON.stringify( fakeResponse ) ) );
 				} );
 
