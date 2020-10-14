@@ -1,4 +1,4 @@
-import ArgsObject from '../../modules/imports/args-object';
+import ArgsObject from 'elementor-common/modules/imports/args-object';
 import Panel from './panel';
 
 /**

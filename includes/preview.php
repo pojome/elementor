@@ -246,6 +246,7 @@ class Preview extends App {
 			'editor-preview',
 			ELEMENTOR_ASSETS_URL . 'css/editor-preview' . $direction_suffix . $suffix . '.css',
 			[
+				'elementor-common',
 				'elementor-select2',
 			],
 			ELEMENTOR_VERSION

@@ -1,4 +1,6 @@
-export default class extends elementorModules.Module {
+import Module from '../modules/imports/module';
+
+export default class extends Module {
 	get( key, options ) {
 		options = options || {};
 

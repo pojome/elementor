@@ -1032,7 +1032,7 @@ jQuery( () => {
 					}
 
 					getModalLayout() {
-						const layout = class extends elementorModules.common.views.modal.Layout {
+						const layout = class extends elementorCommon.views.modal.Layout {
 							initialize() { /* do not render */ }
 						};
 
@@ -1057,7 +1057,7 @@ jQuery( () => {
 					}
 
 					getModalLayout() {
-						const layout = class extends elementorModules.common.views.modal.Layout {
+						const layout = class extends elementorCommon.views.modal.Layout {
 							initialize() { /* do not render */ }
 						};
 

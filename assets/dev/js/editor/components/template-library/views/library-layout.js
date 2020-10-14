@@ -8,7 +8,7 @@ var TemplateLibraryHeaderActionsView = require( 'elementor-templates/views/parts
 	TemplateLibraryConnectView = require( 'elementor-templates/views/parts/connect' ),
 	TemplateLibraryPreviewView = require( 'elementor-templates/views/parts/preview' );
 
-module.exports = elementorModules.common.views.modal.Layout.extend( {
+module.exports = elementorCommon.views.modal.Layout.extend( {
 	getModalOptions: function() {
 		return {
 			id: 'elementor-template-library-modal',

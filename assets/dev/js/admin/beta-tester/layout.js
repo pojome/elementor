@@ -1,6 +1,6 @@
 import BetaTesterView from './view';
 
-export default class BetaTesterLayout extends elementorModules.common.views.modal.Layout {
+export default class BetaTesterLayout extends elementorCommon.views.modal.Layout {
 	ui() {
 		return {
 			closeModal: '.elementor-templates-modal__header__close',
@@ -31,7 +31,7 @@ export default class BetaTesterLayout extends elementorModules.common.views.moda
 	}
 
 	initialize() {
-		elementorModules.common.views.modal.Layout.prototype.initialize.apply( this, arguments );
+		elementorCommon.views.modal.Layout.prototype.initialize.apply( this, arguments );
 
 		this.showLogo();
 

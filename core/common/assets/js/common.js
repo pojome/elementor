@@ -5,8 +5,50 @@ import Ajax from 'elementor-common-modules/ajax/assets/js/ajax';
 import Finder from 'elementor-common-modules/finder/assets/js/finder';
 import Connect from 'elementor-common-modules/connect/assets/js/connect';
 import API from './api/';
+import ComponentBase from 'elementor-api/modules/component-base';
+import ComponentModalBase from 'elementor-api/modules/component-modal-base';
+import HookBreak from 'elementor-api/modules/hook-break';
+import ModalLayout from 'elementor-common/views/modal/layout';
+import * as modules from './modules/';
 
-class ElementorCommonApp extends elementorModules.ViewModule {
+class ElementorCommonApp extends modules.ViewModule {
+	views = {
+		modal: {
+			Layout: ModalLayout,
+		},
+	};
+
+	modules = {
+		... modules,
+	};
+
+	get Component() {
+		// `elementorCommon` isn't available during it self initialize.
+		setTimeout( () => {
+			elementorCommon.helpers.softDeprecated( 'elementorModules.common.Component', '2.9.0',
+				'$e.modules.ComponentBase' );
+		}, 2000 );
+		return ComponentBase;
+	}
+
+	get ComponentModal() {
+		// `elementorCommon` isn't available during it self initialize.
+		setTimeout( () => {
+			elementorCommon.helpers.softDeprecated( 'elementorModules.common.ComponentModal', '2.9.0',
+				'$e.modules.ComponentModalBase' );
+		}, 2000 );
+		return ComponentModalBase;
+	}
+
+	get HookBreak() {
+		// `elementorCommon` isn't available during it self initialize.
+		setTimeout( () => {
+			elementorCommon.helpers.softDeprecated( 'elementorModules.common.HookBreak', '2.9.0',
+				'$e.modules.HookBreak' );
+		}, 2000 );
+		return HookBreak;
+	}
+
 	setMarionetteTemplateCompiler() {
 		Marionette.TemplateCache.prototype.compileTemplate = ( rawTemplate, options ) => {
 			options = {
@@ -44,15 +86,15 @@ class ElementorCommonApp extends elementorModules.ViewModule {
 	initModules() {
 		const { activeModules } = this.config;
 
-		const modules = {
+		const coreModules = {
 			ajax: Ajax,
 			finder: Finder,
 			connect: Connect,
 		};
 
 		activeModules.forEach( ( name ) => {
-			if ( modules[ name ] ) {
-				this[ name ] = new modules[ name ]( this.config[ name ] );
+			if ( coreModules[ name ] ) {
+				this[ name ] = new coreModules[ name ]( this.config[ name ] );
 			}
 		} );
 	}

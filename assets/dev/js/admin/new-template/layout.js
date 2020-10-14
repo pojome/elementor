@@ -1,6 +1,6 @@
 var NewTemplateView = require( 'elementor-admin/new-template/view' );
 
-module.exports = elementorModules.common.views.modal.Layout.extend( {
+module.exports = elementorCommon.views.modal.Layout.extend( {
 
 	getModalOptions: function() {
 		return {
@@ -15,7 +15,7 @@ module.exports = elementorModules.common.views.modal.Layout.extend( {
 	},
 
 	initialize: function() {
-		elementorModules.common.views.modal.Layout.prototype.initialize.apply( this, arguments );
+		elementorCommon.views.modal.Layout.prototype.initialize.apply( this, arguments );
 
 		this.showLogo();
 

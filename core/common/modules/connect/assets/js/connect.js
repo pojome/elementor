@@ -1,4 +1,6 @@
-export default class extends elementorModules.ViewModule {
+import ViewModule from 'elementor-common/modules/imports/view-module';
+
+export default class extends ViewModule {
 	addPopupPlugin() {
 		let counter = 0;
 

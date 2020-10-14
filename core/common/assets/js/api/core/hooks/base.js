@@ -1,4 +1,6 @@
-export default class HooksBase extends elementorModules.Module {
+import Module from 'elementor-common/modules/imports/module';
+
+export default class HooksBase extends Module {
 	/**
 	 * Function constructor().
 	 *

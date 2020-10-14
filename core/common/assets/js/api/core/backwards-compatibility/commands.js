@@ -1,4 +1,6 @@
-export default class CommandsBackwardsCompatibility extends elementorModules.Module {
+import Module from 'elementor-common/modules/imports/module';
+
+export default class CommandsBackwardsCompatibility extends Module {
 	__construct() {
 		this.onOrig = this.on;
 	}

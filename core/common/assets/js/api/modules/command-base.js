@@ -1,4 +1,4 @@
-import ArgsObject from 'elementor-assets-js/modules/imports/args-object';
+import ArgsObject from 'elementor-common/modules/imports/args-object';
 
 export default class CommandBase extends ArgsObject {
 	static getInstanceType() {

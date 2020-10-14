@@ -1,4 +1,6 @@
-export default class extends elementorModules.Module {
+import Module from 'elementor-common/modules/imports/module';
+
+export default class extends Module {
 	getDefaultSettings() {
 		return {
 			ajaxParams: {

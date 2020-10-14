@@ -87,14 +87,6 @@ class App extends BaseApp {
 	 */
 	public function register_scripts() {
 		wp_register_script(
-			'elementor-common-modules',
-			$this->get_js_assets_url( 'common-modules' ),
-			[],
-			ELEMENTOR_VERSION,
-			true
-		);
-
-		wp_register_script(
 			'backbone-marionette',
 			$this->get_js_assets_url( 'backbone.marionette', 'assets/lib/backbone/' ),
 			[
@@ -136,6 +128,15 @@ class App extends BaseApp {
 				'elementor-dialog',
 				'wp-api-request',
 			],
+			ELEMENTOR_VERSION,
+			true
+		);
+
+		// BC Support.
+		wp_register_script(
+			'elementor-common-modules',
+			$this->get_js_assets_url( 'common-modules' ),
+			[],
 			ELEMENTOR_VERSION,
 			true
 		);
