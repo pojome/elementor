@@ -23,3 +23,11 @@
 #wpadminbar * {
 	font-style: normal;
 }
+
+// This accommodates a native WP (Gutenberg) class that is overridden by `.elementor img`.
+.elementor {
+
+	.is-style-rounded img {
+		border-radius: 9999px;
+	}
+}
