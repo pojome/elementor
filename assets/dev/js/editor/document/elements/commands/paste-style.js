@@ -96,26 +96,49 @@ export class PasteStyle extends CommandHistory {
 					diffSettings[ controlName ] = controlSourceValue;
 				} );
 
-				// Moved from `editor/elements/views/base.js` `pasteStyle` function.
-				targetContainer.view.allowRender = false;
-
-				// BC: Deprecated since 2.8.0 - use `$e.hooks`.
-				elementor.channels.data.trigger( 'element:before:paste:style', targetContainer.model );
-
-				$e.run( 'document/elements/settings', {
-					container: targetContainer,
-					settings: diffSettings,
-					options: { external: true },
-				} );
-
-				// BC: Deprecated since 2.8.0 - use `$e.hooks`.
-				elementor.channels.data.trigger( 'element:after:paste:style', targetContainer.model );
-
-				targetContainer.view.allowRender = true;
-
-				targetContainer.render();
+				this.pasteStyle( targetContainer, diffSettings );
 			} );
 		} );
+	}
+
+	pasteStyle( targetContainer, settings ) {
+		targetContainer.view.allowRender = false;
+
+		// BC: Deprecated since 2.8.0 - use `$e.hooks`.
+		elementor.channels.data.trigger( 'element:before:paste:style', targetContainer.model );
+
+		const globals = settings.__globals__;
+
+		if ( globals ) {
+			delete settings.__globals__;
+		}
+
+		$e.run( 'document/elements/settings', {
+			container: targetContainer,
+			settings: settings,
+			options: {
+				external: true,
+				render: false,
+			},
+		} );
+
+		if ( globals ) {
+			$e.run( 'document/globals/settings', {
+				container: targetContainer,
+				settings: globals,
+				options: {
+					external: true,
+					render: false,
+				},
+			} );
+		}
+
+		// BC: Deprecated since 2.8.0 - use `$e.hooks`.
+		elementor.channels.data.trigger( 'element:after:paste:style', targetContainer.model );
+
+		targetContainer.view.allowRender = true;
+
+		targetContainer.render();
 	}
 }
 

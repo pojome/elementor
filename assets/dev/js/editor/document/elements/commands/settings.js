@@ -91,7 +91,8 @@ export class Settings extends CommandHistoryDebounce {
 	}
 
 	apply( args ) {
-		const { containers = [ args.container ], settings = {}, isMultiSettings = false, options = {} } = args;
+		const { containers = [ args.container ], settings = {}, isMultiSettings = false, options = {} } = args,
+			{ external, render = true } = options;
 
 		containers.forEach( ( container ) => {
 			container = container.lookup();
@@ -115,13 +116,15 @@ export class Settings extends CommandHistoryDebounce {
 				this.addToHistory( container, newSettings, container.oldValues );
 			}
 
-			if ( options.external ) {
+			if ( external ) {
 				container.settings.setExternalChange( newSettings );
 			} else {
 				container.settings.set( newSettings );
 			}
 
-			container.render();
+			if ( render ) {
+				container.render();
+			}
 		} );
 	}
 

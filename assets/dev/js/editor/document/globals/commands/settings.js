@@ -52,7 +52,8 @@ export class Settings extends CommandHistoryDebounce {
 	}
 
 	apply( args ) {
-		const { settings, containers = [ args.container ] } = args;
+		const { settings, containers = [ args.container ], options = {} } = args,
+			{ external, render = true } = options;
 
 		containers.forEach( ( container ) => {
 			container = container.lookup();
@@ -63,9 +64,17 @@ export class Settings extends CommandHistoryDebounce {
 				container.globals.set( settings );
 			}
 
-			container.settings.set( '__globals__', container.globals.toJSON() );
+			const globalSettings = container.globals.toJSON();
 
-			container.render();
+			if ( external ) {
+				container.settings.setExternalChange( '__globals__', globalSettings );
+			} else {
+				container.settings.set( '__globals__', globalSettings );
+			}
+
+			if ( render ) {
+				container.render();
+			}
 		} );
 	}
 

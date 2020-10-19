@@ -95,6 +95,8 @@ export const PasteStyle = () => {
 				ElementsHelper.pasteStyle( eButton );
 
 				assert.deepEqual( eButton.settings.attributes.__globals__, eButtonGlobal.globals.attributes );
+				// Cover issue: When paste styling with globals values are not showing in panel (Fix PT#1030).
+				assert.deepEqual( eButton.globals.attributes, eButtonGlobal.globals.attributes );
 			} );
 
 			// TODO: Paste __dynamic__.
