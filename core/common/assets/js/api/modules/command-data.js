@@ -78,11 +78,11 @@ export default class CommandData extends CommandBase {
 	 */
 	getRequestData() {
 		return {
-			type: this.type,
-			args: this.args,
-			timestamp: new Date().getTime(),
 			component: this.component,
 			command: this.currentCommand,
+			args: this.args,
+			type: this.type,
+			timestamp: new Date().getTime(),
 			endpoint: $e.data.commandToEndpoint( this.currentCommand, elementorCommon.helpers.cloneObject( this.args ), this.constructor.getEndpointFormat() ),
 		};
 	}
@@ -91,7 +91,7 @@ export default class CommandData extends CommandBase {
 		const applyMethods = this.getApplyMethods();
 
 		// Run 'before' method.
-		this.args = applyMethods.before( this.args );
+		this.args = applyMethods.before.apply( this, [ this.args ] );
 
 		const requestData = this.getRequestData();
 
@@ -99,7 +99,7 @@ export default class CommandData extends CommandBase {
 			this.data = data;
 
 			// Run 'after' method.
-			this.data = applyMethods.after( data, this.args );
+			this.data = applyMethods.after.apply( this, [ data, this.args ] );
 
 			this.data = { data: this.data };
 
