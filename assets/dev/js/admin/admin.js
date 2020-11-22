@@ -435,5 +435,11 @@
 		window.elementorAdmin = new ElementorAdmin();
 
 		elementorCommon.elements.$window.trigger( 'elementor/admin/init' );
+
+		$( '.elementor_finder' ).on( 'click', function(e) {
+			e.preventDefault();
+
+			$e.run( 'finder/open' );
+		} );
 	} );
 }( jQuery ) );

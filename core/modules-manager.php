@@ -67,6 +67,7 @@ class Modules_Manager {
 	public function get_modules_names() {
 		return [
 			'admin-bar',
+			'dashboard-widgets',
 			'history',
 			'library',
 			'dynamic-tags',
