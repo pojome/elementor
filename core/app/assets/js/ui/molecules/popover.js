@@ -3,8 +3,8 @@ import './popover.scss';
 export default function Popover( props ) {
 	return (
 		<>
-			<div className="eps-popover__background" onClick={ props.closeFunction }/>
-			<ul className={`eps-popover ${ props.className }`} onClick={ props.closeFunction }>
+			<div className="eps-popover__background" onClick={ props.closeFunction } data-testid="background"/>
+			<ul className={`eps-popover ${ props.className }`} onClick={ props.closeFunction } data-testid="popover">
 				{ props.children }
 			</ul>
 		</>

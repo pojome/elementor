@@ -27,6 +27,7 @@ export default function DragDrop( props ) {
 				setIsDragOver( false );
 
 				if ( props.onDrop ) {
+					// TODO: if isLoading=true do we still want to call the method?
 					props.onDrop( event );
 				}
 			},

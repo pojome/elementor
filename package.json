@@ -8,7 +8,8 @@
 	"scripts": {
 		"test:php": "docker-compose run --rm wordpress_phpunit phpunit",
 		"test:php_multisite": "docker-compose run -e WP_MULTISITE=1 --rm wordpress_phpunit phpunit",
-		"test:qunit": "grunt qunit"
+		"test:qunit": "grunt qunit",
+		"test:jest": "jest --config='./tests/jest/jest.config.js'"
 	},
 	"devDependencies": {
 		"@babel/core": "7.0.0",
@@ -16,8 +17,11 @@
 		"@babel/plugin-proposal-optional-chaining": "^7.9.0",
 		"@babel/runtime-corejs2": "^7.0.0",
 		"@reach/router": "^1.3.3",
+		"@testing-library/jest-dom": "^5.11.4",
+		"@testing-library/react": "^11.0.4",
 		"autoprefixer": "~8.5.0",
 		"babel-eslint": "^8.2.6",
+		"babel-jest": "^26.3.0",
 		"babel-loader": "8.0.0",
 		"babel-plugin-transform-react-jsx": "^6.24.1",
 		"babel-preset-env": "^1.7.0",
@@ -48,6 +52,7 @@
 		"grunt-text-replace": "~0.4.0",
 		"grunt-webpack": "^3.1.2",
 		"grunt-wp-readme-to-markdown-with-extra": "~2.2.0",
+		"jest": "^26.4.2",
 		"karma": "^4.4.1",
 		"karma-chrome-launcher": "^3.1.0",
 		"karma-coverage": "^2.0.1",

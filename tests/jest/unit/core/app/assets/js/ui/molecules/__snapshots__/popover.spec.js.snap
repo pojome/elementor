@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Popover /> should match the snapshot 1`] = `
+<div>
+  <div
+    class="eps-popover__background"
+    data-testid="background"
+  />
+  <ul
+    class="eps-popover test"
+    data-testid="popover"
+  >
+    <li>
+       1 
+    </li>
+    <li>
+       2 
+    </li>
+  </ul>
+</div>
+`;
