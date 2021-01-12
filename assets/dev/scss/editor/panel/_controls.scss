@@ -392,8 +392,9 @@ $item-size: 2em;
 	--pointer-position: var(--selected-option);
 
 	position: relative;
+	top: calc(-0.25 * #{$item-size});
 	width: $item-size;
-	height: $item-size;
+	height: calc(0.5 * #{$item-size});
 
 	&__holder {
 		position: absolute;
