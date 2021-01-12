@@ -349,6 +349,7 @@ class Widget_Tabs extends Widget_Base {
 						'data-tab' => $tab_count,
 						'role' => 'tab',
 						'aria-controls' => 'elementor-tab-content-' . $id_int . $tab_count,
+						'aria-selected' => 1 === $tab_count ? 'true' : 'false',
 					] );
 					?>
 					<div <?php echo $this->get_render_attribute_string( $tab_title_setting_key ); ?>><a href=""><?php echo $item['tab_title']; ?></a></div>
@@ -375,11 +376,13 @@ class Widget_Tabs extends Widget_Base {
 						'class' => [ 'elementor-tab-title', 'elementor-tab-mobile-title' ],
 						'data-tab' => $tab_count,
 						'role' => 'tab',
+						'aria-controls' => 'elementor-tab-content-' . $id_int . $tab_count,
+						'aria-selected' => 1 === $tab_count ? 'true' : 'false',
 					] );
 
 					$this->add_inline_editing_attributes( $tab_content_setting_key, 'advanced' );
 					?>
-					<div <?php echo $this->get_render_attribute_string( $tab_title_mobile_setting_key ); ?>><?php echo $item['tab_title']; ?></div>
+					<div <?php echo $this->get_render_attribute_string( $tab_title_mobile_setting_key ); ?>><a href=""><?php echo $item['tab_title']; ?></a></div>
 					<div <?php echo $this->get_render_attribute_string( $tab_content_setting_key ); ?>><?php echo $this->parse_text_editor( $item['tab_content'] ); ?></div>
 				<?php endforeach; ?>
 			</div>
@@ -407,7 +410,7 @@ class Widget_Tabs extends Widget_Base {
 					_.each( settings.tabs, function( item, index ) {
 						var tabCount = index + 1;
 						#>
-						<div id="elementor-tab-title-{{ tabindex + tabCount }}" class="elementor-tab-title elementor-tab-desktop-title" data-tab="{{ tabCount }}" role="tab" aria-controls="elementor-tab-content-{{ tabindex + tabCount }}"><a href="">{{{ item.tab_title }}}</a></div>
+						<div id="elementor-tab-title-{{ tabindex + tabCount }}" class="elementor-tab-title elementor-tab-desktop-title" data-tab="{{ tabCount }}" role="tab" aria-controls="elementor-tab-content-{{ tabindex + tabCount }}" aria-selected="false"><a href="">{{{ item.tab_title }}}</a></div>
 					<# } ); #>
 				</div>
 				<div class="elementor-tabs-content-wrapper">
@@ -426,7 +429,7 @@ class Widget_Tabs extends Widget_Base {
 
 						view.addInlineEditingAttributes( tabContentKey, 'advanced' );
 						#>
-						<div class="elementor-tab-title elementor-tab-mobile-title" data-tab="{{ tabCount }}" role="tab">{{{ item.tab_title }}}</div>
+						<div class="elementor-tab-title elementor-tab-mobile-title" data-tab="{{ tabCount }}" role="tab" aria-selected="false">{{{ item.tab_title }}}</div>
 						<div {{{ view.getRenderAttributeString( tabContentKey ) }}}>{{{ item.tab_content }}}</div>
 					<# } ); #>
 				</div>

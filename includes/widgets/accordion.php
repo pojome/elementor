@@ -510,6 +510,7 @@ class Widget_Accordion extends Widget_Base {
 					'data-tab' => $tab_count,
 					'role' => 'tab',
 					'aria-controls' => 'elementor-tab-content-' . $id_int . $tab_count,
+					'aria-selected' => 1 === $tab_count ? 'true' : 'false',
 				] );
 
 				$this->add_render_attribute( $tab_content_setting_key, [
@@ -574,7 +575,8 @@ class Widget_Accordion extends Widget_Base {
 						'tabindex': tabindex + tabCount,
 						'data-tab': tabCount,
 						'role': 'tab',
-						'aria-controls': 'elementor-tab-content-' + tabindex + tabCount
+						'aria-controls': 'elementor-tab-content-' + tabindex + tabCount,
+						'aria-selected': 'false'
 					} );
 
 					view.addRenderAttribute( tabContentKey, {

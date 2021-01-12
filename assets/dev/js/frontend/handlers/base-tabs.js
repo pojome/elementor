@@ -57,7 +57,8 @@ export default class baseTabs extends elementorModules.frontend.handlers.Base {
 			$activeTitle = this.elements.$tabTitles.filter( activeFilter ),
 			$activeContent = this.elements.$tabContents.filter( activeFilter );
 
-		$activeTitle.add( $activeContent ).removeClass( activeClass );
+		// aria-selected should be applied only on the title and not on the content.
+		$activeTitle.attr( 'aria-selected', 'false' ).add( $activeContent ).removeClass( activeClass );
 
 		$activeContent[ settings.hideTabFn ]();
 	}
@@ -69,7 +70,8 @@ export default class baseTabs extends elementorModules.frontend.handlers.Base {
 			$requestedContent = this.elements.$tabContents.filter( '[data-tab="' + tabIndex + '"]' ),
 			animationDuration = 'show' === settings.showTabFn ? 0 : 400;
 
-		$requestedTitle.add( $requestedContent ).addClass( activeClass );
+		// aria-selected should be applied only on the title and not on the content.
+		$requestedTitle.attr( 'aria-selected', 'true' ).add( $requestedContent ).addClass( activeClass );
 
 		$requestedContent[ settings.showTabFn ]( animationDuration, () => elementorFrontend.elements.$window.trigger( 'resize' ) );
 	}
