@@ -1,22 +1,6 @@
 {
-  "elements": {
-	"window",
-	"$window": "jQuery("
-	"window"
-	")"
-  },
-  "config": {
-	"elements": {
-	  "data": {},
-	  "editSettings": {}
-	},
-	"breakpoints": {}
-  },
-  "isEditMode": "()"
-  "=>" {
-},
-elementsHandler: {
-runReadyTrigger: () => {
-},
-},
+	"environmentMode": {
+		"edit": false,
+		"wpPreview": false
+	}
 }

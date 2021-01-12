@@ -1,4 +1,4 @@
-import tests from '../tests';
+import tests from '../tests/editor';
 
 /* global require */
 
@@ -15,7 +15,7 @@ export default class EditorBootstrap {
 			$elementorTest = $body.find( '#elementor-test' );
 
 		// Load the template to `#elementor-test`.
-		$elementorTest.append( window.__html__[ 'tests/qunit/index.html' ] );
+		$elementorTest.append( window.__html__[ 'tests/qunit/setup/editor/index.html' ] );
 
 		window.elementor = new EditorTest();
 

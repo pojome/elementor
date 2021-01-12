@@ -1,18 +1,35 @@
-let isDebug = false;
+const karmaParameters = [],
+	karmaArguments = [];
 
 if ( process.argv[ process.argv.length - 1 ] ) {
-	const gruntParams = process.argv[ process.argv.length - 1 ].split( ':' );
+	process.argv[ process.argv.length - 1 ].split( ':' ).forEach(
+		( param ) => karmaParameters.push( param )
+	);
 
-	if ( gruntParams ) {
-		if ( 'karma' === gruntParams[ 0 ] ) {
-			if ( 'debug' === gruntParams[ 1 ] ) {
-				isDebug = true;
-			}
-		}
-	}
+	// Remove 'karma'.
+	karmaParameters.shift();
 }
 
 module.exports = function( config ) {
+	// Support arguments like '--whatever:value' when running 'karma:unit' from grunt.
+	config.client.args.forEach( ( argument ) => {
+		argument = argument.split( ':' );
+		argument[ 0 ] = argument[ 0 ].replace( /--/g, '' );
+
+		karmaArguments.push( argument );
+	} );
+
+	let target = 'editor',
+		targetArgument = karmaArguments.find( ( arg ) => 'target' === arg[ 0 ] );
+
+	if ( ! targetArgument ) {
+		targetArgument = global.arguments ? [ 'target', global.arguments.target ] : false;
+	}
+
+	if ( targetArgument ) {
+		target = targetArgument[ 1 ];
+	}
+
 	const karmaConfig = {
 		basePath: './',
 		frameworks: [ 'qunit' ],
@@ -32,44 +49,15 @@ module.exports = function( config ) {
 			'assets/lib/backbone/backbone.radio.min.js',
 
 			// Elementor Common.
-			'tests/qunit/setup/elementor-common.js',
+			'tests/qunit/setup/common/elementor-common.js',
 			'assets/lib/dialog/dialog.js',
 			'assets/js/common-modules.js',
 			'assets/js/common.js',
-
-			// Editor Fixtures.
-			'tests/qunit/index.html',
-
-			// Editor Tinymce.
-			'tests/qunit/setup/tinymce.js',
-			'tests/qunit/vendor/wp-includes/quicktags.min.js',
-
-			// Editor Config.
-			'tests/qunit/setup/editor.js',
-
-			// Editor Dependencies.
-			'tests/qunit/vendor/wp-includes/jquery-ui.min.js',
-			'assets/lib/tipsy/tipsy.min.js',
-			'assets/lib/perfect-scrollbar/js/perfect-scrollbar.min.js',
-			'assets/lib/nouislider/nouislider.min.js',
-			'assets/lib/imagesloaded/imagesloaded.min.js',
-			'assets/dev/js/editor/utils/jquery-serialize-object.js',
-			'assets/dev/js/editor/utils/jquery-html5-dnd.js',
-			'assets/lib/jquery-hover-intent/jquery-hover-intent.min.js',
-
-			// Editor.
-			'assets/js/editor-modules.js',
-			'assets/js/editor-document.js',
-
-			// Tests.
-			'assets/js/qunit-tests.js',
 		],
 		preprocessors: {
-			'tests/qunit/index.html': [ 'html2js' ],
 			'assets/js/common-modules.js': [ 'coverage' ],
 			'assets/js/common.js': [ 'coverage' ],
 			'assets/js/editor-document.js': [ 'coverage' ],
-
 		},
 		reporters: [ 'progress' ],
 		coverageIstanbulReporter: {
@@ -99,16 +87,19 @@ module.exports = function( config ) {
 
 		// client configuration
 		client: {
+			karmaParameters,
+			karmaArguments,
+			target,
 			clearContext: true,
 			qunit: {
-				isDebug,
+				isDebug: karmaParameters.includes( 'debug' ),
 				showUI: false,
 				testTimeout: 5000,
 			},
 		},
 	};
 
-	if ( isDebug ) {
+	if ( 'editor' === target && karmaConfig.client.qunit.isDebug ) {
 		const fs = require( 'fs' );
 
 		if ( fs.existsSync( '../elementor-dev-tools' ) ) {
@@ -119,6 +110,12 @@ module.exports = function( config ) {
 			karmaConfig.files.push( last );
 		}
 	}
+
+	const setupHandler = require( `../elementor/tests/qunit/setup/${ target }/setup` );
+
+	console.log( `preparing tests environment for: '${ target }'.` );
+
+	setupHandler( karmaConfig );
 
 	config.set( karmaConfig );
 };

@@ -24,4 +24,4 @@ jobs:
       - name: "Grunt Scripts"
         run: grunt scripts
       - name: "Run Qunit"
-        run: grunt karma:unit
+        run: grunt test

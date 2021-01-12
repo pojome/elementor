@@ -3,21 +3,21 @@
  * @package Elementor
  */
 module.exports = {
-	unit: {
+	// Shared config.
+	options: {
 		configFile: 'karma.conf.js',
+	},
+	unit: {
 		reporters: [ 'dots', 'fail-fast']
 	},
 	coverage: {
-		configFile: 'karma.conf.js',
 		reporters: [ 'progress', 'coverage', 'coverage-istanbul' ],
 	},
 	coverageHtml: {
-		configFile: 'karma.conf.js',
 		reporters: [ 'progress', 'coverage', 'coverage-istanbul' ],
 		reports: [ 'text', 'html' ],
 	},
 	debug: {
-		configFile: 'karma.conf.js',
 		browsers: [ 'Chrome' ],
 		singleRun: false,
 		client: {

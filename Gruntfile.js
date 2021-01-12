@@ -118,7 +118,13 @@ module.exports = function( grunt ) {
 		grunt.task.run( 'release' );
 	} );
 
-	grunt.registerTask( 'test', [
-		'karma:unit',
-	] );
+	grunt.registerTask( 'test', async () => {
+		global.arguments = { target: 'frontend' };
+
+		await grunt.task.run( 'karma:unit' );
+
+		global.arguments.target = 'editor';
+
+		await grunt.task.run( 'karma:unit' );
+	} );
 };
