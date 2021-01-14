@@ -1,0 +1,33 @@
+{
+    "name": "elementor/elementor",
+    "type": "wordpress-plugin",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Elementor Team",
+            "email": "dev@elementor.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+	  	"php": ">=5.6"
+	},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "elementor/elementor-sniffs": "^0.2.0",
+        "phpunit/phpunit": "^5"
+	},
+  	"scripts": {
+	  	"lint": [
+		  	"phpcs --extensions=php -p -n"
+		],
+	  	"test": [
+		  	"phpunit"
+		]
+	},
+  	"scripts-descriptions": {
+	  	"lint": "Lint php files (examples: 'composer run lint .', 'composer run lint index.php core/index.php')",
+	  	"test": "Run phpunit tests (examples: 'composer run test', 'composer run test --filter=SomeStringToFilterTests')"
+	}
+}
