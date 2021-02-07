@@ -154,6 +154,7 @@ class Widget_Social_Icons extends Widget_Base {
 						'yelp',
 						'youtube',
 						'500px',
+						'tiktok',
 					],
 					'fa-solid' => [
 						'envelope',
