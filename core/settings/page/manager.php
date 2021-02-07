@@ -231,7 +231,7 @@ class Manager extends CSS_Manager {
 	protected function get_saved_settings( $id ) {
 		$settings = get_post_meta( $id, self::META_KEY, true );
 
-		if ( ! $settings ) {
+		if ( ! is_array( $settings ) ) {
 			$settings = [];
 		}
 
