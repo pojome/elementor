@@ -8,6 +8,7 @@ use Elementor\Core\Logger\Items\PHP;
 use Elementor\Core\Logger\Items\JS;
 use Elementor\Plugin;
 use Elementor\Modules\System_Info\Module as System_Info;
+use Elementor\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -36,11 +37,7 @@ class Manager extends BaseModule {
 			return;
 		}
 
-		$error_path = ( wp_normalize_path( $last_error['file'] ) );
-		// `untrailingslashit` in order to include other plugins prefixed with elementor.
-		$elementor_path = untrailingslashit( wp_normalize_path( ELEMENTOR_PATH ) );
-
-		if ( false === strpos( $error_path, $elementor_path ) ) {
+		if ( ! Utils::is_elementor_path( $last_error['file'] ) ) {
 			return;
 		}
 
@@ -52,7 +49,7 @@ class Manager extends BaseModule {
 		$this->get_logger()->log( $item );
 	}
 
-	public function rest_error_handler( $error_number, $error_message, $error_file, $error_line ) {
+	public function rest_error_handler( $error_number, $error_message, $error_file, $error_line, $skip_shutdown = false ) {
 		$error = new \WP_Error( $error_number, $error_message, [
 			'type' => $error_number,
 			'message' => $error_message,
@@ -60,6 +57,12 @@ class Manager extends BaseModule {
 			'line' => $error_line,
 		] );
 
+		if ( ! Utils::is_elementor_path( $error_file ) ) {
+			// Do execute PHP internal error handler.
+			return false;
+		}
+
+		// TODO: This part should be modular, temporary hard-coded.
 		// Notify $e.data.
 		if ( ! headers_sent() ) {
 			header( 'Content-Type: application/json; charset=UTF-8' );
@@ -75,9 +78,19 @@ class Manager extends BaseModule {
 			}
 		}
 
-		$this->shutdown( $error->get_error_data() );
+		$error_data = $error->get_error_data();
 
-		exit;
+		if ( ! $skip_shutdown ) {
+			$this->shutdown( $error_data );
+
+			exit;
+		}
+
+		return $error_data;
+	}
+
+	public function register_error_handler() {
+		set_error_handler( [ $this, 'rest_error_handler' ], E_ALL );
 	}
 
 	public function add_system_info_report() {
