@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 </script>
 
 <script type="text/template" id="tmpl-elementor-element-library-element">
-	<div class="elementor-element">
+	<div class="elementor-element" data-id="{{ obj.widgetType }}">
 		<# if ( false === obj.editable ) { #>
 			<i class="eicon-lock"></i>
 		<# } #>

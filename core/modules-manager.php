@@ -87,6 +87,7 @@ class Modules_Manager {
 			'wp-cli',
 			'safe-mode',
 			'usage',
+			'widgets-panel',
 			'dev-tools',
 			'landing-pages',
 			'compatibility-tag',

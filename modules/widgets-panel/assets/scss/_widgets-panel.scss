@@ -1,0 +1,72 @@
+#elementor-editor-wrapper {
+	#elementor-panel-category-favorites {
+		.elementor-panel-category-title > i {
+			color: $editor-lighter;
+			padding: 0 14px;
+		}
+	}
+
+	#e-favorite-widget-context-menu {
+		background: $white;
+		border-top: 1px solid $gray-mouse;
+		border-bottom: 1px solid $gray-mouse;
+		border-radius: 3px;
+		box-shadow: 0 2px 10px 0 rgba(0,0,0,0.09);
+		color: $editor-darker;
+		cursor: pointer;
+		display: flex;
+		line-height: 14px;
+		overflow: hidden;
+		padding: 3px 0;
+		position: absolute;
+		user-select: none;
+		width: fit-content;
+		z-index: $third-layer;
+
+ 		& > span {
+			padding: 4px;
+			&:hover {
+				background: $blue-light;
+				color: $white;
+			}
+		}
+
+		&.remove-from-favorites,
+		&.add-to-favorites {
+			& > span:before {
+				font-family: eicons;
+				padding-right: 2px;
+				color: $editor-lighter;
+			}
+			& > span:hover:before {
+				color: $white;
+			}
+		}
+
+		&.remove-from-favorites {
+			& > span:before {
+				content: '\e947';
+			}
+		}
+
+		&.add-to-favorites {
+			& > span:before {
+				content: '\e8f7';
+			}
+		}
+	}
+}
+
+.rtl #elementor-editor-wrapper {
+	#e-favorite-widget-context-menu {
+		&.remove-from-favorites,
+		&.add-to-favorites {
+			& > span:before {
+				display: inline-flex;
+				padding: 0 0 0 2px;
+			}
+		}
+	}
+}
+
+

@@ -68,6 +68,7 @@ PanelElementsLayoutView = Marionette.LayoutView.extend( {
 		elementsCollection.add( {
 			title: __( 'Inner Section', 'elementor' ),
 			elType: 'section',
+			widgetType: 'inner-section',
 			categories: [ 'basic' ],
 			keywords: [ 'row', 'columns', 'nested' ],
 			icon: sectionConfig.icon,
