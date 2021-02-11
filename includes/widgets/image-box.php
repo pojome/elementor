@@ -539,6 +539,8 @@ class Widget_Image_Box extends Widget_Base {
 
 		$has_content = ! Utils::is_empty( $settings['title_text'] ) || ! Utils::is_empty( $settings['description_text'] );
 
+		Images_Manager::handle_svg_image_size( 'before_render', $settings['image']['id'], $settings['thumbnail_size'], $settings['thumbnail_custom_dimension'] );
+
 		$html = '<div class="elementor-image-box-wrapper">';
 
 		if ( ! empty( $settings['link']['url'] ) ) {
@@ -594,6 +596,8 @@ class Widget_Image_Box extends Widget_Base {
 		$html .= '</div>';
 
 		echo $html;
+
+		Images_Manager::handle_svg_image_size( 'after_render', $settings['image']['id'] );
 	}
 
 	/**
@@ -620,7 +624,16 @@ class Widget_Image_Box extends Widget_Base {
 
 			var image_url = elementor.imagesManager.getImageUrl( image );
 
-			var imageHtml = '<img src="' + image_url + '" class="elementor-animation-' + settings.hover_animation + '" />';
+			var imageHtml;
+			var image_classes = 'elementor-animation-' + settings.hover_animation;
+
+			if ( image_url && elementor.imagesManager.isSvgImage( image_url ) ) {
+				var svgSize = elementor.imagesManager.getImageSizeFromControlOptions( image.size, image.model.attributes.settings.options.controls.thumbnail_size.options, image.dimension );
+
+				imageHtml = '<img width="' + svgSize.width + '" height="' + svgSize.height + '" height="" src="' + image_url + '" class="' + image_classes + '" />';
+			} else {
+				imageHtml = '<img src="' + image_url + '" class="' + image_classes + '" />';
+			}
 
 			if ( settings.link.url ) {
 				imageHtml = '<a href="' + settings.link.url + '">' + imageHtml + '</a>';

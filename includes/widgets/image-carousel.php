@@ -693,7 +693,15 @@ class Widget_Image_Carousel extends Widget_Base {
 		foreach ( $settings['carousel'] as $index => $attachment ) {
 			$image_url = Group_Control_Image_Size::get_attachment_image_src( $attachment['id'], 'thumbnail', $settings );
 
-			$image_html = '<img class="swiper-slide-image" src="' . esc_attr( $image_url ) . '" alt="' . esc_attr( Control_Media::get_image_alt( $attachment ) ) . '" />';
+			$image_size_attrs = '';
+
+			if ( Images_Manager::is_svg_image( $attachment['id'] ) ) {
+				$svg_sizes = Images_Manager::get_image_sizes( $settings['thumbnail_size'], $settings['thumbnail_custom_dimension'] );
+
+				$image_size_attrs = 'width="' . $svg_sizes['width'] . '" height="' . $svg_sizes['height'] . '" ';
+			}
+
+			$image_html = '<img ' . $image_size_attrs . 'class="swiper-slide-image" src="' . esc_attr( $image_url ) . '" alt="' . esc_attr( Control_Media::get_image_alt( $attachment ) ) . '" />';
 
 			$link_tag = '';
 

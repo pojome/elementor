@@ -653,6 +653,15 @@ class Widget_Image extends Widget_Base {
 		return $caption;
 	}
 
+	public function set_svg_size( $image_data, $attachment_id, $size ) {
+		$image_sizes = Group_Control_Image_Size::get_all_image_sizes();
+
+		$image_data['1'] = $image_sizes[ $size ]['width'];
+		$image_data['2'] = $image_sizes[ $size ]['height'];
+
+		return $image_data;
+	}
+
 	/**
 	 * Render image widget output on the frontend.
 	 *
@@ -667,6 +676,8 @@ class Widget_Image extends Widget_Base {
 		if ( empty( $settings['image']['url'] ) ) {
 			return;
 		}
+
+		Images_Manager::handle_svg_image_size( 'before_render', $settings['image']['id'], $settings['image_size'], $settings['image_custom_dimension'] );
 
 		$has_caption = $this->has_caption( $settings );
 
@@ -710,6 +721,8 @@ class Widget_Image extends Widget_Base {
 			<?php endif; ?>
 		</div>
 		<?php
+
+		Images_Manager::handle_svg_image_size( 'after_render', $settings['image']['id'] );
 	}
 
 	/**
@@ -791,8 +804,13 @@ class Widget_Image extends Widget_Base {
 			if ( link_url ) {
 					#><a class="elementor-clickable" data-elementor-open-lightbox="{{ settings.open_lightbox }}" href="{{ link_url }}"><#
 			}
-						#><img src="{{ image_url }}" class="{{ imgClass }}" /><#
+					if ( image_url && elementor.imagesManager.isSvgImage( image_url ) ) {
+						var svgSize = elementor.imagesManager.getImageSizeFromControlOptions( image.size, image.model.attributes.settings.options.controls.image_size.options, settings.image_custom_dimension );
 
+						#><img src="{{ image_url }}" class="{{ imgClass }}" width="{{ svgSize.width }}" height="{{ svgSize.height }}" /><#
+					} else {
+						#><img src="{{ image_url }}" class="{{ imgClass }}" /><#
+					}
 			if ( link_url ) {
 					#></a><#
 			}

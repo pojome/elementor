@@ -369,14 +369,24 @@ class Widget_Image_Gallery extends Widget_Base {
 		if ( ! empty( $settings['gallery_rand'] ) ) {
 			$this->add_render_attribute( 'shortcode', 'orderby', $settings['gallery_rand'] );
 		}
+
+		$this->get_render_attribute_string( 'shortcode' );
 		?>
 		<div class="elementor-image-gallery">
 			<?php
+			$images_ids = [];
+
+			foreach ( $settings['wp_gallery'] as $image_data ) {
+				array_push( $images_ids, $image_data['id'] );
+			}
+
+			Images_Manager::handle_svg_image_size( 'before_render', $images_ids, $settings['thumbnail_size'] );
 			add_filter( 'wp_get_attachment_link', [ $this, 'add_lightbox_data_to_image_link' ], 10, 2 );
 
 			echo do_shortcode( '[gallery ' . $this->get_render_attribute_string( 'shortcode' ) . ']' );
 
 			remove_filter( 'wp_get_attachment_link', [ $this, 'add_lightbox_data_to_image_link' ] );
+			Images_Manager::handle_svg_image_size( 'after_render', $images_ids );
 			?>
 		</div>
 		<?php
