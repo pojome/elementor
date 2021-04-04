@@ -161,6 +161,8 @@ class Frontend extends App {
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_scripts' ], 5 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_styles' ], 5 );
 
+		add_filter( 'style_loader_tag', [ $this, 'defer_low_priority_styles' ], 10, 2 );
+
 		$this->add_content_filter();
 
 		// Hack to avoid enqueue post CSS while it's a `the_excerpt` call.
@@ -1341,6 +1343,29 @@ class Frontend extends App {
 
 	private function is_improved_assets_loading() {
 		return Plugin::$instance->experiments->is_feature_active( 'e_optimized_assets_loading' );
+	}
+
+
+	public function defer_low_priority_styles( $html, $handle ) {
+		$deferred_styles = [];
+
+		if ( Plugin::$instance->experiments->is_feature_active( 'e_font_awesome_inline' ) ) {
+			array_push( $deferred_styles,
+					'elementor-icons-shared-0',
+					'elementor-icons-fa-regular',
+					'elementor-icons-fa-solid',
+					'elementor-icons-fa-brands'
+			);
+		}
+
+		$deferred_styles = apply_filters( 'elementor/deferred_styles', $deferred_styles );
+
+		if ( in_array( $handle, $deferred_styles ) ) {
+			$html = str_replace( "rel='stylesheet'",
+					"rel='preload' as='style' type='text/css' class='elementor-deferred-styles'", $html );
+		}
+
+		return $html;
 	}
 
 	private function get_elementor_frontend_dependencies() {

@@ -237,6 +237,15 @@ class Manager extends Base_Object {
 		] );
 
 		$this->add_feature( [
+			'name' => 'e_font_awesome_inline',
+			'title' => __( 'FontAwesome Inline', 'elementor' ),
+			'description' => __( 'Loading FontAwesome inline will reduce total asset loading and increase page rendering speed.', 'elementor' )
+				. ' <a href="https://go.elementor.com/wp-dash-inline-font-awesome/" target="_blank">'
+				. __( 'Learn More', 'elementor' ) . '</a>',
+			'release_status' => self::RELEASE_STATUS_ALPHA,
+		] );
+
+		$this->add_feature( [
 			'name' => 'a11y_improvements',
 			'title' => __( 'Accessibility Improvements', 'elementor' ),
 			'description' => __( 'An array of accessibility enhancements in Elementor pages.', 'elementor' )
