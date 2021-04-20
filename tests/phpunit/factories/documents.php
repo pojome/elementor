@@ -57,9 +57,23 @@ class Documents extends \WP_UnitTest_Factory_For_Post {
 	public function create_elementor_document( $arg = [] ) {
 		return $this->create_and_get( array_replace_recursive( [
 			'meta_input' => [
-				'_elementor_edit_mode' => 'builder',
-				'_elementor_data' => wp_json_encode( [ [ 'elType' => 'section' ] ] ),
+				Document::BUILT_WITH_ELEMENTOR_META_KEY => 'builder',
+				Document::ELEMENTOR_DATA_META_KEY => wp_json_encode( [ [ 'elType' => 'section' ] ] ),
 			],
 		], $arg ) );
+	}
+
+	/**
+	 * Create and get document.
+	 *
+	 * Overwrite mostly for typehint.
+	 *
+	 * @param array $args
+	 * @param null $generation_definitions
+	 *
+	 * @return Document
+	 */
+	public function create_and_get( $args = [], $generation_definitions = null ) {
+		return parent::create_and_get( $args, $generation_definitions );
 	}
 }

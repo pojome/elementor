@@ -16,12 +16,18 @@ class Factory extends \WP_UnitTest_Factory {
 	public $documents;
 
 	/**
+	 * @var Revisions
+	 */
+	public $revisions;
+
+	/**
 	 * Factory constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
 
 		$this->documents = new Documents();
+		$this->revisions = new Revisions();
 	}
 
 	/**

@@ -45,6 +45,7 @@ require __DIR__ . '/phpunit/trait-test-upgrades.php';
 require __DIR__ . '/phpunit/ajax-class.php';
 require __DIR__ . '/phpunit/factories/factory.php';
 require __DIR__ . '/phpunit/factories/documents.php';
+require __DIR__ . '/phpunit/factories/revisions.php';
 
 require_once dirname( __DIR__ ) . '/includes/autoloader.php';
 

@@ -285,26 +285,29 @@ class DB {
 	 * `copy_elementor_meta()`.
 	 *
 	 * @since 1.9.2
+	 * @deprecated 3.1.0 Use `Plugin::$instance->documents->get( $from_post_id )->safe_copy_elementor_meta_to( $to_post_id )` instead
 	 * @access public
 	 *
 	 * @param int $from_post_id Original post ID.
 	 * @param int $to_post_id   Target post ID.
 	 */
 	public function safe_copy_elementor_meta( $from_post_id, $to_post_id ) {
-		// It's from  WP-Admin & not from Elementor.
-		if ( ! did_action( 'elementor/db/before_save' ) ) {
+		Plugin::$instance->modules_manager
+			->get_modules( 'dev-tools' )
+			->deprecation
+			->deprecated_function(
+				__METHOD__,
+				'3.1.0',
+				'Plugin::$instance->documents->get( $from_post_id )->safe_copy_elementor_meta_to( $to_post_id )'
+			);
 
-			if ( ! Plugin::$instance->db->is_built_with_elementor( $from_post_id ) ) {
-				return;
-			}
+		$document = Plugin::$instance->documents->get( $from_post_id );
 
-			// It's an exited Elementor auto-save
-			if ( get_post_meta( $to_post_id, '_elementor_data', true ) ) {
-				return;
-			}
+		if ( ! $document ) {
+			return;
 		}
 
-		$this->copy_elementor_meta( $from_post_id, $to_post_id );
+		$document->safe_copy_elementor_meta_to( $to_post_id );
 	}
 
 	/**
@@ -315,34 +318,29 @@ class DB {
 	 * Consider using `safe_copy_elementor_meta()` method instead.
 	 *
 	 * @since 1.1.0
+	 * @deprecated 3.1.0 Use `Plugin::$instance->documents->get( $from_post_id )->copy_elementor_meta( $to_post_id )` instead
 	 * @access public
 	 *
 	 * @param int $from_post_id Original post ID.
 	 * @param int $to_post_id   Target post ID.
 	 */
 	public function copy_elementor_meta( $from_post_id, $to_post_id ) {
-		$from_post_meta = get_post_meta( $from_post_id );
-		$core_meta = [
-			'_wp_page_template',
-			'_thumbnail_id',
-		];
+		Plugin::$instance->modules_manager
+			->get_modules( 'dev-tools' )
+			->deprecation
+			->deprecated_function(
+				__METHOD__,
+				'3.1.0',
+				'Plugin::$instance->documents->get( $from_post_id )->copy_elementor_meta( $to_post_id )'
+			);
 
-		foreach ( $from_post_meta as $meta_key => $values ) {
-			// Copy only meta with the `_elementor` prefix
-			if ( 0 === strpos( $meta_key, '_elementor' ) || in_array( $meta_key, $core_meta, true ) ) {
-				$value = $values[0];
+		$document = Plugin::$instance->documents->get( $from_post_id );
 
-				// The elementor JSON needs slashes before saving
-				if ( '_elementor_data' === $meta_key ) {
-					$value = wp_slash( $value );
-				} else {
-					$value = maybe_unserialize( $value );
-				}
-
-				// Don't use `update_post_meta` that can't handle `revision` post type
-				update_metadata( 'post', $to_post_id, $meta_key, $value );
-			}
+		if ( ! $document ) {
+			return;
 		}
+
+		$document->copy_elementor_meta_to( $to_post_id );
 	}
 
 	/**

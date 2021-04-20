@@ -34,6 +34,7 @@ abstract class Document extends Controls_Stack {
 	const PAGE_META_KEY = '_elementor_page_settings';
 
 	const BUILT_WITH_ELEMENTOR_META_KEY = '_elementor_edit_mode';
+	const ELEMENTOR_DATA_META_KEY = '_elementor_data';
 
 	/**
 	 * Document publish status.
@@ -440,7 +441,7 @@ abstract class Document extends Controls_Stack {
 				'post_modified' => current_time( 'mysql' ),
 			] );
 
-			Plugin::$instance->db->copy_elementor_meta( $this->post->ID, $autosave_id );
+			$this->copy_elementor_meta_to( $autosave_id );
 
 			$document = Plugin::$instance->documents->get( $autosave_id );
 			$document->save_template_type();
@@ -830,7 +831,7 @@ abstract class Document extends Controls_Stack {
 	 * @return array
 	 */
 	public function get_elements_data( $status = self::STATUS_PUBLISH ) {
-		$elements = $this->get_json_meta( '_elementor_data' );
+		$elements = $this->get_json_meta( static::ELEMENTOR_DATA_META_KEY );
 
 		if ( self::STATUS_DRAFT === $status ) {
 			$autosave = $this->get_newer_autosave();
@@ -838,7 +839,7 @@ abstract class Document extends Controls_Stack {
 			if ( is_object( $autosave ) ) {
 				$autosave_elements = Plugin::$instance->documents
 					->get( $autosave->get_post()->ID )
-					->get_json_meta( '_elementor_data' );
+					->get_json_meta( static::ELEMENTOR_DATA_META_KEY );
 			}
 		}
 
@@ -847,7 +848,7 @@ abstract class Document extends Controls_Stack {
 				// Convert to Elementor.
 				$elements = $this->convert_to_elementor();
 				if ( $this->is_autosave() ) {
-					Plugin::$instance->db->copy_elementor_meta( $this->post->post_parent, $this->post->ID );
+					Plugin::$instance->documents->get( $this->post->post_parent )->copy_elementor_meta_to( $this->post->ID );
 				}
 			}
 		}
@@ -1145,7 +1146,7 @@ abstract class Document extends Controls_Stack {
 	 *
 	 * @return mixed
 	 */
-	public function get_meta( $key ) {
+	public function get_meta( $key = '' ) {
 		return get_post_meta( $this->post->ID, $key, true );
 	}
 
@@ -1203,6 +1204,62 @@ abstract class Document extends Controls_Stack {
 		return $last_edited;
 	}
 
+	/**
+	 * Copy elementor meta for the current document to another.
+	 *
+	 * @param $to_post_id
+	 */
+	public function copy_elementor_meta_to( $to_post_id ) {
+		$from_post_meta = get_post_meta( $this->get_id() );
+		$core_meta = [
+			'_wp_page_template',
+			'_thumbnail_id',
+		];
+
+		foreach ( $from_post_meta as $meta_key => $values ) {
+			if ( 0 !== strpos( $meta_key, '_elementor' ) && ! in_array( $meta_key, $core_meta, true ) ) {
+				continue;
+			}
+
+			$value = $values[0];
+
+			// The elementor JSON needs slashes before saving
+			if ( '_elementor_data' === $meta_key ) {
+				$value = wp_slash( $value );
+			} else {
+				$value = maybe_unserialize( $value );
+			}
+
+			// Don't use `update_post_meta` that can't handle `revision` post type
+			update_metadata( 'post', $to_post_id, $meta_key, $value );
+		}
+	}
+
+	/**
+	 * Safely copy Elementor meta.
+	 *
+	 * Make sure the original page was built with Elementor and the post is not
+	 * auto-save. Only then copy elementor meta from one post to another using
+	 * `copy_elementor_meta()`.
+	 *
+	 * @param $to_post_id
+	 */
+	public function safe_copy_elementor_meta_to( $to_post_id ) {
+		// It's from  WP-Admin & not from Elementor.
+		if ( ! did_action( 'elementor/db/before_save' ) ) {
+
+			if ( ! $this->is_built_with_elementor() ) {
+				return;
+			}
+
+			// It's an exited Elementor auto-save
+			if ( get_post_meta( $to_post_id, '_elementor_data', true ) ) {
+				return;
+			}
+		}
+
+		$this->copy_elementor_meta_to( $to_post_id );
+	}
 
 	/**
 	 * @return bool

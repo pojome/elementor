@@ -200,9 +200,11 @@ class Revisions_Manager {
 	public static function save_revision( $revision_id ) {
 		$parent_id = wp_is_post_revision( $revision_id );
 
-		if ( $parent_id ) {
-			Plugin::$instance->db->safe_copy_elementor_meta( $parent_id, $revision_id );
+		if ( ! $parent_id ) {
+			return;
 		}
+
+		Plugin::$instance->documents->get( $parent_id )->safe_copy_elementor_meta_to( $revision_id );
 	}
 
 	/**
@@ -226,7 +228,7 @@ class Revisions_Manager {
 			return;
 		}
 
-		Plugin::$instance->db->copy_elementor_meta( $revision_id, $parent_id );
+		$revision->copy_elementor_meta_to( $parent_id );
 
 		$post_css = Post_CSS::create( $parent_id );
 

@@ -308,7 +308,11 @@ class Compatibility {
 	public static function save_polylang_meta( $keys, $sync, $from, $to ) {
 		// Copy only for a new post.
 		if ( ! $sync ) {
-			Plugin::$instance->db->copy_elementor_meta( $from, $to );
+			$document = Plugin::$instance->documents->get( $from );
+
+			if ( $document ) {
+				$document->copy_elementor_meta_to( $to );
+			}
 		}
 
 		return $keys;
