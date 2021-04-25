@@ -517,6 +517,20 @@ class Settings extends Settings_Page {
 									'desc' => __( 'Font-display property defines how font files are loaded and displayed by the browser.', 'elementor' ) . '<br>' . __( 'Set the way Google Fonts are being loaded by selecting the font-display property (Default: Auto).', 'elementor' ),
 								],
 							],
+							'section_content_visibility' => [
+								'label' => __( 'Section Content Visibility', 'elementor' ),
+								'field_args' => [
+									'type' => 'select',
+									'std' => 'none',
+									'options' => [
+										'none' => __( 'None', 'elementor' ),
+										'auto' => __( 'Auto', 'elementor' ),
+										'hidden' => __( 'Hidden', 'elementor' ),
+										'visible' => __( 'Visible', 'elementor' ),
+									],
+									'desc' => __( 'Enables the user agent to skip an element\'s rendering work (including layout and painting) until it is needed.', 'elementor' ),
+								],
+							],
 						],
 					],
 				],

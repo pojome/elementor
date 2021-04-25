@@ -230,6 +230,7 @@ class Frontend extends App {
 		// Priority 7 to allow google fonts in header template to load in <head> tag
 		add_action( 'wp_head', [ $this, 'print_fonts_links' ], 7 );
 		add_action( 'wp_head', [ $this, 'add_theme_color_meta_tag' ] );
+		add_action( 'wp_head', [ $this, 'print_section_content_visibility_css' ] );
 		add_action( 'wp_footer', [ $this, 'wp_footer' ] );
 	}
 
@@ -261,6 +262,24 @@ class Frontend extends App {
 			<meta name="theme-color" content="<?php echo $mobile_theme_color; ?>">
 			<?php
 		}
+	}
+
+	/**
+	 * Add A Section Content Visibility CSS.
+	 *
+	 * @since 3.2.0
+	 * @access public
+	 */
+	public function print_section_content_visibility_css() {
+		$content_visibility_value = get_option( 'elementor_section_content_visibility', 'none' );
+
+		if ( 'none' === $content_visibility_value ) {
+			return;
+		}
+
+		$inline_css = sprintf( '<style type="text/css">.elementor-section { content-visibility: %s; }</style>', $content_visibility_value );
+
+		echo $inline_css;
 	}
 
 	/**
