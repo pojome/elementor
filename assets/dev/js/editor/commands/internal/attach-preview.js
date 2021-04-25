@@ -1,14 +1,20 @@
 import CommandInternalBaseBase from 'elementor-api/modules/command-internal-base';
 
 export class AttachPreview extends CommandInternalBaseBase {
-	apply() {
+	validateArgs( args = {} ) {
+		if ( args.selector ) {
+			this.requireArgumentConstructor( 'selector', jQuery );
+		}
+	}
+
+	apply( args ) {
 		const document = elementor.documents.getCurrent();
 
 		return $e.data.get( 'globals/index' )
 			.then( () => {
 				elementor.trigger( 'globals:loaded' );
 
-				return this.attachDocumentToPreview( document );
+				return this.attachDocumentToPreview( document, args );
 			} )
 			.then( () => {
 				elementor.toggleDocumentCssFiles( document, false );
@@ -25,7 +31,9 @@ export class AttachPreview extends CommandInternalBaseBase {
 		} );
 	}
 
-	attachDocumentToPreview( document ) {
+	attachDocumentToPreview( document, args ) {
+		const { selector } = args;
+
 		return new Promise( ( resolve, reject ) => {
 			// Not yet loaded.
 			if ( ! document ) {
@@ -36,7 +44,7 @@ export class AttachPreview extends CommandInternalBaseBase {
 				return resolve();
 			}
 
-			document.$element = elementor.$previewContents.find( '.elementor-' + document.id );
+			document.$element = selector || elementor.$previewContents.find( '.elementor-' + document.id );
 
 			if ( ! document.$element.length ) {
 				elementor.onPreviewElNotFound();
