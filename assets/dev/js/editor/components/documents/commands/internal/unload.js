@@ -1,5 +1,5 @@
 import CommandInternalBase from 'elementor-api/modules/command-internal-base';
-import Document from 'elementor-editor/document';
+import Document from '../../document';
 
 export class Unload extends CommandInternalBase {
 	validateArgs( args = {} ) {
