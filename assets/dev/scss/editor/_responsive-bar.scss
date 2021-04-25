@@ -22,6 +22,7 @@
 .e-responsive-bar {
 	width: 100%;
 	margin-top: calc(-40px + (40px * var(--e-is-device-mode)));
+  	font-size: 12px;
 	z-index: 1;
 	transition: margin-top .2s ease-in-out;
 	display: flex;
@@ -34,19 +35,20 @@
 
 	&__col {
 		display: flex;
-		width: 25%;
 		justify-content: center;
 		align-items: center;
+	  	flex-shrink: 0;
+
+	  	&:first-child,
+		&:last-child {
+		  	width: 50%;
+			justify-content: flex-start;
+		  	flex-shrink: 1;
+		}
 
 		&:last-child {
-			justify-content: flex-start;
-			flex-direction: row-reverse;
+		  	flex-direction: row-reverse;
 		}
-	}
-
-	&__close-button,
-	&__settings-button {
-		padding: 10px 8px;
 	}
 
 	&__button {
@@ -55,6 +57,7 @@
 		border: 0 none;
 		cursor: pointer;
 		color: inherit;
+		padding: 10px 8px;
 
 		&:focus:not(:focus-visible) {
 			outline: none;
@@ -62,6 +65,11 @@
 
 		&:hover {
 			color: $editor-lighter;
+		}
+
+	  	i {
+			width: 14px;
+			height: 14px;
 		}
 	}
 
@@ -88,11 +96,26 @@
 	}
 
 	&__input-size {
+	  	color: $editor-light;
 		background-color: transparent;
-		color: $editor-light;
+		-moz-appearance: textfield;
+		text-align: center;
+
+	  	&:focus {
+		  	color: $editor-lighter;
+		}
+	}
+
+  	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+		 -webkit-appearance: none;
+		 margin: 0;
+	}
+
+	&__input-size {
 		border: 1px solid $editor-dark !important;
 		padding: 0 3px;
-		width: 50px;
+		width: 38px;
 		font-size: 12px;
 		line-height: 16px;
 		height: 18px;
@@ -101,6 +124,12 @@
 		&-separator {
 			color: $editor-dark;
 		}
+	}
+
+	&__switcher {
+  		width: 110px;
+	  	display: flex;
+	  	padding: 0 24px;
 	}
 
 	&-switcher__option {
@@ -126,7 +155,7 @@
 		}
 
 	  	input {
-			appearance: none;
+			-webkit-appearance: none;
 			overflow: hidden;
 			opacity: 0;
 			width: 0 !important;
@@ -141,4 +170,3 @@
 		}
 	}
 }
-

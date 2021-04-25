@@ -586,7 +586,7 @@ export default class EditorBase extends Marionette.Application {
 
 		return {
 			maxWidth: currentBreakpointData.value,
-			minWidth: currentBreakpointMinPoint || 375,
+			minWidth: currentBreakpointMinPoint || 320,
 		};
 	}
 
@@ -639,6 +639,8 @@ export default class EditorBase extends Marionette.Application {
 				} else if ( currentSize.width >= breakpointResizeOptions.minWidth ) {
 					widthToShow = currentSize.width;
 				}
+			} else if ( 'mobile' === currentBreakpoint ) {
+				widthToShow = 375;
 			}
 
 			$responsiveWrapper

@@ -127,16 +127,19 @@ export default class View extends Marionette.ItemView {
 	}
 
 	onCloseButtonClick() {
-		elementor.changeDeviceMode( 'desktop' );
+		elementor.exitDeviceMode();
 	}
 
 	onSizeInputChange() {
 		clearTimeout( this.restorePreviewSizeTimeout );
 
 		const size = {
-			width: this.ui.sizeInputWidth.val(),
-			height: this.ui.sizeInputHeight.val(),
+			width: this.roundNumber( this.ui.sizeInputWidth.val() ),
+			height: this.roundNumber( this.ui.sizeInputHeight.val() ),
 		};
+
+		this.ui.sizeInputWidth.val( size.width );
+		this.ui.sizeInputHeight.val( size.height );
 
 		const currentDeviceConstrains = elementor.getCurrentDeviceConstrains();
 

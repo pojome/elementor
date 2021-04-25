@@ -48,7 +48,7 @@ $breakpoint_label = __( 'Settings added to %1$s device will apply to %2$spx scre
 				<span class="elementor-screen-only"><?php echo __( 'Settings', 'elementor' ); ?></span>
 				<i class="eicon-cog" aria-hidden="true"></i>
 			</button>
-			<div class="e-flex e-align-items-center e-responsive-bar__size-inputs-wrapper">
+			<div class="e-responsive-bar__size-inputs-wrapper">
 				<label for="viewport_width">W</label>
 				<input type="number" id="viewport_width" class="e-responsive-bar__input-size e-responsive-bar__input-width" autocomplete="off">
 				<label for="viewport_height">H</label>
