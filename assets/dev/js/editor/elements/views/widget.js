@@ -234,6 +234,61 @@ WidgetView = BaseElementView.extend( {
 			}, 200 );
 			// Is element empty?
 		} );
+
+		const $dropArea = self.$el.find( '.elementor-drop-area' );
+
+		if ( $dropArea.length ) {
+			$dropArea.html5Droppable( {
+				axis: [ 'vertical' ],
+				isDroppingAllowed: true,
+				currentElementClass: 'elementor-html5dnd-current-element',
+				placeholderClass: 'elementor-sortable-placeholder elementor-widget-placeholder',
+				hasDraggingOnChildClass: 'elementor-dragging-on-child',
+				onDropping: ( side, event ) => {
+					event.stopPropagation();
+
+					// TODO: Check with @kobizz if it's necessary.
+					// Triggering drag end manually, since it won't fired above iframe.
+					elementor.getPreviewView().onPanelElementDragEnd();
+
+					const elementView = elementor.channels.panelElements.request( 'element:selected' );
+					const widgetType = elementView.model.get( 'widgetType' );
+					const widgetTitle = elementView.model.get( 'title' );
+					const targetId = this.getContainer().id;
+					const tabId = event.currentTarget.dataset.tab;
+					const repeaterId = event.currentTarget.dataset.repeaterId;
+					const current = event.currentTarget;
+					const parent = current.parentNode;
+
+					const newElement = document.createElement( 'div' );
+					newElement.innerText = widgetTitle;
+
+					switch ( side ) {
+						case 'top':
+							parent.insertBefore( newElement, current );
+							break;
+
+						case 'bottom':
+							if ( parent.lastChild.isSameNode( current ) ) {
+								// If `current` the last child, append the new one in the end.
+								parent.appendChild( newElement );
+							} else {
+								// If it's not the last child, append the new one after it.
+								parent.insertBefore( newElement, current.nextSibling );
+							}
+							break;
+					}
+
+					const newIndex = Array.from( parent.children ).indexOf( newElement );
+
+					console.log( `Dropped: ${ widgetType }` );
+					console.log( `Index: ${ newIndex }` );
+					console.log( `Target: ${ targetId }` );
+					console.log( `Inner Element: ${ tabId } :: ${ repeaterId }` );
+					console.log( `Side: ${ side }` );
+				},
+			} );
+		}
 	},
 
 	onClickEdit: function() {

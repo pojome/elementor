@@ -444,6 +444,16 @@ class Widget_Tabs extends Widget_Base {
 
 		$this->add_render_attribute( 'elementor-tabs', 'class', 'elementor-tabs' );
 
+		$this->add_render_attribute( 'elementor-tabs-content-wrapper', [
+			'class' => 'elementor-tabs-content-wrapper',
+			'role' => 'tablist',
+			'aria-orientation' => 'vertical',
+		] );
+
+		if ( Plugin::instance()->editor->is_edit_mode() ) {
+			$this->add_render_attribute( 'elementor-tabs-content-wrapper', 'class', 'elementor-drop-area' );
+		}
+
 		?>
 		<div <?php echo $this->get_render_attribute_string( 'elementor-tabs' ); ?>>
 			<div class="elementor-tabs-wrapper" role="tablist" >
@@ -467,7 +477,7 @@ class Widget_Tabs extends Widget_Base {
 					<div <?php echo $this->get_render_attribute_string( $tab_title_setting_key ); ?>><?php echo $tab_title; ?></div>
 				<?php endforeach; ?>
 			</div>
-			<div class="elementor-tabs-content-wrapper" role="tablist" aria-orientation="vertical">
+			<div <?php echo $this->get_render_attribute_string( 'elementor-tabs-content-wrapper' ); ?>>
 				<?php
 				foreach ( $tabs as $index => $item ) :
 					$tab_count = $index + 1;
@@ -485,6 +495,10 @@ class Widget_Tabs extends Widget_Base {
 						'tabindex' => '0',
 						'hidden' => $hidden,
 					] );
+
+					if ( Plugin::instance()->editor->is_edit_mode() ) {
+						$this->add_render_attribute( $tab_content_setting_key, 'data-repeater-id', $item['_id'] );
+					}
 
 					$this->add_render_attribute( $tab_title_mobile_setting_key, [
 						'class' => [ 'elementor-tab-title', 'elementor-tab-mobile-title' ],
@@ -538,7 +552,7 @@ class Widget_Tabs extends Widget_Base {
 						<div {{{ view.getRenderAttributeString( tabTitleKey ) }}}>{{{ item.tab_title }}}</div>
 					<# } ); #>
 				</div>
-				<div class="elementor-tabs-content-wrapper">
+				<div class="elementor-tabs-content-wrapper elementor-drop-area">
 					<# _.each( settings.tabs, function( item, index ) {
 						var tabCount = index + 1,
 							tabContentKey = view.getRepeaterSettingKey( 'tab_content', 'tabs',index );
@@ -547,6 +561,7 @@ class Widget_Tabs extends Widget_Base {
 							'id': 'elementor-tab-content-' + elementUid + tabCount,
 							'class': [ 'elementor-tab-content', 'elementor-clearfix', 'elementor-repeater-item-' + item._id ],
 							'data-tab': tabCount,
+							'data-repeater-id': item._id,
 							'role' : 'tabpanel',
 							'aria-labelledby' : 'elementor-tab-title-' + elementUid + tabCount
 						} );
