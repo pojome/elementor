@@ -1356,6 +1356,17 @@ class Source_Local extends Source_Base {
 					printf( __( 'Add New %s', 'elementor' ), $current_type_label );
 					?>
 				</a>
+				<?php
+				$post_type = get_current_screen()->post_type;
+				if ( isset( $post_type ) ) :
+					$trashed_posts_query = new \WP_Query( [
+						'post_type' => $post_type,
+						'post_status' => 'trash',
+					] );
+					if ( $trashed_posts_query->post_count > 0 ) : ?>
+						<p><?php echo __( 'Or view', 'elementor' ); ?> <a href='./edit.php?post_status=trash&post_type=<?php echo $post_type; ?>'><?php echo __( 'Trashed Items', 'elementor' ); ?></a></p>
+					<?php endif;
+				endif; ?>
 			</div>
 		<?php
 	}
