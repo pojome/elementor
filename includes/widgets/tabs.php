@@ -147,6 +147,30 @@ class Widget_Tabs extends Widget_Base {
 		);
 
 		$this->add_control(
+			'html_tag',
+			[
+				'label' => __( 'HTML Tag', 'elementor' ),
+				'type' => Controls_Manager::SELECT,
+				'condition' => [
+					'look' => 'line_title',
+			],
+			'options' =>
+			[
+				'h1' => 'H1',
+				'h2' => 'H2',
+				'h3' => 'H3',
+				'h4' => 'H4',
+				'h5' => 'H5',
+				'h6' => 'H6',
+				'div' => 'div',
+				'span' => 'span',
+				'p' => 'p',
+			],
+			default => 'h3',
+			]
+		);
+
+		$this->add_control(
 			'type',
 			[
 				'label' => __( 'Position', 'elementor' ),
@@ -468,12 +492,14 @@ class Widget_Tabs extends Widget_Base {
 				<?php endforeach; ?>
 			</div>
 			<div class="elementor-tabs-content-wrapper" role="tablist" aria-orientation="vertical">
+				<<?php echo Utils::validate_html_tag( $settings['title_html_tag'] ); ?> <?php echo $this->get_render_attribute_string( $tab_title_setting_key ); ?>>
+						<?php if ( $has_icon ) : ?>
 				<?php
 				foreach ( $tabs as $index => $item ) :
 					$tab_count = $index + 1;
 					$hidden = 1 === $tab_count ? 'false' : 'hidden';
 					$tab_content_setting_key = $this->get_repeater_setting_key( 'tab_content', 'tabs', $index );
-
+				<?php endforeach; ?>
 					$tab_title_mobile_setting_key = $this->get_repeater_setting_key( 'tab_title_mobile', 'tabs', $tab_count );
 
 					$this->add_render_attribute( $tab_content_setting_key, [
@@ -500,7 +526,6 @@ class Widget_Tabs extends Widget_Base {
 					?>
 					<div <?php echo $this->get_render_attribute_string( $tab_title_mobile_setting_key ); ?>><?php echo $item['tab_title']; ?></div>
 					<div <?php echo $this->get_render_attribute_string( $tab_content_setting_key ); ?>><?php echo $this->parse_text_editor( $item['tab_content'] ); ?></div>
-				<?php endforeach; ?>
 			</div>
 		</div>
 		<?php
@@ -555,6 +580,24 @@ class Widget_Tabs extends Widget_Base {
 						<div class="elementor-tab-title elementor-tab-mobile-title" data-tab="{{ tabCount }}" role="tab">{{{ item.tab_title }}}</div>
 						<div {{{ view.getRenderAttributeString( tabContentKey ) }}}>{{{ item.tab_content }}}</div>
 					<# } ); #>
+						var titleHTMLTag = elementor.helpers.validateHTMLTag( settings.title_html_tag );
+					#>
+					<div class="elementor-accordion-item">
+						<{{{ titleHTMLTag }}} {{{ view.getRenderAttributeString( tabTitleKey ) }}}>
+							<# if ( settings.icon || settings.selected_icon ) { #>
+							<span class="elementor-accordion-icon elementor-accordion-icon-{{ settings.icon_align }}" aria-hidden="true">
+								<# if ( iconHTML && iconHTML.rendered && ( ! settings.icon || migrated ) ) { #>
+									<span class="elementor-accordion-icon-closed">{{{ iconHTML.value }}}</span>
+									<span class="elementor-accordion-icon-opened">{{{ iconActiveHTML.value }}}</span>
+								<# } else { #>
+									<i class="elementor-accordion-icon-closed {{ settings.icon }}"></i>
+									<i class="elementor-accordion-icon-opened {{ settings.icon_active }}"></i>
+								<# } #>
+							</span>
+							<# } #>
+							<a class="elementor-accordion-title" href="">{{{ item.tab_title }}}</a>
+						</{{{ titleHTMLTag }}}>
+						<div {{{ view.getRenderAttributeString( tabContentKey ) }}}>{{{ item.tab_content }}}</div>
 				</div>
 			<# } #>
 		</div>
