@@ -155,7 +155,7 @@ class Widget_Image_Box extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'position',
 			[
 				'label' => __( 'Image Position', 'elementor' ),
