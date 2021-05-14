@@ -197,6 +197,10 @@ class Widget_Icon_Box extends Widget_Base {
 						'title' => __( 'Right', 'elementor' ),
 						'icon' => 'eicon-h-align-right',
 					],
+					'bottom' => [
+						'title' => __( 'Bottom', 'elementor' ),
+						'icon' => 'eicon-v-align-bottom',
+					],
 				],
 				'prefix_class' => 'elementor-position-',
 				'toggle' => false,

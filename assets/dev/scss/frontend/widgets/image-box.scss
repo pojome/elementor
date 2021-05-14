@@ -34,9 +34,23 @@
 				}
 			}
 
+			&top, &bottom {
+
+				.elementor-image-box-wrapper {
+					display: flex;
+				}
+			}
+
 			&top {
 
 				.elementor-image-box-img {
+					margin: auto;
+				}
+			}
+
+			&bottom {
+
+				.elemenotor-image-box-img {
 					margin: auto;
 				}
 			}

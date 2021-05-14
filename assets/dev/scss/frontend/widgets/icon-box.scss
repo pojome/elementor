@@ -35,8 +35,21 @@
 					flex-direction: getValueByDirection(row, row-reverse);
 				}
 			}
+			
+			&top,
+			&bottom {
+
+				.elementor-icon-box-wrapper {
+					display: flex;
 
 			&top {
+
+				.elementor-icon-box-img {
+					margin: auto;
+				}
+			}
+
+			&bottom {
 
 				.elementor-icon-box-img {
 					margin: auto;
