@@ -24,7 +24,7 @@ abstract class Collection {
 	 *
 	 * @return mixed
 	 */
-	abstract public static function get_name();
+	abstract public function get_name();
 
 	/**
 	 * Prepare favorites before taking any action.

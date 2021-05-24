@@ -9,7 +9,7 @@ class Widgets extends Collection {
 	/**
 	 * @inheritDoc
 	 */
-	public static function get_name() {
+	public function get_name() {
 		return 'widgets';
 	}
 

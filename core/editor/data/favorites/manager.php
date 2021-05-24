@@ -151,9 +151,9 @@ class Manager {
 			$this->class_doesnt_exists( $class );
 		}
 
-		$key = call_user_func( [ $class, 'get_name' ] );
+		$instance = new $class();
 
-		$this->collections[ $key ] = new $class();
+		$this->collections[ $instance->get_name() ] = $instance;
 	}
 
 	/**
