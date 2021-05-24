@@ -7,6 +7,7 @@ use Elementor\Core\Breakpoints\Manager as Breakpoints_Manager;
 use Elementor\Core\Common\Modules\Ajax\Module;
 use Elementor\Core\Common\Modules\Ajax\Module as Ajax;
 use Elementor\Core\Debug\Loading_Inspection_Manager;
+use Elementor\Core\Editor\Data\Favorites\Manager as FavoritesManager;
 use Elementor\Core\Files\Assets\Files_Upload_Handler;
 use Elementor\Core\Schemes\Manager as Schemes_Manager;
 use Elementor\Core\Settings\Manager as SettingsManager;
@@ -73,6 +74,11 @@ class Editor {
 	 * @var Notice_Bar
 	 */
 	public $notice_bar;
+
+	/**
+	 * @var FavoritesManager
+	 */
+	public $favorites;
 
 	/**
 	 * Init.
@@ -891,8 +897,10 @@ class Editor {
 	 */
 	public function __construct() {
 		Plugin::$instance->data_manager->register_controller( Data\Globals\Controller::class );
+		Plugin::$instance->data_manager->register_controller( Data\Favorites\Controller::class );
 
 		$this->notice_bar = new Notice_Bar();
+		$this->favorites = new FavoritesManager();
 
 		add_action( 'admin_action_elementor', [ $this, 'init' ] );
 		add_action( 'template_redirect', [ $this, 'redirect_to_new_url' ] );
