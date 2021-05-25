@@ -50,9 +50,16 @@ export default class ArgsObject extends InstanceType {
 	requireArgumentType( property, type, args = this.args ) {
 		this.requireArgument( property, args );
 
-		if ( ( typeof args[ property ] !== type ) ) {
-			throw Error( `${ property } invalid type: ${ type }.` );
+		const value = args[ property ];
+
+		if (
+			( 'array' === type && Array.isArray( value ) ) ||
+			( typeof value === type )
+		) {
+			return;
 		}
+
+		throw Error( `${ property } invalid type: ${ type }.` );
 	}
 
 	/**

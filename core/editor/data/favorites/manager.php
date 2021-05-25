@@ -51,7 +51,7 @@ class Manager {
 		}
 
 		return $this->implementation( $collections )
-			->all();
+			->values();
 	}
 
 	/**
@@ -92,6 +92,7 @@ class Manager {
 	 */
 	public function update( $collection, $favorites, $action, $store = true ) {
 		$implementation = $this->implementation( $collection );
+		$favorites = $implementation->prepare( $favorites );
 
 		switch ( $action ) {
 			case static::ACTION_MERGE:
@@ -112,7 +113,7 @@ class Manager {
 			return false;
 		}
 
-		return $implementation->all();
+		return $implementation->values();
 	}
 
 	/**
@@ -174,7 +175,7 @@ class Manager {
 		$compiled = [];
 
 		foreach ( $this->collections as $collection ) {
-			$favorites = $collection->all();
+			$favorites = $collection->values();
 
 			if ( ! empty( $favorites ) ) {
 				$compiled[ $collection->get_name() ] = $favorites;

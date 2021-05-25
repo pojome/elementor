@@ -37,6 +37,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <script type="text/template" id="tmpl-elementor-element-library-element">
 	<div class="elementor-element">
+		<#
+			var active = obj.categories.includes( 'favorites' );
+			var properties = {
+				class: active ? 'active' : '',
+				icon: active ? 'eicon-heart' : 'eicon-heart-o',
+			};
+		#>
+		<div class="favorite {{ properties.class }}">
+			<i class="{{ properties.icon }}" aria-hidden="true"></i>
+		</div>
 		<# if ( false === obj.editable ) { #>
 			<i class="eicon-lock"></i>
 		<# } #>
