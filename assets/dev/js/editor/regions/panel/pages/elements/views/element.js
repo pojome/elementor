@@ -12,7 +12,9 @@ module.exports = Marionette.ItemView.extend( {
 	},
 
 	events: function() {
-		const events = {};
+		const events = {
+			'click @ui.favorite': 'onFavoriteClick',
+		};
 
 		if ( ! this.isEditable() ) {
 			events.mousedown = 'onMouseDown';
@@ -23,6 +25,7 @@ module.exports = Marionette.ItemView.extend( {
 
 	ui: {
 		element: '.elementor-element',
+		favorite: '.favorite',
 	},
 
 	isEditable: function() {
@@ -60,6 +63,12 @@ module.exports = Marionette.ItemView.extend( {
 			top: '-7',
 			element: this.el,
 			actionURL: elementor.config.elementPromotionURL.replace( '%s', this.model.get( 'name' ) ),
+		} );
+	},
+
+	onFavoriteClick: function() {
+		$e.run( 'favorites/toggle', {
+			widgets: [ this.model.get( 'widgetType' ) ],
 		} );
 	},
 } );

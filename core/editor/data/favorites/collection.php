@@ -34,6 +34,10 @@ abstract class Collection {
 	 * @return array
 	 */
 	public function prepare( $favorites ) {
+		if ( ! is_array( $favorites ) && ! $favorites instanceof Base_Collection ) {
+			return [ $favorites ];
+		}
+
 		return $favorites;
 	}
 
@@ -50,7 +54,7 @@ abstract class Collection {
 		$call = call_user_func_array( [ $this->collection, $name ], $arguments );
 
 		if ( null !== $call && $call instanceof Base_Collection ) {
-			$this->collection = $call;
+			$this->collection = $call->unique();
 		}
 
 		return $call;
