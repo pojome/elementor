@@ -18,9 +18,17 @@ abstract class Base_App {
 
 	const API_URL = 'https://my.elementor.com/api/connect/v1';
 
+	const HTTP_RETURN_TYPE_OBJECT = 'object';
+	const HTTP_RETURN_TYPE_ARRAY = 'array';
+
 	protected $data = [];
 
 	protected $auth_mode = '';
+
+	/**
+	 * @var \WP_Http
+	 */
+	protected $http;
 
 	/**
 	 * @since 2.3.0
@@ -331,35 +339,80 @@ abstract class Base_App {
 	}
 
 	/**
-	 * @since 2.3.0
-	 * @access protected
+	 * @deprecated Please use `http_request` method instead of this method.
+	 *
+	 * @param       $action
+	 * @param array $request_body
+	 * @param false $as_array
+	 *
+	 * @return mixed|\WP_Error
 	 */
 	protected function request( $action, $request_body = [], $as_array = false ) {
-		$request_body = [
+		$request_body = $this->get_connect_info() + $request_body;
+
+		return $this->http_request(
+			'POST',
+			$action,
+			[
+				'body' => $request_body,
+				'headers' => $this->is_connected() ?
+					[ 'X-Elementor-Signature' => $this->generate_signature( $request_body ) ] :
+					[],
+			],
+			[
+				'return_type' => $as_array ? static::HTTP_RETURN_TYPE_ARRAY : static::HTTP_RETURN_TYPE_OBJECT,
+			]
+		);
+	}
+
+	/**
+	 * Get all the connect info
+	 *
+	 * @return array
+	 */
+	protected function get_connect_info() {
+		return [
 			'app' => $this->get_slug(),
 			'access_token' => $this->get( 'access_token' ),
 			'client_id' => $this->get( 'client_id' ),
 			'local_id' => get_current_user_id(),
 			'site_key' => $this->get_site_key(),
 			'home_url' => trailingslashit( home_url() ),
-		] + $request_body;
+		];
+	}
 
-		$headers = [];
-
-		if ( $this->is_connected() ) {
-			$headers['X-Elementor-Signature'] = hash_hmac( 'sha256', wp_json_encode( $request_body, JSON_NUMERIC_CHECK ), $this->get( 'access_token_secret' ) );
-		}
-
-		$response = wp_remote_post( $this->get_api_url() . '/' . $action, [
-			'body' => $request_body,
-			'headers' => $headers,
-			'timeout' => 25,
+	/**
+	 * Send an http request
+	 *
+	 * @param       $method
+	 * @param       $endpoint
+	 * @param array $args
+	 * @param array $options
+	 *
+	 * @return mixed|\WP_Error
+	 */
+	protected function http_request( $method, $endpoint, $args = [], $options = [] ) {
+		$options = wp_parse_args( $options, [
+			'return_type' => static::HTTP_RETURN_TYPE_OBJECT,
 		] );
 
+		$connect_info = array_replace_recursive( $this->get_connect_info(), [
+			'endpoint' => $endpoint,
+		] );
+
+		$args = array_replace_recursive( [
+			'headers' => [
+				'X-Elementor-Connect-Info' => wp_json_encode( $connect_info, JSON_NUMERIC_CHECK ),
+				'X-Elementor-Signature' => $this->is_connected() ? $this->generate_signature( $connect_info ) : null,
+			],
+			'method' => $method,
+			'timeout' => 25,
+		], $args );
+
+		$response = $this->http->request( $this->get_api_url() . '/' . $endpoint, $args );
+
 		if ( is_wp_error( $response ) ) {
-			wp_die( $response, [
-				'back_link' => true,
-			] );
+			wp_die( $response, [ 'back_link' => true ] );
 		}
 
 		$body = wp_remote_retrieve_body( $response );
@@ -367,7 +420,6 @@ abstract class Base_App {
 
 		if ( ! $response_code ) {
 			return new \WP_Error( 500, 'No Response' );
-
 		}
 
 		// Server sent a success message without content.
@@ -375,7 +427,7 @@ abstract class Base_App {
 			$body = true;
 		}
 
-		$body = json_decode( $body, $as_array );
+		$body = json_decode( $body, static::HTTP_RETURN_TYPE_ARRAY === $options['return_type'] );
 
 		if ( false === $body ) {
 			return new \WP_Error( 422, 'Wrong Server Response' );
@@ -397,6 +449,21 @@ abstract class Base_App {
 		}
 
 		return $body;
+	}
+
+	/**
+	 * Create a signature for the http request
+	 *
+	 * @param array $payload
+	 *
+	 * @return false|string
+	 */
+	private function generate_signature( $payload = [] ) {
+		return hash_hmac(
+			'sha256',
+			wp_json_encode( $payload, JSON_NUMERIC_CHECK ),
+			$this->get( 'access_token_secret' )
+		);
 	}
 
 	/**
@@ -487,15 +554,25 @@ abstract class Base_App {
 		$this->set( 'state', wp_generate_password( 12, false ) );
 	}
 
+	protected function get_popup_success_event_data() {
+		return [];
+	}
+
 	/**
 	 * @since 2.3.0
 	 * @access protected
 	 */
 	protected function print_popup_close_script( $url ) {
+		$data = $this->get_popup_success_event_data();
+
 		?>
 		<script>
 			if ( opener && opener !== window ) {
-				opener.jQuery( 'body' ).trigger( 'elementor/connect/success/<?php echo esc_attr( $_REQUEST['callback_id'] ); ?>' );
+				opener.jQuery( 'body' ).trigger(
+					'elementor/connect/success/<?php echo esc_attr( $_REQUEST['callback_id'] ); ?>',
+					<?php echo wp_json_encode( $data ); ?>
+				);
+
 				window.close();
 				opener.focus();
 			} else {
@@ -523,7 +600,7 @@ abstract class Base_App {
 	 * @since 2.3.0
 	 * @access protected
 	 */
-	protected function get_site_key() {
+	public function get_site_key() {
 		$site_key = get_option( 'elementor_connect_site_key' );
 
 		if ( ! $site_key ) {
@@ -629,6 +706,8 @@ abstract class Base_App {
 				$this->auth_mode = $mode;
 			}
 		}
+
+		$this->http = new \WP_Http();
 
 		/**
 		 * Allow extended apps to customize the __construct without call parent::__construct.

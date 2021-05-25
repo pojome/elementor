@@ -4,6 +4,7 @@
 	"version": "3.2.3",
 	"last_beta_version": "3.2.0-beta4",
 	"prev_stable_version": "3.1.4",
+	"last_dev_version": "3.3.0-dev3",
 	"author": "Elementor Team",
 	"homepage": "https://elementor.com/",
 	"scripts": {
@@ -65,6 +66,7 @@
 		"mini-css-extract-plugin": "^0.4.3",
 		"path": "^0.12.7",
 		"qunit": "2.15.0",
+		"react-query": "^3.12.1",
 		"terser-webpack-plugin": "^5.0.3",
 		"webpack": "^5.2.1"
 	},

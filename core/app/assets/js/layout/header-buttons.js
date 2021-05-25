@@ -39,3 +39,7 @@ export default function HeaderButtons( props ) {
 HeaderButtons.propTypes = {
 	buttons: PropTypes.arrayOf( PropTypes.object ),
 };
+
+HeaderButtons.defaultProps = {
+	buttons: [],
+};

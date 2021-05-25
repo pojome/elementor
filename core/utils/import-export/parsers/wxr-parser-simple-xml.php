@@ -85,6 +85,12 @@ class WXR_Parser_SimpleXML {
 			$base_blog_url = $base_url;
 		}
 
+		$page_on_front = $xml->xpath( '/rss/channel/wp:page_on_front' );
+
+		if ( $page_on_front ) {
+			$page_on_front = (int) $page_on_front[0];
+		}
+
 		$namespaces = $xml->getDocNamespaces();
 		if ( ! isset( $namespaces['wp'] ) ) {
 			$namespaces['wp'] = 'http://wordpress.org/export/1.1/';
@@ -258,6 +264,7 @@ class WXR_Parser_SimpleXML {
 			'terms' => $terms,
 			'base_url' => $base_url,
 			'base_blog_url' => $base_blog_url,
+			'page_on_front' => $page_on_front,
 			'version' => $wxr_version,
 		];
 	}

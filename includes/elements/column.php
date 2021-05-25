@@ -999,12 +999,10 @@ class Element_Column extends Element_Base {
 
 		$column_type = ! empty( $is_inner ) ? 'inner' : 'top';
 
-		$settings = $this->get_settings();
-
 		$this->add_render_attribute(
 			'_wrapper', 'class', [
 				'elementor-column',
-				'elementor-col-' . $settings['_column_size'],
+				'elementor-col-' . $this->get_settings_for_display( '_column_size' ),
 				'elementor-' . $column_type . '-column',
 			]
 		);
@@ -1043,7 +1041,7 @@ class Element_Column extends Element_Base {
 	 * @return string Column HTML tag.
 	 */
 	private function get_html_tag() {
-		$html_tag = $this->get_settings( 'html_tag' );
+		$html_tag = $this->get_settings_for_display( 'html_tag' );
 
 		if ( empty( $html_tag ) ) {
 			$html_tag = 'div';

@@ -1,0 +1,41 @@
+.e-kit-library__tags-filter {
+	margin-top: spacing(44);
+
+	&-list {
+		margin-bottom: spacing(30);
+
+		.eps-collapse__title {
+			padding-right: spacing(30);
+			padding-left: spacing(30);
+			text-transform: uppercase;
+		}
+
+		.eps-collapse__content {
+			margin: spacing(5) spacing(30);
+		}
+	}
+
+	&-list-container {
+		max-height: 250px;
+		overflow: auto;
+	}
+
+	&-list-search {
+		margin-bottom: spacing(10);
+
+		.eps-search-input {
+			background: theme-colors('light');
+		}
+	}
+
+	&-list-item {
+		padding: spacing(5) 0;
+		display: flex;
+		align-items: center;
+		font-weight: 500;
+
+		input {
+			@include margin-end(spacing(5))
+		}
+	}
+}

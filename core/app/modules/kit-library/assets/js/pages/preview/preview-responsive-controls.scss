@@ -1,0 +1,19 @@
+.e-kit-library__preview-responsive-controls {
+	width: auto;
+
+	&-item {
+		margin: 0 spacing(5);
+		color: tints(500);
+		padding: spacing(5);
+
+		&:hover {
+			background: tints(200);
+			border-radius: 3px;
+			transition: $transition-hover;
+		}
+
+		&--active {
+			color: theme-colors( 'info' );
+		}
+	}
+}

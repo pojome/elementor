@@ -1,0 +1,52 @@
+.e-kit-library__kit-item {
+	&-overlay {
+		height: 100%;
+
+		& > *:first-child {
+			flex: 1;
+		}
+	}
+
+	&-overlay-overview-button {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		height: 100%;
+		width: 100%;
+
+		& > i {
+			font-size: 2rem;
+			margin-bottom: 5px;
+		}
+
+		& > span {
+			font-size: 0.9rem;
+		}
+	}
+
+	&-overlay-promotion-button {
+		display: flex;
+		width: 100%;
+		background: white;
+		align-items: center;
+		justify-content: center;
+		padding: 10px;
+		font-size: 13px;
+		color: theme-colors( cta );
+
+		& > * {
+			margin: 0 3px;
+		}
+	}
+
+	&-subscription-plan-badge {
+		position: absolute;
+		top: 0;
+		right: 0;
+		margin: spacing(5);
+		color: theme-colors( light );
+		text-transform: uppercase;
+	}
+}

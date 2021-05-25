@@ -25,8 +25,15 @@ class Test_WP_Import extends Elementor_Test_Base {
 				'categories' => 0,
 				'tags' => 0,
 				'terms' => 0,
-				'posts' => 3,
-			]
+				'posts' => [
+					'failed' => [],
+					'succeed' => [
+						1 => 1,
+						2 => 2,
+						3 => 3,
+					],
+				],
+			],
 		], $result );
 		$this->assertCount( 3, $posts );
 	}

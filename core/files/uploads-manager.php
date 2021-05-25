@@ -80,7 +80,7 @@ class Uploads_Manager extends Base_Object {
 			return new \WP_Error( 'file_error', self::INVALID_FILE_CONTENT );
 		}
 
-		$result['temp_extraction_directory'] = $extracted['temp_extraction_directory'];
+		$result['extraction_directory'] = $extracted['extraction_directory'];
 
 		foreach ( $extracted['files'] as $extracted_file_path ) {
 			// Each file is an array with a 'name' (file path) property.
@@ -171,7 +171,7 @@ class Uploads_Manager extends Base_Object {
 	 * @return string|\WP_Error
 	 */
 	public function create_temp_file( $file_content, $file_name ) {
-		$temp_filename = $this->create_unique_temp_dir() . $file_name;
+		$temp_filename = $this->create_unique_dir() . $file_name;
 
 		file_put_contents( $temp_filename, $file_content ); // phpcs:ignore
 
@@ -210,7 +210,7 @@ class Uploads_Manager extends Base_Object {
 	 *
 	 * @return string the new directory path
 	 */
-	public function create_unique_temp_dir() {
+	public function create_unique_dir() {
 		$unique_dir_path = $this->get_temp_dir() . uniqid() . DIRECTORY_SEPARATOR;
 
 		wp_mkdir_p( $unique_dir_path );

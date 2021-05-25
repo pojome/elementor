@@ -15,6 +15,22 @@ export default function ExportComplete() {
 				<DashboardButton />
 			</WizardFooter>
 		),
+		download = () => {
+			fetch( exportContext.data.downloadURL, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			} )
+				.then( ( response ) => response.json() )
+				.then( ( response ) => {
+					const link = document.createElement( 'a' );
+
+					link.href = 'data:text/plain;base64,' + response.data.file;
+					link.download = 'elementor-kit.zip';
+
+					link.click();
+			} );
+		},
 		getDownloadLink = () => (
 			<InlineLink url={ exportContext.data.downloadURL } target="_parent" italic>
 				{ __( 'Click Here', 'elementor' ) }
@@ -23,7 +39,7 @@ export default function ExportComplete() {
 
 	useEffect( () => {
 		if ( exportContext.data.downloadURL ) {
-			window.location.assign( exportContext.data.downloadURL );
+			download();
 		}
 	}, [ exportContext.data.downloadURL ] );
 

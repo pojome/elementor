@@ -56,6 +56,10 @@ class Page extends Library_Document {
 		return __( 'Page', 'elementor' );
 	}
 
+	public static function get_plural_title() {
+		return __( 'Pages', 'elementor' );
+	}
+
 	/**
 	 * @since 2.1.3
 	 * @access public

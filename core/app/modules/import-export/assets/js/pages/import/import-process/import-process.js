@@ -26,7 +26,13 @@ export default function ImportProcess() {
 		};
 
 	useEffect( () => {
-		setUploadFile( importContext.data.file );
+		let fileURL = location.hash.match( 'file_url=(.+)' );
+
+		if ( fileURL ) {
+			fileURL = fileURL[ 1 ];
+		}
+
+		setUploadFile( fileURL || importContext.data.file );
 	}, [] );
 
 	useEffect( () => {

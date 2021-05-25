@@ -1,0 +1,38 @@
+.e-kit-library {
+	&__item-sidebar {
+		padding: spacing(24) spacing(30);
+	}
+
+	&__item-sidebar-header {
+		color: tints(600);
+	}
+
+	&__item-sidebar-thumbnail {
+		margin-top: spacing(20);
+		box-shadow: shadow("2");
+	}
+
+	&__item-sidebar-description {
+		margin-top: spacing(24);
+		color: tints(600);
+	}
+
+	&__item-sidebar-collapse {
+		margin-top: spacing(24);
+	}
+
+	&__item-sidebar-tags-container {
+		gap: spacing(10);
+	}
+
+	&__item-information-text {
+		font-size: type(size, "13");
+		color: tints(600);
+		margin-bottom: spacing(5);
+	}
+
+	&__item-sidebar-tag--safari-support {
+		@include margin-end(spacing(10));
+		margin-bottom: spacing(10);
+	}
+}

@@ -1567,7 +1567,7 @@ class Element_Section extends Element_Base {
 	 * @return string Section HTML tag.
 	 */
 	private function get_html_tag() {
-		$html_tag = $this->get_settings( 'html_tag' );
+		$html_tag = $this->get_settings_for_display( 'html_tag' );
 
 		if ( empty( $html_tag ) ) {
 			$html_tag = 'section';

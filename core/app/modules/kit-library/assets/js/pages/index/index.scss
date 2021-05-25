@@ -1,0 +1,23 @@
+$e-kit-library-sticky-search-z-index: 2;
+
+.e-kit-library {
+	&__index-layout-container {
+		flex-grow: 1;
+		overflow-y: auto;
+	}
+
+	&__index-layout-search-area {
+		padding: spacing(44);
+		position: sticky;
+		top: -1px;
+		width: 100%;
+		z-index: $e-kit-library-sticky-search-z-index;
+		background-color: var(--app-background-color);
+	}
+
+	&__index-layout-main {
+		padding-top: spacing(0);
+		overflow-y: hidden;
+		height: auto;
+	}
+}

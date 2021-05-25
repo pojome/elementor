@@ -1,6 +1,9 @@
 <?php
 namespace Elementor\Core\Base;
 
+use Elementor\Core\Base\Elements_Iteration_Actions\Assets as Assets_Iteration_Action;
+use Elementor\Core\Base\Elements_Iteration_Actions\Base as Elements_Iteration_Action;
+use Elementor\Core\Base\Elements_Iteration_Actions\Elements_Settings_Parser;
 use Elementor\Core\Files\CSS\Post as Post_CSS;
 use Elementor\Core\Settings\Page\Model as Page_Model;
 use Elementor\Core\Utils\Exceptions;
@@ -73,6 +76,11 @@ abstract class Document extends Controls_Stack {
 	private static $properties = [];
 
 	/**
+	 * @var Elements_Iteration_Action[]
+	 */
+	private $elements_iteration_actions = [];
+
+	/**
 	 * Document post data.
 	 *
 	 * Holds the document post data.
@@ -83,6 +91,10 @@ abstract class Document extends Controls_Stack {
 	 * @var \WP_Post WordPress post data.
 	 */
 	protected $post;
+	/**
+	 * @var array
+	 */
+	private $elements_parsed_data;
 
 	/**
 	 * @since 2.1.0
@@ -154,6 +166,10 @@ abstract class Document extends Controls_Stack {
 	 */
 	public static function get_title() {
 		return __( 'Document', 'elementor' );
+	}
+
+	public static function get_plural_title() {
+		return static::get_title();
 	}
 
 	/**
@@ -862,6 +878,33 @@ abstract class Document extends Controls_Stack {
 	}
 
 	/**
+	 * Get Elements Parsed Data
+	 *
+	 * Retrieve the document's parsed elements data that has been presaved in the Database.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param string $element_id
+	 * @return array|mixed|null
+	 */
+	public function get_elements_parsed_data( $element_id ) {
+		if ( ! $this->elements_parsed_data ) {
+			$parsed_data = $this->get_json_meta( Elements_Settings_Parser::PARSED_ELEMENTS_META_KEY );
+
+			if ( $parsed_data ) {
+				$this->elements_parsed_data = $parsed_data;
+			} else {
+				// Make sure this does not return null.
+				$this->elements_parsed_data = [
+					$element_id => [],
+				];
+			}
+		}
+
+		return self::get_items( $this->elements_parsed_data, $element_id );
+	}
+
+	/**
 	 * Get document setting from DB.
 	 *
 	 * @return array
@@ -1039,6 +1082,12 @@ abstract class Document extends Controls_Stack {
 		do_action( 'elementor/db/before_save', $this->post->post_status, $is_meta_updated );
 
 		Plugin::$instance->db->save_plain_text( $this->post->ID );
+
+		$elements_iteration_actions = $this->get_elements_iteration_actions();
+
+		if ( $elements_iteration_actions ) {
+			$this->iterate_elements( $elements, $elements_iteration_actions, 'save' );
+		}
 
 		/**
 		 * After saving data.
@@ -1299,6 +1348,14 @@ abstract class Document extends Controls_Stack {
 		];
 	}
 
+	public function get_export_summary() {
+		return [
+			'title' => $this->post->post_title,
+			'doc_type' => $this->get_name(),
+			'thumbnail' => get_the_post_thumbnail_url( $this->post ),
+		];
+	}
+
 	/*
 	 * Get Import Data
 	 *
@@ -1352,6 +1409,12 @@ abstract class Document extends Controls_Stack {
 			'elements' => $data['content'],
 			'settings' => $data['settings'],
 		] );
+
+		if ( $data['import_settings']['thumbnail'] ) {
+			$attachment = Plugin::$instance->templates_manager->get_import_images_instance()->import( [ 'url' => $data['import_settings']['thumbnail'] ] );
+
+			set_post_thumbnail( $this->get_main_post(), $attachment['id'] );
+		}
 	}
 
 	private function process_element_import_export( Controls_Stack $element, $method ) {
@@ -1411,6 +1474,13 @@ abstract class Document extends Controls_Stack {
 	 * @access protected
 	 */
 	protected function print_elements( $elements_data ) {
+		// Collect all data updaters that should be updated on runtime.
+		$runtime_elements_iteration_actions = $this->get_runtime_elements_iteration_actions();
+
+		if ( $runtime_elements_iteration_actions ) {
+			$this->iterate_elements( $elements_data, $runtime_elements_iteration_actions, 'render' );
+		}
+
 		foreach ( $elements_data as $element_data ) {
 			$element = Plugin::$instance->elements_manager->create_element_instance( $element_data );
 
@@ -1499,5 +1569,60 @@ abstract class Document extends Controls_Stack {
 
 	private function remove_handle_revisions_changed_filter() {
 		remove_filter( 'wp_save_post_revision_post_has_changed', [ $this, 'handle_revisions_changed' ] );
+	}
+
+	private function get_runtime_elements_iteration_actions() {
+		$runtime_elements_iteration_actions = [];
+
+		$elements_iteration_actions = $this->get_elements_iteration_actions();
+
+		foreach ( $elements_iteration_actions as $elements_iteration_action ) {
+			if ( $elements_iteration_action->is_action_needed() ) {
+				$runtime_elements_iteration_actions[] = $elements_iteration_action;
+			}
+		}
+
+		return $runtime_elements_iteration_actions;
+	}
+
+	private function iterate_elements( $elements, $elements_iteration_actions, $mode ) {
+		$unique_page_elements = [];
+
+		foreach ( $elements_iteration_actions as $elements_iteration_action ) {
+			$elements_iteration_action->set_mode( $mode );
+		}
+
+		Plugin::$instance->db->iterate_data( $elements, function( array $element_data ) use ( &$unique_page_elements, $elements_iteration_actions ) {
+			$element_type = 'widget' === $element_data['elType'] ? $element_data['widgetType'] : $element_data['elType'];
+
+			$element = Plugin::$instance->elements_manager->create_element_instance( $element_data );
+
+			if ( ! in_array( $element_type, $unique_page_elements, true ) ) {
+				$unique_page_elements[] = $element_type;
+
+				foreach ( $elements_iteration_actions as $elements_iteration_action ) {
+					$elements_iteration_action->unique_element_action( $element );
+				}
+			}
+
+			foreach ( $elements_iteration_actions as $elements_iteration_action ) {
+				$elements_iteration_action->element_action( $element );
+			}
+
+			return $element_data;
+		} );
+
+		foreach ( $elements_iteration_actions as $elements_iteration_action ) {
+			$elements_iteration_action->after_elements_iteration();
+		}
+	}
+
+	private function get_elements_iteration_actions() {
+		if ( ! $this->elements_iteration_actions ) {
+			$this->elements_iteration_actions[] = new Assets_Iteration_Action( $this );
+			$this->elements_iteration_actions[] = new Elements_Settings_Parser( $this );
+		}
+
+		return $this->elements_iteration_actions;
 	}
 }

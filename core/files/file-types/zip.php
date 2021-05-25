@@ -65,20 +65,20 @@ class Zip extends Base {
 
 		$zip = new \ZipArchive();
 
-		$temp_extraction_directory = Plugin::$instance->uploads_manager->create_unique_temp_dir();
+		$extraction_directory = Plugin::$instance->uploads_manager->create_unique_dir();
 
 		$zip->open( $file_path );
 
 		// if an array of allowed file types is provided, get the filtered file list to extract.
 		$allowed_files = $allowed_file_types ? $this->get_allowed_files( $zip, $allowed_file_types ) : null;
 
-		$zip->extractTo( $temp_extraction_directory, $allowed_files );
+		$zip->extractTo( $extraction_directory, $allowed_files );
 
 		$zip->close();
 
 		return [
-			'temp_extraction_directory' => $temp_extraction_directory,
-			'files' => $this->find_temp_files( $temp_extraction_directory ),
+			'extraction_directory' => $extraction_directory,
+			'files' => $this->find_temp_files( $extraction_directory ),
 		];
 	}
 

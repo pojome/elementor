@@ -76,7 +76,7 @@ class Post_Type extends Base {
 
 	protected function import( array $import_settings ) {
 		$result = [
-			'success' => [],
+			'succeed' => [],
 			'failed' => [],
 		];
 
@@ -90,7 +90,7 @@ class Post_Type extends Base {
 					continue;
 				}
 
-				$result['success'][] = $import;
+				$result['succeed'][ $id ] = $import;
 			} catch ( \Error $error ) {
 				$result['failed'][ $id ] = $error->getMessage();
 			}
@@ -115,13 +115,9 @@ class Post_Type extends Base {
 			return $new_document;
 		}
 
+		$post_data['import_settings'] = $post_settings;
+
 		$new_document->import( $post_data );
-
-		if ( $post_settings['thumbnail'] ) {
-			$attachment = Plugin::$instance->templates_manager->get_import_images_instance()->import( [ 'url' => $post_settings['thumbnail'] ] );
-
-			set_post_thumbnail( $new_document->get_main_post(), $attachment['id'] );
-		}
 
 		$new_id = $new_document->get_main_id();
 

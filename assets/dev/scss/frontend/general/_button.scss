@@ -1,7 +1,4 @@
-//
-// Button
-//
-
+// Shared button style.
 .elementor-button {
 	display: inline-block;
 	line-height: 1;
@@ -40,7 +37,6 @@
 	}
 
 	&.elementor-size- {
-
 		&xs {
 			font-size: 13px;
 			padding: 10px 20px;
@@ -71,7 +67,6 @@
 	}
 
 	.elementor-align-icon- {
-
 		&right {
 			margin-left: 5px;
 			order: getValueByDirection( 15, 5 );
@@ -94,15 +89,12 @@
 }
 
 .elementor-element.elementor-button- {
-
 	@include button-types( '.elementor-button' );
 
 }
 
 .elementor-widget-button {
-
 	.elementor-button {
-
 		.elementor-button- {
 
 			@include button-types( '' );

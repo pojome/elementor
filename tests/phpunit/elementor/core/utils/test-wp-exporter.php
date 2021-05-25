@@ -56,6 +56,7 @@ class Test_WP_Exporter extends Elementor_Test_Base {
 
 		// Act.
 		$elementor_export_output = ( new WP_Exporter() )->run();
+		$elementor_export_output = $elementor_export_output['xml'];
 		$clean_elementor_export_output = $this->remove_space_eols_and_tabulation( $elementor_export_output );
 
 		$clean_wp_export_output = $replace_pub_date_timestamp( $clean_wp_export_output );
@@ -90,7 +91,7 @@ class Test_WP_Exporter extends Elementor_Test_Base {
 				'offset' => $limit_expected * $i,
 			] );
 
-			$content_per_offset_actual[ $i ] = $exporter->run();
+			$content_per_offset_actual[ $i ] = $exporter->run()['xml'];
 		}
 
 		// Assert.
@@ -114,12 +115,17 @@ class Test_WP_Exporter extends Elementor_Test_Base {
 		$document->update_meta( $meta_key, true );
 
 		$exporter = new WP_Exporter( [
-			'meta_key' => $meta_key,
+			'meta_query' => [
+				[
+					'key' => $meta_key,
+					'value' => true,
+				],
+			],
 		] );
 
 		// Act.
 		$content = $exporter->run();
-		$actual_items = substr_count( $content, '<item>' );
+		$actual_items = substr_count( $content['xml'], '<item>' );
 
 		// Assert.
 		$this->assertEquals( 1, $actual_items );
@@ -132,12 +138,17 @@ class Test_WP_Exporter extends Elementor_Test_Base {
 		self::factory()->create_post();
 
 		$exporter = new WP_Exporter( [
-			'meta_key' => $meta_key,
+			'meta_query' => [
+				[
+					'key' => $meta_key,
+					'value' => true,
+				],
+			],
 		] );
 
 		// Act.
 		$content = $exporter->run();
-		$actual_items = substr_count( $content, '<item>' );
+		$actual_items = substr_count( $content['xml'], '<item>' );
 
 		// Assert.
 		$this->assertEquals( 0, $actual_items );

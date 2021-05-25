@@ -53,6 +53,17 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
 	}
 
 	/**
+	 * Union the collection with the given items.
+	 *
+	 * @param array $items
+	 *
+	 * @return $this
+	 */
+	public function union( array $items ) {
+		return new static( $this->all() + $items );
+	}
+
+	/**
 	 * Merge array recursively
 	 *
 	 * @param $items
@@ -90,6 +101,22 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
 		$items = array_map( $callback, $this->items, $keys );
 
 		return new static( array_combine( $keys, $items ) );
+	}
+
+	/**
+	 * @param callable $callback
+	 * @param null     $initial
+	 *
+	 * @return mixed|null
+	 */
+	public function reduce( callable $callback, $initial = null ) {
+		$result = $initial;
+
+		foreach ( $this->all() as $key => $value ) {
+			$result = $callback( $result, $value, $key );
+		}
+
+		return $result;
 	}
 
 	/**
@@ -214,6 +241,24 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
 		foreach ( $this->items as $item ) {
 			return $item;
 		}
+	}
+
+	/**
+	 * Find an element from the items.
+	 *
+	 * @param callable $callback
+	 * @param null     $default
+	 *
+	 * @return mixed|null
+	 */
+	public function find( callable $callback, $default = null ) {
+		foreach ( $this->all() as $key => $item ) {
+			if ( $callback( $item, $key ) ) {
+				return $item;
+			}
+		}
+
+		return $default;
 	}
 
 	/**

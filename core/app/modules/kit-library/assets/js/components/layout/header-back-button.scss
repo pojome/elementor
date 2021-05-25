@@ -1,0 +1,19 @@
+.e-kit-library__header-back {
+	color: tints(500);
+	@include padding-end( spacing( 20 ) );
+	@include padding-start( spacing( 5 ) );
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	@include border-end( $eps-border );
+
+	&-container {
+		flex: 1;
+		height: 100%;
+	}
+
+	.#{$eps-prefix}icon {
+		transform: getValueByDirection(rotate(0deg), rotate(180deg));
+	}
+}

@@ -938,15 +938,21 @@ abstract class Controls_Stack extends Base_Object {
 	 * @return array Settings keys for each control.
 	 */
 	final public function get_frontend_settings_keys() {
-		$controls = [];
+		if ( $this instanceof Element_Base ) {
+			$controls_data = Plugin::$instance->documents->get_current()->get_elements_parsed_data( $this->get_id() );
+		} else {
+			$controls_data = $this->get_controls();
+		}
 
-		foreach ( $this->get_controls() as $control ) {
-			if ( ! empty( $control['frontend_available'] ) ) {
-				$controls[] = $control['name'];
+		$frontend_controls = [];
+
+		foreach ( $controls_data as $control_name => $control_data ) {
+			if ( ! empty( $control_data['frontend_available'] ) ) {
+				$frontend_controls[] = $control_name;
 			}
 		}
 
-		return $controls;
+		return $frontend_controls;
 	}
 
 	/**
@@ -1086,7 +1092,33 @@ abstract class Controls_Stack extends Base_Object {
 	 * @return mixed The settings.
 	 */
 	public function get_settings_for_display( $setting_key = null ) {
+		$parse_settings = false;
+
+		// Only fetch parsed settings in the front end.
 		if ( ! $this->parsed_active_settings ) {
+			// Parsed control data is stored only for frontend elements.
+			if ( Plugin::$instance->editor->is_edit_mode() && $this instanceof Element_Base ) {
+				$parsed_data_from_db = Plugin::$instance->documents->get_current()->get_elements_parsed_data( $this->get_id() );
+
+				// The settings values need to be extracted from the parsed data.
+				if ( $parsed_data_from_db ) {
+					$parsed_settings = [];
+
+					foreach ( $parsed_data_from_db as $control_setting ) {
+						$parsed_settings[] = $control_setting['value'];
+					}
+
+					$this->parsed_active_settings = $parsed_settings;
+				} else {
+					// Fallback in case there was a problem fetching element settings from the DB.
+					$parse_settings = true;
+				}
+			} else {
+				$parse_settings = true;
+			}
+		}
+
+		if ( null === $this->parsed_active_settings || $parse_settings ) {
 			$this->parsed_active_settings = $this->get_active_settings( $this->get_parsed_dynamic_settings(), $this->get_controls() );
 		}
 
