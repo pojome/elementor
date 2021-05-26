@@ -5,13 +5,15 @@ export class Toggle extends CommandsBase {
 	 * @inheritDoc
 	 */
 	apply( args ) {
-		_.each( args.widgets, ( widget ) => {
+		const widgets = args.widgets;
+
+		widgets.forEach( ( widget ) => {
 			const widgetCache = this.getWidgetCache( widget );
 
 			if ( undefined !== widgetCache ) {
 				let command;
 
-				if ( widgetCache.categories.includes( this.getCategoryName() ) ) {
+				if ( widgetCache.categories.includes( this.getCategorySlug() ) ) {
 					command = this.component.getDeleteCommand();
 				} else {
 					command = this.component.getCreateCommand();

@@ -18,6 +18,7 @@ class Index extends Endpoint {
 	protected function register() {
 		$this->register_item_route( WP_REST_Server::READABLE, [], '' );
 		$this->register_item_route( WP_REST_Server::EDITABLE, [], '' );
+		$this->register_item_route( WP_REST_Server::DELETABLE, [], '' );
 	}
 
 	/**
@@ -32,9 +33,21 @@ class Index extends Endpoint {
 	 */
 	public function update_item( $key, $request ) {
 		$manager = $this->get_manager();
-		$body = $request->get_body_params();
+		$data = explode( ',', $request->get_query_params()['data'] );
 
-		$manager->update( $key, $body['data'], $body['action'] );
+		$manager->update( $key, $data, $manager::ACTION_MERGE );
+
+		return $manager->get( $key );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function delete_item( $key, $request ) {
+		$manager = $this->get_manager();
+		$data = explode( ',', $request->get_query_params()['data'] );
+
+		$manager->update( $key, $data, $manager::ACTION_DELETE );
 
 		return $manager->get( $key );
 	}

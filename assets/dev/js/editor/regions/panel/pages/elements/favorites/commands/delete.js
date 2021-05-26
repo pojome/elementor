@@ -5,18 +5,26 @@ export class Delete extends CommandsBase {
 	 * @inheritDoc
 	 */
 	apply( args ) {
-		_.each( args.widgets, ( widget ) => {
+		const widgets = args.widgets;
+
+		widgets.forEach( ( widget ) => {
 			const widgetCache = this.getWidgetCache( widget );
 
 			if ( undefined !== widgetCache ) {
 				const categories = widgetCache.categories;
 
-				categories.splice( categories.indexOf( this.getCategoryName() ), 1 );
+				categories.splice( categories.indexOf( this.getCategorySlug() ), 1 );
 			}
 		} );
 
 		if ( args.store ) {
-			this.update( args.widgets, 'delete' );
+			$e.data.delete(
+				this.component.getFavoritesDataCommand(),
+				{
+					key: this.component.getFavoritesCollectionKey(),
+					data: widgets,
+				},
+			);
 		}
 
 		this.refreshCategories();

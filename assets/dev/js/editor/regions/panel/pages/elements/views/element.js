@@ -25,7 +25,7 @@ module.exports = Marionette.ItemView.extend( {
 
 	ui: {
 		element: '.elementor-element',
-		favorite: '.favorite',
+		favorite: '.e-element-favorite',
 	},
 
 	isEditable: function() {

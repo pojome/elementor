@@ -5,16 +5,25 @@ export class Create extends CommandsBase {
 	 * @inheritDoc
 	 */
 	apply( args ) {
-		_.each( args.widgets, ( widget ) => {
+		const widgets = args.widgets;
+
+		widgets.forEach( ( widget ) => {
 			const widgetCache = this.getWidgetCache( widget );
 
 			if ( undefined !== widgetCache ) {
-				widgetCache.categories.push( this.getCategoryName() );
+				widgetCache.categories.push( this.getCategorySlug() );
 			}
 		} );
 
 		if ( args.store ) {
-			this.update( args.widgets, 'merge' );
+			$e.data.update(
+				this.component.getFavoritesDataCommand(),
+				{},
+				{
+					key: this.component.getFavoritesCollectionKey(),
+					data: widgets,
+				},
+			);
 		}
 
 		this.refreshCategories();

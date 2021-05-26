@@ -105,7 +105,7 @@
 			transition: $transition-hover;
 		}
 
-		.favorite {
+		.e-element-favorite {
 			visibility: hidden;
 			background-color: $editor-light;
 			width: 25px;
@@ -125,7 +125,7 @@
 				vertical-align: middle;
 			}
 
-			&.active {
+			&.e-element-favorite-active {
 				background-color: $brand-color-dark-pink;
 			}
 		}
@@ -137,7 +137,7 @@
 				color: $editor-accent;
 			}
 
-			.favorite {
+			.e-element-favorite {
 				visibility: visible;
 			}
 		}

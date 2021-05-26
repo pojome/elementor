@@ -302,10 +302,10 @@ select {
 			color: $theme-dark-light;
 		}
 
-		.favorite {
+		.e-element-favorite {
 			background-color: $theme-dark-gray-darkest;
 
-			&.active {
+			&.e-element-favorite-active {
 				background-color: $theme-dark-dark;
 			}
 		}

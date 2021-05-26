@@ -5,7 +5,7 @@ export default class CommandsBase extends CommandBase {
 	 * @inheritDoc
 	 */
 	initialize( args = {} ) {
-		args = _.assign( { store: true }, args );
+		args = { store: true, ...args };
 
 		if ( 'string' === typeof args.widgets ) {
 			args.widgets = [ args.widgets ];
@@ -23,23 +23,6 @@ export default class CommandsBase extends CommandBase {
 		} catch ( e ) {
 			this.requireArgumentType( 'widgets', 'array', args );
 		}
-	}
-
-	/**
-	 * Send update request along with the widgets and the action needed.
-	 *
-	 * @param widgets
-	 * @param action
-	 */
-	update( widgets, action ) {
-		$e.data.update(
-			this.component.getFavoritesDataCommand(),
-			{
-				action: action,
-				data: widgets,
-			},
-			{ key: 'widgets' },
-		);
 	}
 
 	/**
@@ -61,11 +44,11 @@ export default class CommandsBase extends CommandBase {
 	}
 
 	/**
-	 * Get the favorites category name.
+	 * Get the favorites category slug.
 	 *
 	 * @returns {string}
 	 */
-	getCategoryName() {
+	getCategorySlug() {
 		return 'favorites';
 	}
 }

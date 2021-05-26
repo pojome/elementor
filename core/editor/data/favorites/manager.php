@@ -41,16 +41,19 @@ class Manager {
 	/**
 	 * Get user favorites collection.
 	 *
-	 * @param string[]|string $collections
+	 * @param string[]|string $collection
 	 *
 	 * @return array
 	 */
-	public function get( $collections = null ) {
-		if ( null === $collections ) {
-			return $this->compile();
+	public function get( $collection = null ) {
+		if ( null === $collection || is_array( $collection ) ) {
+			return array_intersect_key(
+				array_flip( (array) $collection ),
+				$this->compile()
+			);
 		}
 
-		return $this->implementation( $collections )
+		return $this->instance( $collection )
 			->values();
 	}
 
@@ -91,15 +94,15 @@ class Manager {
 	 * @return array|boolean
 	 */
 	public function update( $collection, $favorites, $action, $store = true ) {
-		$implementation = $this->implementation( $collection );
-		$favorites = $implementation->prepare( $favorites );
+		$instance = $this->instance( $collection );
+		$favorites = $instance->prepare( $favorites );
 
 		switch ( $action ) {
 			case static::ACTION_MERGE:
-				$implementation->merge( $favorites );
+				$instance->merge( $favorites );
 				break;
 			case static::ACTION_DELETE:
-				$implementation->filter(
+				$instance->filter(
 					function( $value ) use ( $favorites ) {
 						return ! in_array( $value, $favorites, true );
 					}
@@ -113,7 +116,7 @@ class Manager {
 			return false;
 		}
 
-		return $implementation->values();
+		return $instance->values();
 	}
 
 	/**
@@ -134,7 +137,7 @@ class Manager {
 	 *
 	 * @return Collection
 	 */
-	public function implementation( $collection ) {
+	public function instance( $collection ) {
 		if ( ! $this->exists( $collection ) ) {
 			$this->collection_doesnt_exists( $collection );
 		}

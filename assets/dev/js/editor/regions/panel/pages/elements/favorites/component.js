@@ -5,8 +5,8 @@ export default class Component extends $e.modules.ComponentBase {
 	/**
 	 * @inheritDoc
 	 */
-	__construct( args = {} ) {
-		super.__construct( args );
+	constructor( args = {} ) {
+		super( args );
 
 		elementor.on( 'panel:init', () => {
 			this.loadFavoriteWidgetsList();
@@ -42,13 +42,22 @@ export default class Component extends $e.modules.ComponentBase {
 	async loadFavoriteWidgetsList() {
 		const favorites = $e.data.get(
 			this.getFavoritesDataCommand(),
-			{ key: 'widgets' },
+			{ key: this.getFavoritesCollectionKey() },
 			{ refresh: true }
 		);
 
 		return favorites.then( ( result ) => {
-			$e.run( this.getCreateCommand(), { widgets: result.data, store: false } );
+			return $e.run( this.getCreateCommand(), { widgets: result.data, store: false } );
 		} );
+	}
+
+	/**
+	 * Get the favorites collection key.
+	 *
+	 * @returns {string}
+	 */
+	getFavoritesCollectionKey() {
+		return 'widgets';
 	}
 
 	/**
