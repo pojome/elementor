@@ -472,6 +472,15 @@ class Widget_Image extends Widget_Base {
 			]
 		);
 
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name' => 'image_border',
+				'selector' => '{{WRAPPER}} .elementor-image img',
+				'separator' => 'before',
+			]
+		);
+
 		$this->end_controls_tab();
 
 		$this->end_controls_tabs();
