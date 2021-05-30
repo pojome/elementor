@@ -226,6 +226,22 @@ class Widget_Text_Editor extends Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'text_color_flyover',
+			[
+				'label' => __( 'Text Color Flyover', 'elementor' ),
+				'type' => Controls_Manager::COLOR,
+				'default' => '',
+				'selectors' => [
+					'{{WRAPPER}} a.elementor-text-editor:hover, {{WRAPPER}} .elementor-text-editor:hover, {{WRAPPER}} a.elementor-text-editor:focus, {{WRAPPER}} .elementor-text-editor:focus' => 'color: {{VALUE}};',
+					'{{WRAPPER}} a.elementor-text-editor:hover svg, {{WRAPPER}} .elementor-text-editor:hover svg, {{WRAPPER}} a.elementor-text-eidtor:focus svg, {{WRAPPER}} .elementor-text-editor:focus svg' => 'fill: {{VALUE}};',
+				],
+				'global' => [
+					'default' => Global_Colors::COLOR_TEXT,
+				],
+			]
+		);
+
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[
