@@ -360,7 +360,7 @@ class Test_Endpoint extends Elementor_Test_Base {
 
 		$data = $controller_instance->get_controller_index()->get_data();
 
-		$this->assertArrayHaveKeys( [ $except_route ], $data['routes'] );
+		$this->assert_array_have_keys( [ $except_route ], $data['routes'] );
 	}
 
 	public function test_register_items_route() {
@@ -375,7 +375,7 @@ class Test_Endpoint extends Elementor_Test_Base {
 		$data = $controller_instance->get_controller_index()->get_data();
 		$except_route = '/' . $controller_instance->get_controller_route() . '/' . $endpoint_instance->get_name();
 
-		$this->assertArrayHaveKeys( [ $except_route ], $data['routes'] );
+		$this->assert_array_have_keys( [ $except_route ], $data['routes'] );
 	}
 
 	public function test_register_route() {
@@ -390,6 +390,6 @@ class Test_Endpoint extends Elementor_Test_Base {
 		$data = $controller_instance->get_controller_index()->get_data();
 		$except_route = '/' . $controller_instance->get_controller_route() . '/' . $endpoint_instance->get_name() . '/custom-route';
 
-		$this->assertArrayHaveKeys( [ $except_route ], $data['routes'] );
+		$this->assert_array_have_keys( [ $except_route ], $data['routes'] );
 	}
 }

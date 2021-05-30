@@ -64,11 +64,11 @@ class Test_Usage extends Base_Schema {
 		$usage = $tracking_data[ 'usages' ];
 
 		// Assert - Ensure tracking data have arranged data.
-		$this->assertArrayHaveKeys( ['publish'], $usage['posts']['post'] );
-		$this->assertArrayHaveKeys( ['not-supported'], $usage['library'] );
-		$this->assertArrayHaveKeys( ['wp-post'], $usage['elements'] );
+		$this->assert_array_have_keys( ['publish'], $usage['posts']['post'] );
+		$this->assert_array_have_keys( ['not-supported'], $usage['library'] );
+		$this->assert_array_have_keys( ['wp-post'], $usage['elements'] );
 		$this->assertCount( 4, $usage['elements']['wp-post'] );
-		$this->assertArrayHaveKeys( ['__dynamic__'], $usage['elements']['wp-post']['heading']['controls']['general'] );
+		$this->assert_array_have_keys( ['__dynamic__'], $usage['elements']['wp-post']['heading']['controls']['general'] );
 
 		// Assert - Validate schema.
 		$this->assertTrue( $this->validate_against_schema( $tracking_data, $this->schema_file ) );

@@ -11,7 +11,7 @@ class Elementor_Test_Landing_Pages_Module extends Elementor_Test_Base {
 	use Elementor_Library;
 
 	public function test__construct() {
-		$this->assertDocumentTypeRegistered( Module::DOCUMENT_TYPE );
+		$this->assert_document_type_registered( Module::DOCUMENT_TYPE );
 	}
 
 	public function test_get_name() {

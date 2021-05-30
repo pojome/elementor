@@ -24,7 +24,7 @@ class Elementor_Test_Revisions_Manager_Ajax extends Elementor_Test_AJAX {
 
 		$ret = apply_filters( 'elementor/documents/ajax_save/return_data', [], $document );
 
-		$this->assertArrayHaveKeys( [
+		$this->assert_array_have_keys( [
 			'config',
 			'latest_revisions',
 			'revisions_ids',

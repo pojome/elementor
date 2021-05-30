@@ -65,7 +65,7 @@ class Elementor_Test_Manager_Local extends Elementor_Test_Base {
 		];
 		$saved_template = self::$manager->save_template( $template_data );
 
-		$this->assertArrayHaveKeys( $remote_remote, $saved_template );
+		$this->assert_array_have_keys( $remote_remote, $saved_template );
 	}
 
 
@@ -126,7 +126,7 @@ class Elementor_Test_Manager_Local extends Elementor_Test_Base {
 		];
 		$updated_template = self::$manager->update_template( $template_data );
 
-		$this->assertArrayHaveKeys( $remote_remote, $updated_template );
+		$this->assert_array_have_keys( $remote_remote, $updated_template );
 	}
 
 	/**
@@ -188,8 +188,8 @@ class Elementor_Test_Manager_Local extends Elementor_Test_Base {
 
 		// Assert
 		$this->assertArrayHasKey( 'content', $result );
-		$this->assertArrayHaveKeys( [ 'id', 'elType' ], $result['content'][0] );
-		$this->assertArrayNotHaveKeys(
+		$this->assert_array_have_keys( [ 'id', 'elType' ], $result['content'][0] );
+		$this->assert_array_not_have_keys(
 			[ 'settings', 'elements', 'isInner' ],
 			$result['content'][0],
 			'should NOT have those keys if display is not exists in the args'
@@ -205,8 +205,8 @@ class Elementor_Test_Manager_Local extends Elementor_Test_Base {
 
 		// Assert
 		$this->assertArrayHasKey( 'content', $result );
-		$this->assertArrayHaveKeys( [ 'id', 'elType' ], $result['content'][0] );
-		$this->assertArrayHaveKeys(
+		$this->assert_array_have_keys( [ 'id', 'elType' ], $result['content'][0] );
+		$this->assert_array_have_keys(
 			[ 'settings', 'elements', 'isInner' ],
 			$result['content'][0],
 			'SHOULD have those keys if display is exists in the args'

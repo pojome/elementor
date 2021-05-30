@@ -37,10 +37,10 @@ class Test_Controller extends Elementor_Test_Base {
 		$rest_index = $this->manager->run_endpoint( $controller->get_name() );
 		$rest_routes = $rest_index['routes'];
 
-		$this->assertArrayHaveKeys( [ '/' . $controller->get_controller_route() ], $rest_routes, 'Validate `$this->register_internal_endpoints();`.' );
+		$this->assert_array_have_keys( [ '/' . $controller->get_controller_route() ], $rest_routes, 'Validate `$this->register_internal_endpoints();`.' );
 
 		foreach ( $controller->endpoints as $endpoint ) {
-			$this->assertArrayHaveKeys( [ '/' . $controller->get_controller_route() . '/' . $endpoint->get_name() ], $rest_routes, 'Validate `$this->register_endpoints();`.' );
+			$this->assert_array_have_keys( [ '/' . $controller->get_controller_route() . '/' . $endpoint->get_name() ], $rest_routes, 'Validate `$this->register_endpoints();`.' );
 		}
 	}
 

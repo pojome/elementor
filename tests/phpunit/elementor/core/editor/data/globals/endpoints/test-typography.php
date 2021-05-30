@@ -33,7 +33,7 @@ class Test_Typography extends Base {
 		$typography = $kit->get_settings( 'custom_typography' );
 
 		$this->assertEquals( $id, $typography[0]['_id'] );
-		$this->assertArrayHaveKeys( [ 'whatever' ], $typography[0] );
+		$this->assert_array_have_keys( [ 'whatever' ], $typography[0] );
 
 		return $typography;
 	}

@@ -84,7 +84,7 @@ class Elementor_Test_Revisions_Manager extends Elementor_Test_Base {
 
 		$ret = Revisions_Manager::get_revisions( $parent_post_id );
 		self::assertEquals( 2, count( $ret ) );
-		$this->assertArrayHaveKeys( [
+		$this->assert_array_have_keys( [
 			'id',
 			'author',
 			'timestamp',
@@ -92,7 +92,7 @@ class Elementor_Test_Revisions_Manager extends Elementor_Test_Base {
 			'type',
 			'gravatar',
 		], $ret[0] );
-		$this->assertArrayHaveKeys( [
+		$this->assert_array_have_keys( [
 			'id',
 			'author',
 			'timestamp',
@@ -103,7 +103,7 @@ class Elementor_Test_Revisions_Manager extends Elementor_Test_Base {
 
 		$ret = Revisions_Manager::get_revisions( $child_post_id );
 		self::assertEquals( 1, count( $ret ) );
-		$this->assertArrayHaveKeys( [
+		$this->assert_array_have_keys( [
 			'id',
 			'author',
 			'timestamp',
@@ -208,7 +208,7 @@ class Elementor_Test_Revisions_Manager extends Elementor_Test_Base {
 
 		$revision_data = Revisions_Manager::ajax_get_revision_data( $args );
 
-		$this->assertArrayHaveKeys( [ 'settings', 'elements' ], $revision_data );
+		$this->assert_array_have_keys( [ 'settings', 'elements' ], $revision_data );
 	}
 
 	private function setup_revision_check() {

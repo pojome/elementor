@@ -11,13 +11,13 @@ class Elementor_Test_Bootstrap extends Elementor_Test_Base {
 	}
 
 	public function test_Clone() {
-		$this->expectDoingItWrong('__clone');
+		$this->expect_doing_it_wrong('__clone');
 
 		$obj_cloned = clone \Elementor\Plugin::$instance;
 	}
 
 	public function test_Wakeup() {
-		$this->expectDoingItWrong('__wakeup');
+		$this->expect_doing_it_wrong('__wakeup');
 
 		unserialize( serialize( \Elementor\Plugin::$instance ) );
 	}

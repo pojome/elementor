@@ -15,8 +15,8 @@ class Elementor_Test_Module extends Elementor_Test_Base {
 	public function test_should_confirm_module_activation() {
 		self::$module = new Module();
 
-		$this->assertDocumentTypeRegistered( 'page' );
-		$this->assertDocumentTypeRegistered( 'section' );
+		$this->assert_document_type_registered( 'page' );
+		$this->assert_document_type_registered( 'section' );
 	}
 
 	public function test_should_return_library() {
