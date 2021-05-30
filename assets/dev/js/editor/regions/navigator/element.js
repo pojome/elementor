@@ -2,7 +2,7 @@ import ElementEmpty from './element-empty';
 import RootEmpty from './root-empty';
 import DocumentHelper from 'elementor-document/helper';
 
-export default class extends Marionette.CompositeView {
+export default class Element extends Marionette.CompositeView {
 	getTemplate() {
 		return '#tmpl-elementor-navigator__elements';
 	}
@@ -85,7 +85,7 @@ export default class extends Marionette.CompositeView {
 		if ( ! this.isRoot() ) {
 			helpers.title = this.model.getTitle();
 
-			helpers.icon = 'section' === this.model.get( 'elType' ) ? '' : this.model.getIcon();
+			helpers.icon = this.isSection() ? '' : this.model.getIcon();
 		}
 
 		return helpers;
@@ -107,6 +107,10 @@ export default class extends Marionette.CompositeView {
 
 	isRoot() {
 		return ! this.model.get( 'elType' );
+	}
+
+	isSection() {
+		return 'section' === this.model.get( 'elType' );
 	}
 
 	hasChildren() {

@@ -1,6 +1,13 @@
 import ElementView from './element';
+import DocumentElementView from './document-element';
 
 export default class extends Marionette.LayoutView {
+	constructor( options ) {
+		super( options );
+
+		this.elementsModel = options.elementsModel;
+	}
+
 	getTemplate() {
 		return '#tmpl-elementor-navigator';
 	}
@@ -50,8 +57,11 @@ export default class extends Marionette.LayoutView {
 	}
 
 	onShow() {
-		this.elements.show( new ElementView( {
-			model: elementor.elementsModel,
+		const View = elementor.config.initial_document.properties.supports_navigator_multi_documents ?
+			DocumentElementView : ElementView;
+
+		this.elements.show( new View( {
+			model: this.elementsModel,
 		} ) );
 	}
 

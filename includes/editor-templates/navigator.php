@@ -21,9 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <script type="text/template" id="tmpl-elementor-navigator__elements">
 	<# if ( obj.elType ) { #>
 		<div class="elementor-navigator__item">
+			<# if ( 'document' !== obj.elType ) { #>
 			<div class="elementor-navigator__element__list-toggle">
 				<i class="eicon-sort-down"></i>
 			</div>
+			<# } #>
 			<#
 			if ( icon ) { #>
 				<div class="elementor-navigator__element__element-type">
@@ -34,7 +36,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<span class="elementor-navigator__element__title__text">{{{ title }}}</span>
 			</div>
 			<div class="elementor-navigator__element__toggle">
-				<i class="eicon-preview-medium"></i>
+				<# if ( 'document' === obj.elType ) { #>
+					<i class="eicon-pencil"></i>
+				<# } else { #>
+					<i class="eicon-preview-medium"></i>
+				<# } #>
 			</div>
 			<div class="elementor-navigator__element__indicators"></div>
 		</div>

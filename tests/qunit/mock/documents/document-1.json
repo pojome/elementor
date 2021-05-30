@@ -31,6 +31,9 @@
 	  }
 	}
   },
+  "properties": {
+    "supports_navigator_multi_documents": true
+  },
   "remoteLibrary": {
 	"type": "page",
 	"category": ""

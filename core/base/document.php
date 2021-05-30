@@ -111,6 +111,7 @@ abstract class Document extends Controls_Stack {
 			'show_in_finder' => true,
 			'show_on_admin_bar' => true,
 			'support_kit' => false,
+			'supports_navigator_multi_documents' => true,
 		];
 	}
 
@@ -512,6 +513,7 @@ abstract class Document extends Controls_Stack {
 			'type' => $this->get_name(),
 			'version' => $this->get_main_meta( '_elementor_version' ),
 			'settings' => $settings['page'],
+			'properties' => static::get_properties(),
 			'remoteLibrary' => $this->get_remote_library_config(),
 			'last_edited' => $this->get_last_edited(),
 			'panel' => static::get_editor_panel_config(),
