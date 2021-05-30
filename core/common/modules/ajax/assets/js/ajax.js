@@ -137,7 +137,7 @@ export default class extends elementorModules.Module {
 
 		return this.send( 'ajax', {
 			data: {
-				actions: JSON.stringify( actions ),
+				actions: actions,
 			},
 			success: ( data ) => {
 				Object.entries( data.responses ).forEach( ( [ id, response ] ) => {

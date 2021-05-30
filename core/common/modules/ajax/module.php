@@ -152,7 +152,7 @@ class Module extends BaseModule {
 		 */
 		do_action( 'elementor/ajax/register_actions', $this );
 
-		$this->requests = json_decode( stripslashes( $_REQUEST['actions'] ), true );
+		$this->requests = $_REQUEST['actions'];
 
 		foreach ( $this->requests as $id => $action_data ) {
 			$this->current_action_id = $id;
