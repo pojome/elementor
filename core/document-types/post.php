@@ -15,10 +15,7 @@ class Post extends PageBase {
 		return $properties;
 	}
 
-	/**
-	 * @access public
-	 */
-	public function get_name() {
+	public static function get_type() {
 		return 'wp-post';
 	}
 

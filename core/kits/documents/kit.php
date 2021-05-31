@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Kit extends PageBase {
+	const NAME = 'kit';
+
 	/**
 	 * @var Tabs\Tab_Base[]
 	 */
@@ -36,7 +38,7 @@ class Kit extends PageBase {
 		return $properties;
 	}
 
-	public function get_name() {
+	public static function get_type() {
 		return 'kit';
 	}
 

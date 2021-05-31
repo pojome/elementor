@@ -17,20 +17,33 @@
 
 		.select2-selection--multiple {
 			min-height: $control-unit;
+		  	line-height: 0;
 
 			.select2-selection__clear {
 				display: none;
 			}
 
 			.select2-selection__choice {
+			  	background-color: $editor-background-light;
+			  	color:$editor-dark;
 				line-height: 1.5;
 				font-size: 0.9em;
 				border: none;
 				border-radius: 0;
+			  	padding: 2px 3px;
 
 				&.select2-selection__e-plus-button {
 					cursor: pointer;
+				  	font-size: 10px;
 				}
+			}
+
+			.select2-selection__rendered {
+			  padding-bottom: 5px;
+			}
+
+		  	.select2-selection__choice__remove{
+			  color: $editor-light;
 			}
 		}
 	}

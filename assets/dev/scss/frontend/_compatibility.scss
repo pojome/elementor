@@ -24,70 +24,35 @@
 	font-style: normal;
 }
 
-
-// Temporary Compatibility for Elementor-Pro Share Buttons
-// TODO: Remove after Elementor Pro update.
-
-.elementor-portfolio.elementor-grid {
-	display: grid;
-}
-
-@mixin share-buttons-align($device) {
-	.elementor-share-buttons {
-		&#{$device} {
-			&--align {
-				&-right {
-					text-align: right;
-				}
-
-				&-left {
-					text-align: left;
-				}
-
-				&-center {
-					text-align: center;
-				}
-
-				&-justify {
-					text-align: justify;
-					text-align-last: justify;
-				}
-			}
-		}
-	}
-}
-
-@include share-buttons-align('');
-
-@media (max-width: $screen-md-max) {
-	@include share-buttons-align(-tablet);
-}
-
-@media (max-width: $screen-sm-max) {
-	@include share-buttons-align(-mobile);
-}
-
 .e--ua-appleWebkit {
-
 	// Fix glitch in Apple webkit browsers (inline-block items with word-spacing + text-align right)
 	&.rtl { --flex-right: flex-start; }
 
-	.elementor-widget-social-icons.e-grid-align-right, .elementor-share-buttons--align-right {
-		--justify-content: var(--flex-right, flex-end);
-	}
+	@mixin social-icons-align-right-safari($device: '') {
+		.elementor-widget-social-icons.e-grid-align#{$device}-right,
+		.elementor-share-buttons#{$device}--align-right {
+		  	--justify-content: var(--flex-right, flex-end);
+		}
 
-	.elementor-grid-0 {
-		&.elementor-widget-social-icons.e-grid-align-right,
-		&.elementor-share-buttons--align-right,
-		&.elementor-share-buttons--align-justify {
-			.elementor-widget-container {
-				margin-left: calc(-0.5 * var(--grid-column-gap));
-				margin-right: calc(-0.5 * var(--grid-column-gap));
+		.elementor-widget-social-icons.e-grid-align#{$device}-center,
+		.elementor-share-buttons#{$device}--align-center {
+		  	--justify-content: center;
+		}
+
+		.elementor-grid-0 {
+			&.elementor-widget-social-icons.e-grid-align#{$device}-right,
+			&.elementor-widget-social-icons.e-grid-align#{$device}-center,
+			&.elementor-share-buttons--align#{$device}-right,
+			&.elementor-share-buttons--align#{$device}-center,
+			&.elementor-share-buttons--align#{$device}-justify {
 
 				.elementor-grid {
+				  	width: auto;
 					display: flex;
 					flex-wrap: wrap;
 					justify-content: var(--justify-content, space-between);
+					margin-left: calc(-0.5 * var(--grid-column-gap));
+					margin-right: calc(-0.5 * var(--grid-column-gap));
 
 					&-item {
 						margin-left: calc(0.5 * var(--grid-column-gap));
@@ -96,5 +61,30 @@
 				}
 			}
 		}
+
+		.elementor-grid-0 {
+			&.elementor-widget-social-icons.e-grid-align#{$device}-left,
+			&.elementor-share-buttons--align#{$device}-left {
+				.elementor-grid {
+					display: inline-block;
+
+				  	&,
+					&-item {
+						margin-left: 0;
+						margin-right: 0;
+					}
+				}
+			}
+		}
+	}
+
+	@include social-icons-align-right-safari();
+
+	@media (max-width: $screen-md-max) {
+	  	@include social-icons-align-right-safari('-tablet');
+	}
+
+	@media (max-width: $screen-sm-max) {
+	  	@include social-icons-align-right-safari('-mobile');
 	}
 }

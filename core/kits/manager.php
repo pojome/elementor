@@ -29,7 +29,20 @@ class Manager {
 
 		if ( ! $kit_document || ! $kit_document instanceof Kit || 'trash' === $kit_document->get_main_post()->post_status ) {
 			$id = $this->create_default();
+
 			update_option( self::OPTION_ACTIVE, $id );
+
+			/**
+			 * A. Before publish, to prevent recursive loop in cases where the use of `get_active_id` called within a saving process
+			 * update the post status, after kit id is saved.
+			 * B. Since `wp_update_post` will trigger revision creation 'post_updated' action is disabled.
+			 */
+			remove_action( 'post_updated', 'wp_save_post_revision' );
+			wp_update_post( [
+				'ID' => $id,
+				'post_status' => 'publish',
+			] );
+			add_action( 'post_updated', 'wp_save_post_revision' );
 		}
 
 		return $id;
@@ -98,14 +111,17 @@ class Manager {
 	}
 
 	private function create_default() {
-		return $this->create( [ 'post_title' => __( 'Default Kit', 'elementor' ) ] );
+		return $this->create( [
+			'post_title' => __( 'Default Kit', 'elementor' ),
+			'post_status' => 'new',
+		] );
 	}
 
 	/**
 	 * @param Documents_Manager $documents_manager
 	 */
 	public function register_document( $documents_manager ) {
-		$documents_manager->register_document_type( 'kit', Kit::get_class_full_name() );
+		$documents_manager->register_document_type( Kit::NAME, Kit::get_class_full_name() );
 	}
 
 	public function localize_settings( $settings ) {

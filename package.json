@@ -9,7 +9,8 @@
 	"scripts": {
 		"test:php": "docker-compose run --rm wordpress_phpunit phpunit",
 		"test:php_multisite": "docker-compose run -e WP_MULTISITE=1 --rm wordpress_phpunit phpunit",
-		"test:qunit": "grunt qunit"
+		"test:qunit": "grunt qunit",
+		"postinstall": "composer install"
 	},
 	"devDependencies": {
 		"@babel/core": "7.0.0",

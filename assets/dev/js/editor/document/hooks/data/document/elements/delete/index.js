@@ -1,3 +1,4 @@
 // Alphabetical order.
 
-export { SectionsColumns } from './section-columns';
+export { CreateColumnForEmptySection } from './create-column-for-empty-section';
+export { DeleteColumnColumnsResetLayout } from './delete-column-columns-reset-layout';

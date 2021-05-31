@@ -220,12 +220,17 @@ ControlsCSSParser = elementorModules.ViewModule.extend( {
 	},
 
 	getStyleControlValue: function( control, values ) {
-		if ( values.__globals__?.[ control.name ] ) {
+		const container = this.getSettings()?.context?.container,
+			isGlobalApplied = container?.isGlobalApplied( control.name ),
+			globalKey = values.__globals__?.[ control.name ] || control.global?.default;
+
+		// Set a global value only if it's is applied.
+		if ( isGlobalApplied && globalKey ) {
 			// When the control itself has no global value, but it refers to another control global value
-			return this.getSelectorGlobalValue( control, values.__globals__[ control.name ] );
+			return this.getSelectorGlobalValue( control, globalKey );
 		}
 
-		var value = values[ control.name ];
+		let value = values[ control.name ];
 
 		if ( control.selectors_dictionary ) {
 			value = control.selectors_dictionary[ value ] || value;

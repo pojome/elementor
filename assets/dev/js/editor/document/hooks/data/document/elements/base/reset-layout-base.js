@@ -1,18 +1,6 @@
 import After from 'elementor-api/modules/hooks/data/after';
 
-export class SectionColumnsResetLayout extends After {
-	getCommand() {
-		return 'document/elements/create';
-	}
-
-	getId() {
-		return 'section-columns-reset-layout';
-	}
-
-	getContainerType() {
-		return 'section';
-	}
-
+export default class ResetLayoutBase extends After {
 	getConditions() {
 		// On `document/elements/move` do not fire the hook!.
 		return ! $e.commands.isCurrentFirstTrace( 'document/elements/move' );
@@ -36,5 +24,3 @@ export class SectionColumnsResetLayout extends After {
 		);
 	}
 }
-
-export default SectionColumnsResetLayout;

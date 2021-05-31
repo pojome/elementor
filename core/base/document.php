@@ -7,6 +7,7 @@ use Elementor\Core\Utils\Exceptions;
 use Elementor\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
+use Elementor\TemplateLibrary\Source_Local;
 use Elementor\User;
 use Elementor\Core\Settings\Manager as SettingsManager;
 use Elementor\Utils;
@@ -187,12 +188,22 @@ abstract class Document extends Controls_Stack {
 		return get_called_class();
 	}
 
+	public static function get_create_url() {
+		$base_create_url = Plugin::$instance->documents->get_create_new_post_url( Source_Local::CPT );
+
+		return add_query_arg( [ 'template_type' => static::get_type() ], $base_create_url );
+	}
+
+	public function get_name() {
+		return static::get_type();
+	}
+
 	/**
 	 * @since 2.0.0
 	 * @access public
 	 */
 	public function get_unique_name() {
-		return $this->get_name() . '-' . $this->post->ID;
+		return static::get_type() . '-' . $this->post->ID;
 	}
 
 	/**
@@ -203,15 +214,6 @@ abstract class Document extends Controls_Stack {
 		$post_type_object = get_post_type_object( $this->post->post_type );
 
 		return $post_type_object->labels->singular_name;
-	}
-
-	/**
-	 * @since 2.0.12
-	 * @deprecated 2.4.0 Use `Document::get_remote_library_config()` instead
-	 * @access public
-	 */
-	public function get_remote_library_type() {
-		_deprecated_function( __METHOD__, '2.4.0', __CLASS__ . '::get_remote_library_config()' );
 	}
 
 	/**
@@ -268,17 +270,6 @@ abstract class Document extends Controls_Stack {
 	 */
 	public function get_main_post() {
 		return get_post( $this->get_main_id() );
-	}
-
-	/**
-	 * @since 2.0.6
-	 * @deprecated 2.4.0 Use `Document::get_container_attributes()` instead
-	 * @access public
-	 */
-	public function get_container_classes() {
-		_deprecated_function( __METHOD__, '2.4.0', __CLASS__ . '::get_container_attributes()' );
-
-		return '';
 	}
 
 	public function get_container_attributes() {
@@ -573,6 +564,16 @@ abstract class Document extends Controls_Stack {
 	 * @return bool
 	 */
 	public function save( $data ) {
+		/**
+		 * Fires when document save starts on Elementor.
+		 *
+		 * @param array $data.
+		 * @param \Elementor\Core\Base\Document $this The current document.
+		 *
+		 * @since 3.3.0
+		 */
+		$data = apply_filters( 'elementor/document/save/data', $data, $this );
+
 		$this->add_handle_revisions_changed_filter();
 
 		if ( ! $this->is_editable_by_current_user() ) {

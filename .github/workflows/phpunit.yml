@@ -21,6 +21,7 @@ jobs:
           wget --quiet -O /tmp/phpunit-5 https://phar.phpunit.de/phpunit-5.phar
           wget --quiet -O /tmp/phpunit-6 https://phar.phpunit.de/phpunit-6.phar
           wget --quiet -O /tmp/phpunit-7 https://phar.phpunit.de/phpunit-7.phar
+          composer install
       - name: PHP5.6
         run: php5.6 /tmp/phpunit-5
       - name: PHP5.6 - Multisite

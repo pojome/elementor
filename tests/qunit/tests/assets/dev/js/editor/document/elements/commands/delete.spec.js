@@ -12,7 +12,7 @@ export const Delete = () => {
 				ElementsHelper.delete( eButton1 );
 
 				// Validate.
-				assert.equal( eColumn.view.collection.length, 1, 'Button #1 were deleted.' );
+				assert.equal( eColumn.children.length, 1, 'Button #1 were deleted.' );
 
 				// Ensure editor saver.
 				$e.internal( 'document/save/set-is-modified', { status: false } );
@@ -20,7 +20,7 @@ export const Delete = () => {
 				ElementsHelper.delete( eButton2 );
 
 				// Validate.
-				assert.equal( eColumn.view.collection.length, 0, 'Button #2 were deleted.' );
+				assert.equal( eColumn.children.length, 0, 'Button #2 were deleted.' );
 
 				assert.equal( elementor.saver.isEditorChanged(), true,
 					'Command applied the saver editor is changed.' );
@@ -58,7 +58,7 @@ export const Delete = () => {
 			ElementsHelper.multiDelete( [ eButton1, eButton2 ] );
 
 			// Validate.
-			assert.equal( eColumn.view.collection.length, 0, 'Buttons were deleted.' );
+			assert.equal( eColumn.children.length, 0, 'Buttons were deleted.' );
 		} );
 	} );
 };

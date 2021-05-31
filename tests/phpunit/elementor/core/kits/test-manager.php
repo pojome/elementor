@@ -75,6 +75,8 @@ class Test_Manager extends Elementor_Test_Base {
 		update_option( 'blogname', $expected_name );
 		update_option( 'blogdescription', $expected_description );
 
+		$kit = Plugin::$instance->documents->get( $kit->get_id(), false );
+
 		$this->assertEquals( $expected_name, $kit->get_settings( 'site_name' ) );
 		$this->assertEquals( $expected_description, $kit->get_settings( 'site_description' ) );
 		$this->assertEquals( $custom_colors_array, $kit->get_settings( 'custom_colors' ), 'It should not remove the old kit settings.' );

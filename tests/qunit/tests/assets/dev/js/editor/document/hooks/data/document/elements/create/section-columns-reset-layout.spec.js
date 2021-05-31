@@ -12,7 +12,7 @@ export const SectionColumnsResetLayout = () => {
 
 		QUnit.test( 'After undo', ( assert ) => {
 			const eSection = ElementsHelper.createSection( 2 ),
-				firstColumn = eSection.view.children.findByIndex( 0 ).getContainer();
+				firstColumn = eSection.children[ 0 ];
 
 			// Validate the first column `_column_size`, is 50.
 			assert.equal( firstColumn.settings.attributes._column_size, 50,
@@ -53,11 +53,9 @@ export const SectionColumnsResetLayout = () => {
 			$e.run( 'document/history/undo' );
 
 			let count = 0;
-			Object.entries( eSection.lookup().view.children._views ).forEach( ( childrenView ) => {
-				const childContainer = childrenView[ 1 ].getContainer();
-
+			eSection.lookup().children.forEach( ( eColumn ) => {
 				// Validate all child(s) have '_column_size = 50'.
-				assert.equal( childContainer.settings.attributes._column_size, 50,
+				assert.equal( eColumn.settings.attributes._column_size, 50,
 					`Column #${ count }, _column_size is "50"` );
 
 				count++;

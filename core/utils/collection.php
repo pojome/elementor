@@ -305,4 +305,29 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate {
 	public function count() {
 		return count( $this->items );
 	}
+
+	/**
+	 * Clear empty array recursively.
+	 *
+	 * @param null|array $array
+	 *
+	 * @return array
+	 */
+	public function clear_empty_recursive( $array = null ) {
+		if ( null === $array ) {
+			$array = &$this->items;
+		}
+
+		foreach ( $array as $key => &$value ) {
+			if ( is_array( $value ) ) {
+				$value = $this->clear_empty_recursive( $value );
+			}
+
+			if ( empty( $value ) ) {
+				unset( $array[ $key ] );
+			}
+		}
+
+		return $array;
+	}
 }

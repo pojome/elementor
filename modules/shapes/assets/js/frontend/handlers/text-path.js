@@ -109,10 +109,8 @@ export default class TextPathHandler extends elementorModules.frontend.handlers.
 	 * @returns {void}
 	 */
 	initTextPath() {
-		const {
-			start_point: startPoint,
-			text,
-		} = this.getElementSettings();
+		const { start_point: startPoint } = this.getElementSettings();
+		const text = this.elements.pathContainer.dataset.text;
 
 		this.attachIdToPath();
 

@@ -23,12 +23,7 @@ class Page extends PageBase {
 		return $properties;
 	}
 
-	/**
-	 * Get Name
-	 *
-	 * @access public
-	 */
-	public function get_name() {
+	public static function get_type() {
 		return 'wp-page';
 	}
 

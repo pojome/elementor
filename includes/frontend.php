@@ -4,6 +4,7 @@ namespace Elementor;
 use Elementor\Core\Base\App;
 use Elementor\Core\Base\Document;
 use Elementor\Core\Frontend\Render_Mode_Manager;
+use Elementor\Core\Kits\Documents\Kit;
 use Elementor\Core\Responsive\Files\Frontend as FrontendFile;
 use Elementor\Core\Files\CSS\Global_CSS;
 use Elementor\Core\Files\CSS\Post as Post_CSS;
@@ -1230,7 +1231,7 @@ class Frontend extends App {
 		$settings['settings'] = SettingsManager::get_settings_frontend_config();
 
 		$kit = Plugin::$instance->kits_manager->get_active_kit_for_frontend();
-		$settings['kit'] = $kit->get_frontend_settings();
+		$settings[ Kit::NAME ] = $kit->get_frontend_settings();
 
 		if ( is_singular() ) {
 			$post = get_post();
@@ -1295,6 +1296,7 @@ class Frontend extends App {
 				'value' => $breakpoint->get_value(),
 				'direction' => $breakpoint->get_direction(),
 				'is_enabled' => $breakpoint->is_enabled(),
+				'default_value' => $breakpoint->get_default_value(),
 			];
 		}
 

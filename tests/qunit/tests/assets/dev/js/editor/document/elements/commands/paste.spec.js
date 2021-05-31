@@ -63,7 +63,7 @@ export const Paste = () => {
 				// Check pasted button exist.
 				let count = 1;
 				eColumns.forEach( ( eColumn ) => {
-					assert.equal( eColumn.view.children.length, 2,
+					assert.equal( eColumn.children.length, 2,
 						`Button #${ count } were pasted.` );
 					++count;
 				} );

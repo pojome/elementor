@@ -5,7 +5,9 @@ use Elementor\Core\Base\Document;
 use Elementor\Core\Base\Module as BaseModule;
 use Elementor\Core\DynamicTags\Manager;
 use Elementor\Modules\System_Info\Module as System_Info;
+use Elementor\Modules\Usage\Collection\DocumentSettingsUsage;
 use Elementor\Plugin;
+use Elementor\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -19,9 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  */
 class Module extends BaseModule {
-	const GENERAL_TAB = 'general';
-	const META_KEY = '_elementor_controls_usage';
-	const OPTION_NAME = 'elementor_controls_usage';
+	const ELEMENTS_META_KEY = '_elementor_elements_usage';
+	const ELEMENTS_OPTION_NAME = 'elementor_elements_usage';
+
+	const DOCUMENT_META_KEY = '_elementor_document_usage';
+	const DOCUMENT_OPTION_NAME = 'elementor_document_usage';
 
 	/**
 	 * @var bool
@@ -90,7 +94,7 @@ class Module extends BaseModule {
 	public function get_formatted_usage( $format = 'html' ) {
 		$usage = [];
 
-		foreach ( get_option( self::OPTION_NAME, [] ) as $doc_type => $elements ) {
+		foreach ( get_option( self::ELEMENTS_OPTION_NAME, [] ) as $doc_type => $elements ) {
 			$doc_class = Plugin::$instance->documents->get_document_type( $doc_type );
 
 			if ( 'html' === $format && $doc_class ) {
@@ -163,7 +167,7 @@ class Module extends BaseModule {
 		$new_status = isset( $data['settings']['post_status'] ) ? $data['settings']['post_status'] : '';
 
 		if ( $current_status === $new_status ) {
-			$this->remove_from_global( $document );
+			$this->remove_document_usage( $document );
 		}
 
 		$this->is_document_saving = true;
@@ -213,7 +217,7 @@ class Module extends BaseModule {
 		$is_private_unpublish = 'private' === $old_status && 'private' !== $new_status;
 
 		if ( $is_public_unpublish || $is_private_unpublish ) {
-			$this->remove_from_global( $document );
+			$this->remove_document_usage( $document );
 		}
 
 		$is_public_publish = 'publish' !== $old_status && 'publish' === $new_status;
@@ -238,7 +242,7 @@ class Module extends BaseModule {
 			return;
 		}
 
-		$this->remove_from_global( $document );
+		$this->remove_document_usage( $document );
 	}
 
 	/**
@@ -251,7 +255,8 @@ class Module extends BaseModule {
 	 * @return array
 	 */
 	public function add_tracking_data( $params ) {
-		$params['usages']['elements'] = get_option( self::OPTION_NAME );
+		$params['usages']['elements'] = get_option( self::ELEMENTS_OPTION_NAME );
+		$params['usages']['documents'] = DocumentSettingsUsage::create()->all();
 
 		return $params;
 	}
@@ -270,7 +275,7 @@ class Module extends BaseModule {
 		// While requesting recalc_usage, data should be deleted.
 		// if its in a batch the data should be deleted only on the first batch.
 		if ( 0 === $offset ) {
-			delete_option( self::OPTION_NAME );
+			delete_option( self::ELEMENTS_OPTION_NAME );
 		}
 
 		$post_types = get_post_types( array( 'public' => true ) );
@@ -308,9 +313,9 @@ class Module extends BaseModule {
 	 * @param string $tab
 	 * @param string $section
 	 * @param string $control
-	 * @param int $count
+	 * @param int $amount
 	 */
-	private function increase_controls_count( &$element_ref, $tab, $section, $control, $count ) {
+	private function increase_controls_count( &$element_ref, $tab, $section, $control, $amount ) {
 		if ( ! isset( $element_ref['controls'][ $tab ] ) ) {
 			$element_ref['controls'][ $tab ] = [];
 		}
@@ -323,7 +328,7 @@ class Module extends BaseModule {
 			$element_ref['controls'][ $tab ][ $section ][ $control ] = 0;
 		}
 
-		$element_ref['controls'][ $tab ][ $section ][ $control ] += $count;
+		$element_ref['controls'][ $tab ][ $section ][ $control ] += $amount;
 	}
 
 	/**
@@ -383,7 +388,7 @@ class Module extends BaseModule {
 			// Add dynamic count to controls under `general` tab.
 			$this->increase_controls_count(
 				$element_ref,
-				self::GENERAL_TAB,
+				Settings::TAB_GENERAL,
 				Manager::DYNAMIC_SETTING_KEY,
 				'count',
 				count( $settings_controls[ Manager::DYNAMIC_SETTING_KEY ] )
@@ -394,17 +399,17 @@ class Module extends BaseModule {
 	}
 
 	/**
-	 * Add to global.
+	 * Add document elements to global.
 	 *
-	 * Add's usage to global (update database).
+	 * Adds usage of document elements (update database).
 	 *
 	 * @param string $doc_name
 	 * @param array $doc_usage
 	 */
-	private function add_to_global( $doc_name, $doc_usage ) {
-		$global_usage = get_option( self::OPTION_NAME, [] );
+	private function add_document_elements_to_global( $doc_name, $doc_usage ) {
+		$global_usage = get_option( self::ELEMENTS_OPTION_NAME, [] );
 
-		foreach ( $doc_usage as $element_type => $element_data ) {
+		foreach ( $doc_usage as $element_type => $element_usage_data ) {
 			if ( ! isset( $global_usage[ $doc_name ] ) ) {
 				$global_usage[ $doc_name ] = [];
 			}
@@ -416,34 +421,34 @@ class Module extends BaseModule {
 				];
 			}
 
-			$global_element_ref = &$global_usage[ $doc_name ][ $element_type ];
-			$global_element_ref['count'] += $element_data['count'];
+			$global_usage_ref = &$global_usage[ $doc_name ][ $element_type ];
+			$global_usage_ref['count'] += $element_usage_data['count'];
 
-			if ( empty( $element_data['controls'] ) ) {
+			if ( empty( $element_usage_data['controls'] ) ) {
 				continue;
 			}
 
-			foreach ( $element_data['controls'] as $tab => $sections ) {
+			foreach ( $element_usage_data['controls'] as $tab => $sections ) {
 				foreach ( $sections as $section => $controls ) {
 					foreach ( $controls as $control => $count ) {
-						$this->increase_controls_count( $global_element_ref, $tab, $section, $control, $count );
+						$this->increase_controls_count( $global_usage_ref, $tab, $section, $control, $count );
 					}
 				}
 			}
 		}
 
-		update_option( self::OPTION_NAME, $global_usage, false );
+		update_option( self::ELEMENTS_OPTION_NAME, $global_usage, false );
 	}
 
 	/**
-	 * Remove from global.
+	 * Remove document elements from global.
 	 *
-	 * Remove's usage from global (update database).
+	 * Remove's usage of elements from global (update database).
 	 *
 	 * @param Document $document
 	 */
-	private function remove_from_global( $document ) {
-		$prev_usage = $document->get_meta( self::META_KEY );
+	private function remove_document_elements_from_global( $document ) {
+		$prev_usage = $document->get_meta( self::ELEMENTS_META_KEY );
 
 		if ( empty( $prev_usage ) ) {
 			return;
@@ -451,7 +456,7 @@ class Module extends BaseModule {
 
 		$doc_name = $document->get_name();
 
-		$global_usage = get_option( self::OPTION_NAME, [] );
+		$global_usage = get_option( self::ELEMENTS_OPTION_NAME, [] );
 
 		foreach ( $prev_usage as $element_type => $doc_value ) {
 			if ( isset( $global_usage[ $doc_name ][ $element_type ]['count'] ) ) {
@@ -485,9 +490,9 @@ class Module extends BaseModule {
 			}
 		}
 
-		update_option( self::OPTION_NAME, $global_usage, false );
+		update_option( self::ELEMENTS_OPTION_NAME, $global_usage, false );
 
-		$document->delete_meta( self::META_KEY );
+		$document->delete_meta( self::ELEMENTS_META_KEY );
 	}
 
 	/**
@@ -562,17 +567,33 @@ class Module extends BaseModule {
 		// Get data manually to avoid conflict with `\Elementor\Core\Base\Document::get_elements_data... convert_to_elementor`.
 		$data = $document->get_json_meta( '_elementor_data' );
 
-		if ( ! empty( $data ) ) {
-			try {
-				$usage = $this->get_elements_usage( $document->get_elements_raw_data( $data ) );
+		try {
+			$this->add_document_usage( $document, $data );
+		} catch ( \Exception $exception ) {
+			return; // Do nothing.
+		};
+	}
 
-				$document->update_meta( self::META_KEY, $usage );
+	private function add_document_usage( $document, $data ) {
+		if ( $data ) {
+			$elements_usage = $this->get_elements_usage( $document->get_elements_raw_data( $data ) );
 
-				$this->add_to_global( $document->get_name(), $usage );
-			} catch ( \Exception $exception ) {
-				return; // Do nothing.
-			};
+			$document->update_meta( self::ELEMENTS_META_KEY, $elements_usage );
+
+			$this->add_document_elements_to_global( $document->get_name(), $elements_usage );
 		}
+
+		DocumentSettingsUsage::create()
+			->add( $document )
+			->save();
+	}
+
+	private function remove_document_usage( $document ) {
+		$this->remove_document_elements_from_global( $document );
+
+		DocumentSettingsUsage::create()
+			->remove( $document )
+			->save();
 	}
 
 	/**

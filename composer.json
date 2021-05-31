@@ -1,0 +1,16 @@
+{
+	"name": "elementor/elementor",
+	"description": "WordPress website builder, with no limits of design. A website builder that delivers high-end page designs and advanced capabilities, never before seen on WordPress.",
+	"type": "project",
+	"license": "GNU General Public License v3.0",
+	"minimum-stability": "stable",
+	"require": {},
+	"require-dev": {
+		"justinrainbow/json-schema": "^5.2"
+	},
+	"authors": [
+		{
+			"name": "Elementor team"
+		}
+	]
+}

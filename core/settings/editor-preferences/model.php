@@ -99,6 +99,21 @@ class Model extends BaseModel {
 			]
 		);
 
+		$this->add_control(
+			'default_device_view',
+			[
+				'label' => __( 'Default Device View ', 'elementor' ),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'default',
+				'options' => [
+					'default' => __( 'Default', 'elementor' ),
+					'mobile' => __( 'Mobile', 'elementor' ),
+					'tablet' => __( 'Tablet', 'elementor' ),
+					'desktop' => __( 'Desktop', 'elementor' ),
+				],
+			]
+		);
+
 		$this->end_controls_section();
 	}
 }

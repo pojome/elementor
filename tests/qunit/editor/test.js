@@ -1,6 +1,7 @@
 import EditorBase from 'elementor-editor/editor-base';
 import config from './config';
 import frontend from './frontend';
+import ContainerHelper from 'elementor/tests/qunit/tests/assets/dev/js/editor/container/helper';
 
 export default class EditorTest extends EditorBase {
 	constructor( options ) {
@@ -21,6 +22,12 @@ export default class EditorTest extends EditorBase {
 			if ( QUnit.config.showUI ) {
 				// eslint-disable-next-line no-console
 				console.log( `Done: ${ module } -> ${ name }` );
+			}
+
+			if ( QUnit.config.validateContainersAlive ) {
+				if ( ! ContainerHelper.isAllAliveRecursive( elementor.getPreviewContainer() ) ) {
+					console.error( `Not all the containers alive: ${ module } -> ${ name }` );
+				}
 			}
 		} );
 	}
