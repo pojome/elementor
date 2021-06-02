@@ -21,6 +21,7 @@ if ( ! Plugin::$instance->role_manager->user_can( 'design' ) ) {
 }
 
 $notice = Plugin::$instance->editor->notice_bar->get_notice();
+$optimizer_active = Plugin::$instance->experiments->is_feature_active( 'elementor_optimizer' );
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -67,6 +68,9 @@ $notice = Plugin::$instance->editor->notice_bar->get_notice();
 	</div>
 	<div id="elementor-navigator"></div>
 </div>
+<?php if ( $optimizer_active ) { ?>
+<div id="elementor-optimizer"></div>
+<?php } ?>
 <?php
 	wp_footer();
 	/** This action is documented in wp-admin/admin-footer.php */

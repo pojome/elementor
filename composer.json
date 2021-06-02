@@ -4,7 +4,10 @@
 	"type": "project",
 	"license": "GNU General Public License v3.0",
 	"minimum-stability": "stable",
-	"require": {},
+	"require": {
+		"rosell-dk/webp-convert": "^2.5",
+		"mrmanchot/squeezio": "^1.0"
+	},
 	"require-dev": {
 		"justinrainbow/json-schema": "^5.2"
 	},

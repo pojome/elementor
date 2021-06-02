@@ -268,6 +268,15 @@ class Manager extends Base_Object {
 			'release_status' => self::RELEASE_STATUS_BETA,
 			'default' => self::STATE_ACTIVE,
 		] );
+
+		$this->add_feature( [
+			'name' => 'elementor_optimizer',
+			'title' => __( 'Elementor Optimizer', 'elementor' ),
+			'description' => __( 'A set of optimizations that will make your pages load fast and score well.', 'elementor' )
+				. '<br>'
+				. __( 'For all settings, go to - Optimizer Settings Page', 'elementor' ),
+			'release_status' => self::RELEASE_STATUS_DEV,
+		] );
 	}
 
 	/**

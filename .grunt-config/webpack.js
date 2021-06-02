@@ -92,6 +92,7 @@ const frontendEntries = {
 	'frontend-modules': path.resolve( __dirname, '../assets/dev/js/frontend/modules.js' ),
 	'frontend': { import: path.resolve( __dirname, '../assets/dev/js/frontend/frontend.js' ), dependOn: 'frontend-modules' },
 	'preloaded-modules': { import: path.resolve( __dirname, '../assets/dev/js/frontend/preloaded-modules.js' ), dependOn: 'frontend' },
+	'analyzer': { import: path.resolve( __dirname, '../assets/dev/js/frontend/analyzer.js' ), dependOn: 'frontend' },
 };
 
 const externals = {
