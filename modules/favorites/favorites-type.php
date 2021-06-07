@@ -1,26 +1,26 @@
 <?php
-namespace Elementor\Core\Editor\Data\Favorites;
+namespace Elementor\Modules\Favorites;
 
-use Elementor\Core\Utils\Collection as Base_Collection;
+use Elementor\Core\Utils\Collection;
 
-abstract class Collection {
+abstract class Favorites_Type {
 
 	/**
 	 * The Laravel inspired Collection.
 	 *
-	 * @var Base_Collection|null
+	 * @var Collection|null
 	 */
 	protected $collection = null;
 
 	/**
-	 * Collection constructor.
+	 * Favorites Type constructor.
 	 */
 	public function __construct() {
-		$this->collection = new Base_Collection( [] );
+		$this->collection = new Collection( [] );
 	}
 
 	/**
-	 * Get the name of favorites collection.
+	 * Get the name of the type.
 	 *
 	 * @return mixed
 	 */
@@ -34,7 +34,7 @@ abstract class Collection {
 	 * @return array
 	 */
 	public function prepare( $favorites ) {
-		if ( ! is_array( $favorites ) && ! $favorites instanceof Base_Collection ) {
+		if ( ! is_array( $favorites ) && ! $favorites instanceof Collection ) {
 			return [ $favorites ];
 		}
 
@@ -53,7 +53,7 @@ abstract class Collection {
 	public function __call( $name, $arguments ) {
 		$call = call_user_func_array( [ $this->collection, $name ], $arguments );
 
-		if ( null !== $call && $call instanceof Base_Collection ) {
+		if ( null !== $call && $call instanceof Collection ) {
 			$this->collection = $call->unique();
 		}
 

@@ -302,14 +302,6 @@ select {
 			color: $theme-dark-light;
 		}
 
-		.e-element-favorite {
-			background-color: $theme-dark-gray-darkest;
-
-			&.e-element-favorite-active {
-				background-color: $theme-dark-dark;
-			}
-		}
-
 		&:hover {
 
 			.title,

@@ -38,17 +38,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <script type="text/template" id="tmpl-elementor-element-library-element">
 	<div class="elementor-element">
 		<#
-			const active = obj.categories.includes( 'favorites' );
-			const properties = {
-				class: active ? 'e-element-favorite-active' : '',
-				icon: active ? 'eicon-heart' : 'eicon-heart-o',
-			};
+			const before = elementor.hooks.applyFilters( 'panel/element/before', '' );
 		#>
-		<div class="e-element-favorite {{ properties.class }}">
-			<i class="{{ properties.icon }}" aria-hidden="true"></i>
-		</div>
+		{{{ before }}}
 		<# if ( false === obj.editable ) { #>
-			<i class="eicon-lock"></i>
+		<i class="eicon-lock"></i>
 		<# } #>
 		<div class="icon">
 			<i class="{{ icon }}" aria-hidden="true"></i>
@@ -56,6 +50,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="elementor-element-title-wrapper">
 			<div class="title">{{{ title }}}</div>
 		</div>
+		<#
+			const after = elementor.hooks.applyFilters( 'panel/element/after', '' );
+		#>
+		{{{ after }}}
 	</div>
 </script>
 

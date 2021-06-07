@@ -1,12 +1,9 @@
 import DocumentComponent from './document/component';
 import DataGlobalsComponent from './data/globals/component';
-import DataFavoritesComponent from './regions/panel/pages/elements/favorites/component';
 
 elementorCommon.elements.$window.on( 'elementor:init-components', () => {
 	// TODO: Move to elementor:init-data-components
 	$e.components.register( new DataGlobalsComponent() );
-
-	$e.components.register( new DataFavoritesComponent() );
 
 	$e.components.register( new DocumentComponent() );
 

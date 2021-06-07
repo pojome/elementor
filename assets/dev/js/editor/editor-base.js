@@ -4,6 +4,7 @@ import ColorControl from './controls/color';
 import DateTimeControl from 'elementor-controls/date-time';
 import EditorDocuments from 'elementor-editor/component';
 import environment from 'elementor-common/utils/environment';
+import Favorites from 'elementor/modules/favorites/assets/js/editor/module';
 import HistoryManager from 'elementor/modules/history/assets/js/module';
 import HotkeysScreen from './components/hotkeys/hotkeys';
 import IconsManager from './components/icons-manager/icons-manager';
@@ -341,6 +342,8 @@ export default class EditorBase extends Marionette.Application {
 		this.iconManager = new IconsManager();
 
 		this.noticeBar = new NoticeBar();
+
+		this.favorites = new Favorites();
 
 		this.history = new HistoryManager();
 

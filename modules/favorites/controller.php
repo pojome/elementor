@@ -1,5 +1,5 @@
 <?php
-namespace Elementor\Core\Editor\Data\Favorites;
+namespace Elementor\Modules\Favorites;
 
 use Elementor\Data\Base\Controller as Controller_Base;
 

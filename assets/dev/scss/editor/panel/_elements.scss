@@ -105,40 +105,11 @@
 			transition: $transition-hover;
 		}
 
-		.e-element-favorite {
-			visibility: hidden;
-			background-color: $editor-light;
-			width: 25px;
-			height: 25px;
-			border-radius: 3px;
-			position: absolute;
-			z-index: 2;
-			display: table;
-			top: 3px;
-			right: 3px;
-			color: #fff;
-			text-align: center;
-			cursor: pointer;
-
-			> * {
-				display: table-cell;
-				vertical-align: middle;
-			}
-
-			&.e-element-favorite-active {
-				background-color: $brand-color-dark-pink;
-			}
-		}
-
 		&:hover {
 			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 
 			.icon, .title {
 				color: $editor-accent;
-			}
-
-			.e-element-favorite {
-				visibility: visible;
 			}
 		}
 
