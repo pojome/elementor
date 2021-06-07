@@ -42,7 +42,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		#>
 		{{{ before }}}
 		<# if ( false === obj.editable ) { #>
-		<i class="eicon-lock"></i>
+			<i class="eicon-lock"></i>
 		<# } #>
 		<div class="icon">
 			<i class="{{ icon }}" aria-hidden="true"></i>
