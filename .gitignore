@@ -4,6 +4,7 @@ node_modules/
 log/
 vendor/
 local-site/
+tmp/
 
 # build outputs
 build/
@@ -13,7 +14,6 @@ assets/js/
 *.map
 
 # build tools lock
-composer.lock
 yarn.lock
 
 # IDE's

@@ -37,14 +37,11 @@ jobs:
           php-version: '7.4'
       - name: Install Dependencies
         run: |
-          composer global require "squizlabs/php_codesniffer=*"
-          composer global require wp-coding-standards/wpcs
+          composer install
           composer require php-parallel-lint/php-parallel-lint
       - name: Run Lint
         run: |
-          export PATH=$HOME/.composer/vendor/bin:$PATH
-          phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
-          phpcs -p -s -n . --standard=./ruleset.xml --extensions=php
+          vendor/bin/phpcs -p -s -n . --standard=./phpcs.xml --extensions=php
       - name: Run PHP Syntax Lint
         run: |
           export PATH=$HOME/.composer/vendor/bin:$PATH
