@@ -38,22 +38,25 @@ module.exports = Marionette.Behavior.extend( {
 			afterGroupIndex = contextMenuGroups.length;
 		}
 
-		contextMenuGroups.splice( afterGroupIndex, 0, {
-			name: 'tools',
-			actions: [
-				{
-					name: 'navigator',
-					title: __( 'Navigator', 'elementor' ),
-					callback: () => $e.route( 'navigator', {
-						reOpen: true,
-						model: this.view.model,
-					} ),
-				},
-			],
-		} );
+		if ( ! this.getOption( 'outsideIframe' ) ) {
+			contextMenuGroups.splice( afterGroupIndex, 0, {
+				name: 'tools',
+				actions: [
+					{
+						name: 'navigator',
+						title: __( 'Navigator', 'elementor' ),
+						callback: () => $e.route( 'navigator', {
+							reOpen: true,
+							model: this.view.model,
+						} ),
+					},
+				],
+			} );
+		}
 
 		this.contextMenu = new ContextMenu( {
 			groups: contextMenuGroups,
+			outsideIframe: this.getOption( 'outsideIframe' ),
 		} );
 
 		this.contextMenu.getModal().on( 'hide', this.onContextMenuHide );
@@ -73,7 +76,7 @@ module.exports = Marionette.Behavior.extend( {
 		}
 
 		const isAddSectionView = this.view instanceof AddSectionBase;
-		if ( ! isAddSectionView && ( ! this.view.container || ! this.view.container.isDesignable() ) ) {
+		if ( ! isAddSectionView && ! this.getOption( 'outsideIframe' ) && ( ! this.view.container || ! this.view.container.isDesignable() ) ) {
 				return;
 		}
 
