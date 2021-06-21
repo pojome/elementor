@@ -1,12 +1,10 @@
 import FavoriteType from '../../favorite-type';
-import PanelElementBehavior from './panel-element-behavior';
 
 export default class Widgets extends FavoriteType {
 	constructor() {
 		super();
 
-		elementor.hooks.addFilter( 'panel/element/behaviors', this.addElementsBehavior );
-		elementor.hooks.addFilter( 'panel/element/before', this.addElementsFavoriteButton );
+		elementor.hooks.addFilter( 'panel/element/contextMenuGroups', this.addContextMenuGroups.bind( this ) );
 	}
 
 	/**
@@ -24,20 +22,22 @@ export default class Widgets extends FavoriteType {
 
 		if ( undefined !== widgetCache ) {
 			widgetCache.categories.push( this.getCategorySlug() );
+
+			const result = $e.data.create(
+				'favorites/index',
+				{},
+				{
+					type: this.getName(),
+					favorite,
+				},
+			);
+
+			this.refreshCategories();
+
+			return result;
 		}
 
-		const result = $e.data.create(
-			'favorites/index',
-			{},
-			{
-				type: this.getName(),
-				favorite,
-			},
-		);
-
-		this.refreshCategories();
-
-		return result;
+		return false;
 	}
 
 	/**
@@ -47,22 +47,22 @@ export default class Widgets extends FavoriteType {
 		const widgetCache = this.getWidgetCache( favorite );
 
 		if ( undefined !== widgetCache ) {
-			const categories = widgetCache.categories;
+			widgetCache.categories.splice( widgetCache.categories.indexOf( this.getCategorySlug() ), 1 );
 
-			categories.splice( categories.indexOf( this.getCategorySlug() ), 1 );
+			const result = $e.data.delete(
+				'favorites/index',
+				{
+					type: this.getName(),
+					favorite,
+				},
+			);
+
+			this.refreshCategories();
+
+			return result;
 		}
 
-		const result = $e.data.delete(
-			'favorites/index',
-			{
-				type: this.getName(),
-				favorite,
-			},
-		);
-
-		this.refreshCategories();
-
-		return result;
+		return false;
 	}
 
 	/**
@@ -77,7 +77,7 @@ export default class Widgets extends FavoriteType {
 				favorite,
 			};
 
-			if ( widgetCache.categories.includes( this.getCategorySlug() ) ) {
+			if ( this.isFavorite( favorite ) ) {
 				return $e.run( 'favorites/delete', args );
 			}
 
@@ -87,26 +87,70 @@ export default class Widgets extends FavoriteType {
 		return false;
 	}
 
+	/**
+	 * Check whether a given widget is already favorite.
+	 *
+	 * @param widget
+	 * @returns {boolean}
+	 */
+	isFavorite( widget ) {
+		const widgetCache = this.getWidgetCache( widget );
+
+		if ( undefined !== widgetCache ) {
+			return widgetCache.categories
+				.includes( this.getCategorySlug() );
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get favorites category name in widgets panel.
+	 *
+	 * @returns {string}
+	 */
 	getCategorySlug() {
 		return 'favorites';
 	}
 
-	addElementsBehavior( behaviors ) {
-		return Object.assign( {}, behaviors, {
-			favoriteWidgets: {
-				behaviorClass: PanelElementBehavior,
+	/**
+	 * A filter callback to add the favorites context menu groups to
+	 * element view.
+	 *
+	 * @param groups
+	 * @param context
+	 * @returns {[]}
+	 */
+	addContextMenuGroups( groups, context ) {
+		const widget = context.options.model.get( 'widgetType' ),
+			toggleText = this.isFavorite( widget ) ?
+			__( 'Remove from Favorites', 'elementor' ) :
+			__( 'Add to Favorites', 'elementor' );
+
+		return groups.concat( [
+			{
+				name: 'favorite-toggle',
+				actions: [
+					{
+						name: 'toggle',
+						icon: 'eicon-star',
+						title: toggleText,
+						callback: () => this.toggle( widget ),
+					},
+				],
 			},
-		} );
-	}
-
-	addElementsFavoriteButton( html ) {
-		const button = jQuery( '<div>' )
-				.addClass( 'e-element-favorite-button' ),
-
-			icon = jQuery( '<i>' )
-				.attr( 'aria-hidden', true );
-
-		return html + button.append( icon )[ 0 ].outerHTML;
+			{
+				name: 'favorite-reset',
+				actions: [
+					{
+						name: 'reset',
+						icon: 'eicon-undo',
+						title: __( 'Reset All Favorites', 'elementor' ),
+						callback: () => this.reset(),
+					},
+				],
+			},
+		] );
 	}
 
 	/**

@@ -1,3 +1,5 @@
+import ContextMenu from 'elementor-behaviors/context-menu';
+
 module.exports = Marionette.ItemView.extend( {
 	template: '#tmpl-elementor-element-library-element',
 
@@ -26,7 +28,18 @@ module.exports = Marionette.ItemView.extend( {
 	},
 
 	behaviors: function() {
-		return elementor.hooks.applyFilters( 'panel/element/behaviors', {}, this );
+		const groups = elementor.hooks.applyFilters( 'panel/element/contextMenuGroups', [], this ),
+			behaviors = {};
+
+		if ( groups.length ) {
+			behaviors.contextMenu = {
+				behaviorClass: ContextMenu,
+				outsideIframe: true,
+				groups,
+			};
+		}
+
+		return elementor.hooks.applyFilters( 'panel/element/behaviors', behaviors, this );
 	},
 
 	isEditable: function() {
