@@ -1,0 +1,19 @@
+$e-app-export-complete-kit-data-border-color: tints(300);
+$e-app-export-complete-kit-data-border-dark-color: dark-tints(500);
+
+$root: e-app-export-complete-kit-data-list;
+
+.#{$root} {
+	--e-app-export-complete-kit-data-border-color: #{$e-app-export-complete-kit-data-border-color};
+
+	&__item {
+		padding: spacing(10) 0;
+		border-bottom: 1px solid var(--e-app-export-complete-kit-data-border-color);
+	}
+}
+
+.eps-theme-dark {
+	.#{$root} {
+		--e-app-export-complete-kit-data-border-color: #{$e-app-export-complete-kit-data-border-dark-color};
+	}
+}

@@ -15,6 +15,8 @@ class Test_Kit extends Elementor_Test_Base {
 	private $kit;
 
 	public function setUp() {
+		parent::setUp();
+
 		wp_set_current_user( $this->factory()->get_administrator_user()->ID );
 
 		$kit = Plugin::$instance->kits_manager->get_active_kit();

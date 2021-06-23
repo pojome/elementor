@@ -3,8 +3,6 @@ namespace Elementor\Core\Upgrade;
 
 use Elementor\Core\Breakpoints\Manager as Breakpoints_Manager;
 use Elementor\Core\Experiments\Manager as Experiments_Manager;
-use Elementor\Core\Kits\Documents\Tabs\Settings_Layout;
-use Elementor\Core\Responsive\Responsive;
 use Elementor\Core\Settings\Manager as SettingsManager;
 use Elementor\Core\Settings\Page\Manager as SettingsPageManager;
 use Elementor\Icons_Manager;
@@ -25,6 +23,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 class Upgrades {
+
+	public static function _on_each_version( $updater ) {
+		self::recalc_usage_data( $updater );
+
+		$uploads_manager = Plugin::$instance->uploads_manager;
+
+		$temp_dir = $uploads_manager->get_temp_dir();
+
+		if ( file_exists( $temp_dir ) ) {
+			$uploads_manager->remove_file_or_dir( $temp_dir );
+		}
+	}
 
 	/**
 	 * Upgrade Elementor 0.3.2

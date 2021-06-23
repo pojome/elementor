@@ -14,6 +14,7 @@ $app-header-color: tints(800);
 $app-header-font-size: type(size, "15");
 $spp-header-padding-x: spacing(16);
 $app-header-padding-y: 0;
+$app-header-z-index: 3;
 
 $app-main-height: 100%;
 
@@ -22,6 +23,7 @@ $app-sidebar-padding-top: spacing(20);
 $app-sidebar-width: 30%;
 $app-sidebar-max-width: px-to-rem(275);
 $app-sidebar-box-shadow: $eps-box-shadow-3;
+$app-sidebar-z-index: 4;
 
 $app-logo-size: px-to-rem(28);
 $app-logo-font-size: calc(0.4 * #{$app-logo-size});

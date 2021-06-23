@@ -1,6 +1,9 @@
 <?php
 namespace Elementor\Core\App\Modules\ImportExport;
 
+use Elementor\Core\App\Modules\ImportExport\Compatibility\Base_Adapter;
+use Elementor\Core\App\Modules\ImportExport\Compatibility\Envato;
+use Elementor\Core\App\Modules\ImportExport\Compatibility\Kit_Library;
 use Elementor\Core\App\Modules\ImportExport\Directories\Root;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,43 +12,45 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Import extends Iterator {
 
+	/**
+	 * @var Base_Adapter[]
+	 */
+	private $adapters = [];
+
 	final public function run() {
-		$zip = new \ZipArchive();
+		$this->temp_dir = $this->get_settings( 'directory' );
 
-		$zip->open( $this->get_settings( 'file_name' ) );
+		$manifest_data = $this->read_json_file( 'manifest' );
 
-		$temp_dir = $this->get_temp_dir();
+		$this->init_adapters( $manifest_data );
 
-		$zip->extractTo( $temp_dir );
-
-		$settings = $this->read_json_file( 'manifest' );
+		foreach ( $this->adapters as $adapter ) {
+			$manifest_data = $adapter->get_manifest_data( $manifest_data );
+		}
 
 		$root_directory = new Root( $this );
 
-		$import_result = $root_directory->run_import( $settings );
-
-		$this->remove_dir( $temp_dir );
-
-		return $import_result;
+		return $root_directory->run_import( $manifest_data );
 	}
 
 	final public function read_json_file( $name ) {
-		$name = $this->get_temp_dir() . $this->get_archive_file_path( $name . '.json' );
+		$name = $this->get_archive_file_full_path( $name . '.json' );
 
-		return json_decode( file_get_contents( $name ), true );
+		return json_decode( file_get_contents( $name, true ), true );
 	}
 
-	private function remove_dir( $dir ) {
-		$dir_iterator = new \RecursiveDirectoryIterator( $dir, \RecursiveDirectoryIterator::SKIP_DOTS );
+	final public function get_adapters() {
+		return $this->adapters;
+	}
 
-		foreach ( new \RecursiveIteratorIterator( $dir_iterator, \RecursiveIteratorIterator::CHILD_FIRST ) as $name => $item ) {
-			if ( is_dir( $name ) ) {
-				rmdir( $name );
-			} else {
-				unlink( $name );
+	private function init_adapters( array $manifest_data ) {
+		/** @var Base_Adapter[] $adapter_types */
+		$adapter_types = [ Envato::class, Kit_Library::class ];
+
+		foreach ( $adapter_types as $adapter_type ) {
+			if ( $adapter_type::is_compatibility_needed( $manifest_data, $this->get_settings() ) ) {
+				$this->adapters[] = new $adapter_type( $this );
 			}
 		}
-
-		return rmdir( $dir );
 	}
 }

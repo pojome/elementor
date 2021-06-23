@@ -18,7 +18,7 @@ export const Duplicate = () => {
 				}
 
 				// Check duplicated button exist.
-				assert.equal( eColumn.view.children.length, ( eButtonDuplicateCount + 1 ),
+				assert.equal( eColumn.children.length, ( eButtonDuplicateCount + 1 ),
 					`'${ eButtonDuplicateCount }' buttons were duplicated.` );
 			} );
 
@@ -53,8 +53,8 @@ export const Duplicate = () => {
 				ElementsHelper.multiDuplicate( eButtons );
 
 				// Check duplicated button exist.
-				assert.equal( eColumn1.view.children.length, 2, 'Two buttons were created.' );
-				assert.equal( eColumn2.view.children.length, 2, 'Two buttons were duplicated.' );
+				assert.equal( eColumn1.children.length, 2, 'Two buttons were created.' );
+				assert.equal( eColumn2.children.length, 2, 'Two buttons were duplicated.' );
 			} );
 
 			QUnit.test( 'History', ( assert ) => {

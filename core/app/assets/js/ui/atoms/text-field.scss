@@ -1,0 +1,63 @@
+$eps-text-field-color: tints(600);
+$eps-text-field-dark-color: dark-tints(200);
+$eps-text-field-background-color: theme-colors(light);
+$eps-text-field-dark-background-color: dark-tints(700);
+$eps-text-field-outlined-border-color: tints(300);
+$eps-text-field-outlined-dark-border-color: dark-tints(400);
+$eps-text-field-outlined-focus-border-color: tints(400);
+$eps-text-field-outlined-focus-dark-border-color: dark-tints(300);
+$eps-text-field-placeholder-color: tints(500);
+$eps-text-field-placeholder-dark-color: dark-tints(300);
+
+@mixin font-style {
+	font-family: $eps-font-family;
+	font-size: $eps-body-font-size;
+	font-weight: $eps-font-weight-base;
+	line-height: $eps-line-height-base;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+$root: eps-text-field;
+
+.#{$root} {
+	--eps-text-field-color: #{$eps-text-field-color};
+	--eps-text-field-background-color: #{$eps-text-field-background-color};
+	--eps-text-field-placeholder-color: #{$eps-text-field-placeholder-color};
+	--eps-text-field-outlined-border-color: #{$eps-text-field-outlined-border-color};
+	--eps-text-field-outlined-focus-border-color: #{$eps-text-field-outlined-focus-border-color};
+
+	width: 100%;
+	color: var(--eps-text-field-color);
+	background-color: var(--eps-text-field-background-color);
+	border: 0;
+	outline: none;
+	@include font-style;
+
+	&--outlined {
+		border-radius: $eps-radius;
+		border: $eps-border-width $eps-border-style var(--eps-text-field-outlined-border-color);
+		padding: spacing(10);
+
+		&:focus {
+			border-color: var(--eps-text-field-outlined-focus-border-color);
+		}
+	}
+
+	&::placeholder {
+		color: var(--eps-text-field-placeholder-color);
+		@include font-style;
+	}
+}
+
+.eps-theme-dark {
+	.#{$root} {
+		--eps-text-field-color: #{$eps-text-field-dark-color};
+		--eps-text-field-background-color: #{$eps-text-field-dark-background-color};
+		--eps-text-field-placeholder-color: #{$eps-text-field-placeholder-dark-color};
+		--eps-text-field-outlined-border-color: #{$eps-text-field-outlined-dark-border-color};
+		--eps-text-field-outlined-focus-border-color: #{$eps-text-field-outlined-focus-dark-border-color};
+	}
+}
+
+

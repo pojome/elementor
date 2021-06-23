@@ -31,6 +31,7 @@ export default function Dialog( props ) {
 					url={ props.approveButtonUrl }
 					target={ props.approveButtonTarget }
 					color={ props.approveButtonColor }
+					elRef={ props.approveButtonRef }
 					tabIndex="1"
 				/>
 			</DialogActions>
@@ -53,6 +54,7 @@ Dialog.propTypes = {
 	approveButtonUrl: PropTypes.string,
 	approveButtonColor: PropTypes.string,
 	approveButtonTarget: PropTypes.string,
+	approveButtonRef: PropTypes.object,
 };
 
 Dialog.defaultProps = {};

@@ -4,14 +4,11 @@ import './box.scss';
 
 export default function Box( props ) {
 	const baseClassName = 'eps-box',
-		classes = [ baseClassName, props.className ];
+		classes = [ baseClassName, props.className ],
+		style = {};
 
-	let style;
-
-	if ( props.padding ) {
-		style = {
-			'--eps-box-padding': pxToRem( props.padding ),
-		};
+	if ( props.hasOwnProperty( 'padding' ) ) {
+		style[ '--eps-box-padding' ] = pxToRem( props.padding );
 
 		classes.push( baseClassName + '--padding' );
 	}

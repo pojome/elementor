@@ -37,7 +37,16 @@ export default function InlineLink( props ) {
 			>
 				{ props.children }
 			</a>
+		),
+		getActionLink = () => (
+			<button className={ className } onClick={ props.onClick }>
+				{ props.children }
+			</button>
 		);
+
+	if ( ! props.url ) {
+		return getActionLink();
+	}
 
 	return props.url.includes( 'http' ) ? getExternalLink() : getRouterLink();
 }

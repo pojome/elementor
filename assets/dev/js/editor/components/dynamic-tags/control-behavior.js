@@ -50,7 +50,13 @@ module.exports = Marionette.Behavior.extend( {
 
 		this.ui.dynamicSwitcher.removeClass( 'elementor-control-unit-1' ).addClass( 'e-control-tool' );
 
-		$colorPickerToolsContainer.append( this.ui.dynamicSwitcher );
+		const $eyedropper = $colorPickerToolsContainer.find( '.elementor-control-element-color-picker' );
+
+		if ( $eyedropper.length ) {
+			this.ui.dynamicSwitcher.insertBefore( $eyedropper );
+		} else {
+			$colorPickerToolsContainer.append( this.ui.dynamicSwitcher );
+		}
 	},
 
 	toggleDynamicClass: function() {
@@ -189,7 +195,7 @@ module.exports = Marionette.Behavior.extend( {
 	},
 
 	showPromotion: function() {
-		let message = __( 'Create more personalized and dynamic sites by populating data from various sources with dozens of dynamic tags to choose from.', 'elementor' );
+		const message = __( 'Create more personalized and dynamic sites by populating data from various sources with dozens of dynamic tags to choose from.', 'elementor' );
 
 		elementor.promotion.showDialog( {
 			headerMessage: __( 'Dynamic Content', 'elementor' ),

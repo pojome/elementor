@@ -46,7 +46,11 @@
 
 	&__close-button,
 	&__settings-button {
-		padding: 10px 8px;
+		width: 22px;
+		height: 22px;
+		border-radius: 3px;
+		margin: 0 5px;
+		font-size: 16px;
 	}
 
 	&__button {
@@ -62,6 +66,7 @@
 
 		&:hover {
 			color: $editor-lighter;
+			background-color: rgba(255, 255, 255, 0.1);
 		}
 	}
 
@@ -75,7 +80,7 @@
 			width: 1px;
 			background-color: $editor-dark;
 			position: absolute;
-			@include end(0);
+			@include end(-5px);
 			top: calc(50% - 10px);
 		}
 	}
@@ -111,10 +116,10 @@
 			text-align: center;
 			width: 22px;
 			height: 22px;
-			margin: 0 3.5px;
+			margin: 0 4px;
 			line-height: 22px;
 			border-radius: 3px;
-			font-size: 17px;
+			font-size: 16px;
 			transition: background-color .3s ease-out;
 
 			&:hover, &[aria-selected="true"] {

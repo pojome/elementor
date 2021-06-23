@@ -10,7 +10,7 @@ export default class FilesUploadHandler {
 	}
 
 	static setUploadTypeCaller( frame ) {
-		frame.uploader.uploader.param( 'uploadTypeCaller', 'elementor-editor-upload' );
+		frame.uploader.uploader.param( 'uploadTypeCaller', 'elementor-wp-media-upload' );
 	}
 
 	static getUnfilteredFilesNotEnabledDialog( callback ) {

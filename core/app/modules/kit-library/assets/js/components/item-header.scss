@@ -1,0 +1,13 @@
+#eps-app-header-btn-apply,
+#eps-app-header-btn-promotion,
+#eps-app-header-btn-connect {
+	@include margin-start(spacing(10));
+	@include margin-end(spacing(10));
+}
+
+.e-kit-library__apply-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: spacing( 5 );
+}

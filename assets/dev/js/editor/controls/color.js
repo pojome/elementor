@@ -54,6 +54,8 @@ export default class extends ControlBaseDataView {
 
 		this.addTipsyToPickerButton();
 
+		this.addEyedropper();
+
 		this.$pickerButton.on( 'click', () => this.onPickerButtonClick() );
 
 		jQuery( this.colorPicker.picker.getRoot().root ).addClass( 'elementor-control-unit-1 elementor-control-tag-area' );
@@ -74,6 +76,42 @@ export default class extends ControlBaseDataView {
 			offset: 4,
 			gravity: () => 's',
 		} );
+	}
+
+	addEyedropper() {
+		if ( ! elementorCommon.config.experimentalFeatures[ 'elements-color-picker' ] ) {
+			return;
+		}
+
+		const $colorPicker = jQuery( Marionette.Renderer.render( '#tmpl-elementor-control-element-color-picker' ) ),
+			$colorPickerToolsContainer = this.colorPicker.$pickerToolsContainer,
+			container = this.getOption( 'container' );
+
+		let kit = null;
+
+		// When it's a kit (i.e "Site Settings").
+		if ( 'kit' === container.document.config.type ) {
+			kit = container.document;
+		}
+
+		// Add a tooltip to the Eye Dropper.
+		$colorPicker.tipsy( {
+			title() {
+				return __( 'Eye Dropper', 'elementor' );
+			},
+			gravity: 's',
+		} );
+
+		$colorPicker.on( 'click', () => {
+			$e.run( 'elements-color-picker/start', {
+				container,
+				kit,
+				control: this.model.get( 'name' ),
+				trigger: $colorPicker[ 0 ],
+			} );
+		} );
+
+		$colorPickerToolsContainer.append( $colorPicker );
 	}
 
 	getGlobalMeta() {

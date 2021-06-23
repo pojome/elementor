@@ -1,0 +1,58 @@
+// Used in Icon, Icon Box and Divider (with  icon).
+.elementor-view-stacked {
+	.elementor-icon {
+		padding: .5em;
+		background-color: $gray;
+		color: #fff;
+		fill: #fff;
+	}
+}
+.elementor-view-framed {
+	.elementor-icon {
+		padding: .5em;
+		color: $gray;
+		border: 3px solid $gray;
+		background-color: transparent;
+
+	}
+}
+
+// For the all elements with icon options.
+.elementor-icon {
+	display: inline-block;
+	line-height: 1;
+	transition: $transition-hover;
+	color: $gray;
+	font-size: 50px;
+	text-align: center;
+
+	&:hover {
+		color: $gray;
+	}
+
+	i, svg {
+		width: 1em;
+		height: 1em;
+		position: relative;
+		display: block;
+
+		&:before {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+
+	i.fad {
+		width: initial;
+	}
+}
+
+// Used in Icon and Icons Box.
+.elementor-shape {
+	&-circle {
+		.elementor-icon {
+			border-radius: 50%;
+		}
+	}
+}

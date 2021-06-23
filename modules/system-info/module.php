@@ -154,7 +154,7 @@ class Module extends BaseModule {
 
 		?>
 		<div id="elementor-system-info">
-			<h3><?php echo __( 'System Info', 'elementor' ); ?></h3>
+			<h3 class="wp-heading-inline"><?php echo __( 'System Info', 'elementor' ); ?></h3>
 			<div><?php $this->print_report( $reports, 'html' ); ?></div>
 			<h3><?php echo __( 'Copy & Paste Info', 'elementor' ); ?></h3>
 			<div id="elementor-system-info-raw">

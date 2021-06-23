@@ -671,7 +671,7 @@ class TextPath extends Widget_Base {
 
 		// Render.
 		?>
-		<div <?php echo $this->get_render_attribute_string( 'text_path' ); ?>>
+		<div <?php echo $this->get_render_attribute_string( 'text_path' ); ?> data-text="<?php echo $settings['text']; ?>">
 			<?php echo $path_svg; ?>
 		</div>
 		<?php

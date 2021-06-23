@@ -24,7 +24,7 @@ abstract class Files_Upload_Handler {
 	 * @return bool
 	 */
 	private function is_elementor_media_upload() {
-		return isset( $_POST['uploadTypeCaller'] ) && 'elementor-editor-upload' === $_POST['uploadTypeCaller']; // phpcs:ignore
+		return isset( $_POST['uploadTypeCaller'] ) && 'elementor-wp-media-upload' === $_POST['uploadTypeCaller']; // phpcs:ignore
 	}
 
 	/**

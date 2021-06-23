@@ -54,21 +54,16 @@ const findChildrenContainer = ( parent, children ) => {
 	if ( 0 === parent.model.attributes.elements.length ) {
 		return false;
 	}
-	const parentChildContainers = Object.values( parent.view.children._views ).map( ( view ) => view.getContainer() );
 
-	return parentChildContainers.find( ( container ) => container.id === children.id );
+	return parent.children.find( ( container ) => container.id === children.id );
 };
 
 const firstChildrenContainer = ( parent ) => {
-	const target = Object.values( parent.view.children._views ).map( ( view ) => view.getContainer() );
-
-	return target[ 0 ];
+	return parent.children[ 0 ];
 };
 
 const lastChildrenContainer = ( parent ) => {
-	const target = Object.values( parent.view.children._views ).map( ( view ) => view.getContainer() );
-
-	return target.slice( -1 )[ 0 ];
+	return parent.children[ parent.children.length - 1 ];
 };
 
 const validateRule = ( assert, target, targetElType, source, sourceElType, isAllowed ) => {
@@ -85,7 +80,7 @@ const validateRule = ( assert, target, targetElType, source, sourceElType, isAll
 	// Handle situation when source is inner.
 	if ( sourceIsInner ) {
 		if ( 'column' === sourceElType ) {
-			source = Object.values( source.view.children._views )[ 0 ].getContainer();
+			source = source.children[ 0 ];
 			sourceElType = 'column';
 			isForce = true;
 		} else {
@@ -96,7 +91,7 @@ const validateRule = ( assert, target, targetElType, source, sourceElType, isAll
 	// Handle situation when target is inner.
 	if ( targetIsInner ) {
 		if ( 'column' === targetElType ) {
-			target = Object.values( target.view.children._views )[ 0 ].getContainer();
+			target = target.children[ 0 ];
 			targetElType = 'column';
 			isForce = true;
 		} else {
@@ -199,7 +194,7 @@ export const Paste = () => {
 				DocumentHelper.UICopyPaste( eButton, eColumn );
 
 				// Check.
-				assert.equal( eColumn.view.children.length, 2,
+				assert.equal( eColumn.children.length, 2,
 					'Pasted element were created.' );
 			} );
 

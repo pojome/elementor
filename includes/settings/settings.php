@@ -1,7 +1,6 @@
 <?php
 namespace Elementor;
 
-use Elementor\Core\Upgrade\Manager as Upgrades_Manager;
 use Elementor\TemplateLibrary\Source_Local;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -133,6 +132,17 @@ class Settings extends Settings_Page {
 	public function register_pro_menu() {
 		add_submenu_page(
 			self::PAGE_ID,
+			__( 'Submissions', 'elementor' ),
+			__( 'Submissions', 'elementor' ),
+			'manage_options',
+			'e-form-submissions',
+			function() {
+				$this->elementor_form_submissions();
+			}
+		);
+
+		add_submenu_page(
+			self::PAGE_ID,
 			__( 'Custom Fonts', 'elementor' ),
 			__( 'Custom Fonts', 'elementor' ),
 			'manage_options',
@@ -262,7 +272,7 @@ class Settings extends Settings_Page {
 
 						<div class="e-getting-started__actions e-getting-started__content--narrow">
 							<?php if ( ! empty( $create_new_cpt ) ) : ?>
-							<a href="<?php echo esc_url( Utils::get_create_new_post_url( $create_new_cpt ) ); ?>" class="button button-primary button-hero"><?php echo esc_html( $create_new_label ); ?></a>
+							<a href="<?php echo esc_url( Plugin::$instance->documents->get_create_new_post_url( $create_new_cpt ) ); ?>" class="button button-primary button-hero"><?php echo esc_html( $create_new_label ); ?></a>
 							<?php endif; ?>
 
 							<a href="https://go.elementor.com/getting-started/" target="_blank" class="button button-secondary button-hero"><?php echo __( 'Watch the Full Guide', 'elementor' ); ?></a>
@@ -332,6 +342,25 @@ class Settings extends Settings_Page {
 				<h2><?php echo __( 'Get Popup Builder', 'elementor' ); ?></h2>
 				<p><?php echo __( 'Popup Builder lets you take advantage of all the amazing features in Elementor, so you can build beautiful & highly converting popups. Go pro and start designing your popups today.', 'elementor' ); ?></p>
 				<a class="elementor-button elementor-button-default elementor-button-go-pro" target="_blank" href="<?php echo Utils::get_pro_link( 'https://elementor.com/popup-builder/?utm_source=popup-templates&utm_campaign=gopro&utm_medium=wp-dash' ); ?>"><?php echo __( 'Go Pro', 'elementor' ); ?></a>
+			</div>
+		</div><!-- /.wrap -->
+		<?php
+	}
+
+	public function elementor_form_submissions() {
+		?>
+		<div class="wrap">
+			<div class="elementor-blank_state">
+				<img src="<?php echo ELEMENTOR_ASSETS_URL . 'images/go-pro-wp-dashboard.svg'; ?>" />
+				<h2><?php echo __( 'Collect Your Form Submissions', 'elementor' ); ?></h2>
+				<p>
+					<?php echo __( 'Save and manage all of your form submissions in one single place.
+All within a simple, intuitive place.', 'elementor' ); ?>
+					<a href="http://go.elementor.com/wp-dash-submissions" target="_blank" rel="nofollow">
+						<?php echo __( 'Learn More', 'elementor' ); ?>
+					</a>
+				</p>
+				<a class="elementor-button elementor-button-default elementor-button-go-pro" target="_blank" href="<?php echo Utils::get_pro_link( 'https://go.elementor.com/go-pro-submissions' ); ?>"><?php echo __( 'Go Pro', 'elementor' ); ?></a>
 			</div>
 		</div><!-- /.wrap -->
 		<?php

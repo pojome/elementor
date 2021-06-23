@@ -1,7 +1,7 @@
 import './card.scss';
 
 export default function CardImage( props ) {
-	const image = <img src={ props.src } alt={ props.alt } className="eps-card__image"/>;
+	const image = <img src={ props.src } alt={ props.alt } className="eps-card__image" />;
 
 	return (
 		<figure className={ `eps-card__figure ${ props.className }` }>

@@ -1,44 +1,5 @@
-@import "../global/global";
-@import "breakpoints/breakpoints";
-@import "../helpers/mixins";
-
-// Core CSS
-@import "global";
-@import "grid";
-@import "devices";
-
-// E-icons classes being used in the frontend.
-@import "eicons";
-
-//Forms (Input, Textarea, Select Etc..)
-@import "forms";
+// Frontend Lite
+@import "frontend-lite";
 
 // Widgets
 @import "widgets";
-
-// Slick
-@import "slick";
-
-// Swiper
-@import "swiper";
-
-// Lightbox
-@import "lightbox";
-
-// Animate
-@import "animate";
-
-// Shapes
-@import "shapes";
-
-// Admin Bar
-@import "admin-bar";
-
-// Compatibility
-@import "compatibility";
-
-// Visibility (for preview mode or front-end)
-@import "visibility";
-
-// Modules
-@import "modules";

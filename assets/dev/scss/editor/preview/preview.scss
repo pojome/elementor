@@ -1,5 +1,6 @@
 @import "../../helpers/variables";
 @import "../../helpers/mixins";
+@import "../../helpers/direction";
 
 @import "../units";
 @import "../breakpoints";
@@ -11,6 +12,9 @@
 @import "animations";
 @import "compatibility";
 @import "inline-editor";
+
+//Eyedropper Experiment
+@import "../../../../../modules/elements-color-picker/assets/scss/elements-color-picker";
 
 // Hidden WP Admin Bar
 html.elementor-html {
@@ -889,9 +893,9 @@ html.elementor-html {
 }
 
 // Muted elements in the editor
-[data-elementor-device-mode="desktop"] .elementor-edit-area-active .elementor-hidden-desktop,
-[data-elementor-device-mode="tablet"] .elementor-edit-area-active .elementor-hidden-tablet,
-[data-elementor-device-mode="mobile"] .elementor-edit-area-active .elementor-hidden-phone {
+.e-preview--show-hidden-elements[data-elementor-device-mode="desktop"] .elementor-edit-area-active .elementor-hidden-desktop,
+.e-preview--show-hidden-elements[data-elementor-device-mode="tablet"] .elementor-edit-area-active .elementor-hidden-tablet,
+.e-preview--show-hidden-elements[data-elementor-device-mode="mobile"] .elementor-edit-area-active .elementor-hidden-phone {
 	display: inherit; //to overcome the display:none;
 	background: repeating-linear-gradient(125deg,rgba(0, 0, 0, 0.05),rgba(0, 0, 0, 0.05) 1px,transparent 2px,transparent 9px);
 	border: 1px solid rgba(0, 0, 0, 0.02);

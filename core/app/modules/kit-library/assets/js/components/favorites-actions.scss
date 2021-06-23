@@ -1,0 +1,18 @@
+.e-kit-library__kit-favorite-actions {
+	padding: spacing(5);
+	transition: 0.3s all;
+	border-radius: 4px;
+
+	&--active {
+		color: theme-colors( danger );
+	}
+
+	&--loading {
+		opacity: 50%;
+		cursor: default;
+	}
+
+	&:hover {
+		background-color: tints(200);
+	}
+}

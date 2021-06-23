@@ -98,6 +98,12 @@ class Library extends Common_App {
 		];
 	}
 
+	protected function get_popup_success_event_data() {
+		return [
+			'access_level' => ConnectModule::ACCESS_LEVEL_CORE,
+		];
+	}
+
 	protected function init() {
 		add_filter( 'elementor/editor/localize_settings', [ $this, 'localize_settings' ] );
 		add_action( 'elementor/ajax/register_actions', [ $this, 'register_ajax_actions' ] );

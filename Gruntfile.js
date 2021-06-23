@@ -2,7 +2,10 @@ module.exports = function( grunt ) {
 	'use strict';
 
 	const fs = require( 'fs' ),
-		pkgInfo = grunt.file.readJSON( 'package.json' );
+		pkgInfo = grunt.file.readJSON( 'package.json' ),
+		WidgetsCss = require( './.grunt-config/widgets-css' );
+
+	const widgetsCss = new WidgetsCss( 'production' );
 
 	require( 'load-grunt-tasks' )( grunt );
 
@@ -35,6 +38,10 @@ module.exports = function( grunt ) {
 		'styles',
 	] );
 
+	grunt.registerTask( 'create_widgets_temp_scss_files', () => widgetsCss.createWidgetsTempScssFiles() );
+
+	grunt.registerTask( 'remove_widgets_unused_style_files', () => widgetsCss.removeWidgetsUnusedStyleFiles() );
+
 	grunt.registerTask( 'i18n', [
 		'checktextdomain',
 	] );
@@ -54,11 +61,17 @@ module.exports = function( grunt ) {
 	} );
 
 	grunt.registerTask( 'styles', ( isDevMode = false ) => {
+		if ( ! isDevMode ) {
+			grunt.task.run( 'create_widgets_temp_scss_files' );
+		}
+
 		grunt.task.run( 'sass' );
 
 		if ( ! isDevMode ) {
 			grunt.task.run( 'postcss' );
 			grunt.task.run( 'css_templates' );
+
+			grunt.task.run( 'remove_widgets_unused_style_files' );
 		}
 	} );
 
@@ -73,7 +86,7 @@ module.exports = function( grunt ) {
 			files: [ {
 				expand: true,
 				cwd: 'assets/dev/scss/direction',
-				src: [ 'frontend.scss', 'frontend-rtl.scss' ],
+				src: [ 'frontend.scss', 'frontend-rtl.scss', 'frontend-lite.scss', 'frontend-lite-rtl.scss' ],
 				dest: 'assets/css/templates',
 				ext: '.css',
 			} ],

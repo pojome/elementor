@@ -10,39 +10,58 @@ use Elementor\Core\Files\Manager as Files_Manager;
 use Elementor\Modules\AdminBar\Module as Adminbar_Module;
 
 class Test_Manager extends Elementor_Test_Base {
-	public function test_get_active_id() {
-		// Make sure the the 'wp_trash_post' function will actually throw the kit to trash
+	public function test_create_default_kit() {
+		// Arrange
+		$manager = Plugin::$instance->kits_manager;
+		$this->remove_default_kit();
+
+		// Act
+		$id = Manager::create_default_kit();
+
+		// Assert
+		$this->assertEquals( $manager->get_active_id(), $id );
+	}
+
+	public function test_get_active_kit() {
+		// Arrange
+		$manager = Plugin::$instance->kits_manager;
+
+		// Act
+		$kit = $manager->get_active_kit();
+
+		// Assert
+		$post = get_post( $manager->get_active_id() );
+
+		$this->assertEquals( $post->ID, $kit->get_id() );
+	}
+
+	public function test_get_active_kit__when_there_is_no_kit(  ) {
+		// Arrange
+		$manager = Plugin::$instance->kits_manager;
+
+		$this->remove_default_kit();
+
+		// Act
+		$kit = $manager->get_active_kit();
+
+		// Assert
+		$this->assertEquals( 0, $kit->get_id() );
+	}
+
+
+	public function test_get_active_kit__when_kit_is_in_trash() {
+		// Arrange
+		// Make sure the the 'wp_trash_post' function will actually trash the kit.
 		$_GET['force_delete_kit'] = '1';
 
-		// Test deleted kit.
-		$test_description = 'active id should return a new kit id after delete kit';
-		$active_id = Plugin::$instance->kits_manager->get_active_id();
-		wp_delete_post( $active_id, true );
-		$active_id_after_delete = Plugin::$instance->kits_manager->get_active_id();
-		$this->assertNotEquals( $active_id, $active_id_after_delete, $test_description );
+		$manager = Plugin::$instance->kits_manager;
+		wp_trash_post( $manager->get_active_id() );
 
-		// Test trashed kit.
-		$test_description = 'active id should return a new kit id after trash kit';
-		$active_id = Plugin::$instance->kits_manager->get_active_id();
-		wp_trash_post( $active_id );
-		$active_id_after_trash = Plugin::$instance->kits_manager->get_active_id();
-		$this->assertNotEquals( $active_id, $active_id_after_trash, $test_description );
+		// Act
+		$kit = $manager->get_active_kit();
 
-		// Test unpublished kit.
-		$test_description = 'active id should return a new kit id after trash kit';
-		$active_id = Plugin::$instance->kits_manager->get_active_id();
-		wp_trash_post( $active_id );
-		$active_id_after_trash = Plugin::$instance->kits_manager->get_active_id();
-		$this->assertNotEquals( $active_id, $active_id_after_trash, $test_description );
-
-		// Test invalid kit.
-		$test_description = 'active id should return a new kit id after for invalid kit';
-		$active_id = Plugin::$instance->kits_manager->get_active_id();
-		update_post_meta( $active_id, Kit::TYPE_META_KEY, 'invalid-type' );
-		// Invalidate cache.
-		Plugin::$instance->documents->get( $active_id, false );
-		$active_id_after_invalidate = Plugin::$instance->kits_manager->get_active_id();
-		$this->assertNotEquals( $active_id, $active_id_after_invalidate, $test_description );
+		// Assert
+		$this->assertEquals( 0, $kit->get_id() );
 	}
 
 	public function test_when_updating_blogname_or_blogdescription_option_it_should_update_the_kit() {

@@ -1,0 +1,108 @@
+.e-element {
+
+	&-color-picker {
+		--primary-color: #{$editor-info};
+		--swatch-size: 25px;
+		cursor: default;
+		display: flex;
+		position: absolute;
+		width: calc( calc( var( --count ) + 1 ) * var( --swatch-size ) );
+		height: var( --swatch-size );
+		top: var( --top );
+		left: var( --left );
+		right: var( --right, unset );
+		border-radius: 3px;
+		opacity: 0;
+		pointer-events: none;
+		z-index: $element-overlay;
+		background-color: var( --primary-color );
+		padding: 1px;
+		box-sizing: content-box;
+		transition: opacity .3s, width .3s;
+
+		&.e-picker-hidden {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		&::before {
+			content: '';
+			flex: 0 1 var( --swatch-size );
+			max-width: 100%;
+			height: 100%;
+			box-sizing: border-box;
+			text-align: center;
+		}
+
+		&::after {
+			content: '\e91e'; // eicon-eyedropper
+			font-family: 'eicons';
+			color: #FFF;
+			font-size: 1rem;
+			line-height: var( --swatch-size );
+			position: absolute;
+			left: .3rem;
+			z-index: -1;
+		}
+
+		&__swatch{
+			flex: 1 0 var( --swatch-size );
+			max-width: 100%;
+			height: 100%;
+			cursor: pointer;
+			transition: $transition-hover;
+			position: relative;
+			overflow: hidden;
+			border-radius: inherit;
+			/* Hack to fix transparent `--color` on hover */
+			background:
+				linear-gradient( var( --color ), var( --color ) ),
+				linear-gradient( var( --primary-color ), var( --primary-color ) );
+
+			&:not( :first-child ) {
+				border-left: 1px solid var( --primary-color );
+			}
+
+			&::before {
+				content: attr( data-text );
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				opacity: 0;
+				color: var( --color );
+				font-size: 10px;
+				font-weight: 300;
+				font-family: $admin-font-family;
+				transform: translate( -50%, -50% );
+				filter: hue-rotate( 180deg ) grayscale( 1 ) contrast( 999 ) invert( 1 );
+				transition: inherit;
+			}
+
+			&:hover {
+				flex-basis: calc( 2 * var( --swatch-size ) );
+				flex-shrink: 0;
+
+				&::before {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+.elementor-editor__ui-state__color-picker {
+	*:not( .e-element-color-picker__swatch ) {
+		cursor: url( '../images/eyedropper.svg' ), pointer;
+	}
+
+	.e-element-color-picker:not( .e-picker-hidden ):hover,
+	.elementor-element:hover > .e-element-color-picker:not( .e-picker-hidden ),
+	.elementor-widget-container:hover + .e-element-color-picker:not( .e-picker-hidden ) {
+		opacity: 1;
+		pointer-events: all;
+	}
+
+	.elementor-section:hover {
+		outline: 1px solid $editor-info;
+	}
+}

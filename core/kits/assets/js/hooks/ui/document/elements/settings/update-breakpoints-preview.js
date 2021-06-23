@@ -41,6 +41,11 @@ export class KitUpdateBreakpointsPreview extends $e.modules.hookUI.After {
 			if ( key.startsWith( 'viewport_' ) ) {
 				const keyWithoutPrefix = key.replace( 'viewport_', '' );
 				// Update both the config for all breakpoints and the one for active breakpoints.
+
+				if ( ! value ) {
+					value = elementorFrontend.config.responsive.breakpoints[ keyWithoutPrefix ].default_value;
+				}
+
 				elementorFrontend.config.responsive.breakpoints[ keyWithoutPrefix ].value = value;
 			}
 		} );

@@ -37,17 +37,7 @@ class Page extends Library_Document {
 		return $properties;
 	}
 
-	/**
-	 * Get document name.
-	 *
-	 * Retrieve the document name.
-	 *
-	 * @since 2.0.0
-	 * @access public
-	 *
-	 * @return string Document name.
-	 */
-	public function get_name() {
+	public static function get_type() {
 		return 'page';
 	}
 
@@ -64,6 +54,10 @@ class Page extends Library_Document {
 	 */
 	public static function get_title() {
 		return __( 'Page', 'elementor' );
+	}
+
+	public static function get_plural_title() {
+		return __( 'Pages', 'elementor' );
 	}
 
 	/**

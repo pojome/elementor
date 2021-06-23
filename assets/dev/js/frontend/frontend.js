@@ -108,7 +108,15 @@ export default class Frontend extends elementorModules.ViewModule {
 	}
 
 	getDeviceSetting( deviceMode, settings, settingKey ) {
-		const devices = [ 'desktop', 'tablet', 'mobile' ];
+		// Add specific handling for widescreen since it is larger than desktop.
+		if ( 'widescreen' === deviceMode ) {
+			return this.getWidescreenSetting( settings, settingKey );
+		}
+
+		const devices = Object.keys( this.config.responsive.activeBreakpoints ).reverse();
+
+		// Manually add 'desktop' to the devices array to support the 'desktop' value in the deviceMode parameter.
+		devices.unshift( 'desktop' );
 
 		let deviceIndex = devices.indexOf( deviceMode );
 
@@ -125,6 +133,23 @@ export default class Frontend extends elementorModules.ViewModule {
 		}
 
 		return settings[ settingKey ];
+	}
+
+	getWidescreenSetting( settings, settingKey ) {
+		const deviceMode = 'widescreen',
+			widescreenSettingKey = settingKey + '_' + deviceMode;
+
+		let settingToReturn;
+
+		// If the device mode is 'widescreen', and the setting exists - return it.
+		if ( settings[ widescreenSettingKey ] ) {
+			settingToReturn = settings[ widescreenSettingKey ];
+		} else {
+			// Otherwise, return the desktop setting
+			settingToReturn = settings[ settingKey ];
+		}
+
+		return settingToReturn;
 	}
 
 	getCurrentDeviceSetting( settings, settingKey ) {

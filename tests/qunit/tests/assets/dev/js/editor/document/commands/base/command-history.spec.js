@@ -1,7 +1,7 @@
 import CommandHistory from 'elementor-document/commands/base/command-history';
 
 jQuery( () => {
-	QUnit.module( 'File: editor/document/commands/base/command-history', () => {
+	QUnit.module( 'File: assets/dev/js/editor/document/commands/base/command-history.js', () => {
 		QUnit.module( 'History', () => {
 			QUnit.test( 'getHistory(): force method implementation', ( assert ) => {
 				assert.throws(

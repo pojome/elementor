@@ -1,0 +1,31 @@
+$e-app-import-export-panel-header-background-color: theme-colors(light);
+$e-app-import-export-panel-header-dark-background-color: dark-tints(600);
+$e-app-import-export-panel-body-background-color: rgba(theme-colors(light), $opacity-05);
+$e-app-import-export-panel-body-dark-background-color: rgba(dark-tints(600), $opacity-05);
+
+$root: e-app-import-export-panel;
+
+.#{$root} {
+	--e-app-import-export-panel-header-background-color: #{$e-app-import-export-panel-header-background-color};
+	--e-app-import-export-panel-body-background-color: #{$e-app-import-export-panel-body-background-color};
+
+	&,
+	&:hover {
+		background-color: initial;
+	}
+
+	&__header {
+		background-color: var(--e-app-import-export-panel-header-background-color);
+	}
+
+	&__body {
+		background-color: var(--e-app-import-export-panel-body-background-color);
+	}
+}
+
+.eps-theme-dark {
+	.#{$root} {
+		--e-app-import-export-panel-header-background-color: #{$e-app-import-export-panel-header-dark-background-color};
+		--e-app-import-export-panel-body-background-color: #{$e-app-import-export-panel-body-dark-background-color};
+	}
+}

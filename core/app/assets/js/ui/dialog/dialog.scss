@@ -4,12 +4,12 @@
 
 	&__close-button {
 		position: absolute;
-		top: 0;
-		right: 0;
+		top: spacing(44) * -1;
+		right: spacing(44) * -1;
 		margin-top: spacing(10);
 		margin-right: spacing(10);
 		z-index: $eps-zindex-modal;
-		font-size: size(2.5);
+		font-size: type(size, "20");
 		color: theme-colors(light);
 	}
 

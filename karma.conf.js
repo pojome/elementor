@@ -106,6 +106,7 @@ module.exports = function( config ) {
 			qunit: {
 				isDebug,
 				showUI: false,
+				validateContainersAlive: true, // Validate all containers are alive recursively after each test done.
 				testTimeout: 5000,
 			},
 		},

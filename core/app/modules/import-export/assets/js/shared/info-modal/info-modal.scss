@@ -1,0 +1,9 @@
+.e-app-import-export-info-modal {
+	&__section:not(:first-child) {
+		margin-top: spacing(30);
+	}
+
+	&__heading {
+		margin-bottom: spacing(20);
+	}
+}

@@ -1,7 +1,7 @@
 import ElementsHelper from 'elementor/tests/qunit/tests/assets/dev/js/editor/document/elements/helper';
 
 jQuery( () => {
-	QUnit.module( 'File: editor/container/container.js', () => {
+	QUnit.module( 'File: assets/dev/js/editor/container/container.js', () => {
 		QUnit.test( 'constructor()', ( assert ) => {
 			const fakeArgs = {
 					type: 'fake',
@@ -34,6 +34,43 @@ jQuery( () => {
 				controls = eButton.getGroupRelatedControls( settings );
 
 			assert.deepEqual( Object.keys( controls ), excepted );
+		} );
+
+		QUnit.test( 'findChildrenRecursive(): Ensure children found', ( assert ) => {
+			// Arrange.
+			const eColumn = ElementsHelper.createSection( 1, 1 ),
+				eWidgets = [
+					ElementsHelper.createButton( eColumn ),
+					ElementsHelper.createButton( eColumn ),
+				];
+
+			eWidgets.forEach( ( eWidget ) => {
+				// Act.
+				const foundChildren = elementor.getPreviewContainer().findChildrenRecursive(
+					( container ) => container.id === eWidget.id
+				);
+
+				// Assert.
+				assert.equal( foundChildren, eWidget );
+			} );
+		} );
+
+		QUnit.test( 'forEachChildrenRecursive(): Ensure works', ( assert ) => {
+			// Arrange.
+			const eSection = ElementsHelper.createSection( 1 ),
+				eColumn = eSection.children[ 0 ],
+				eWidgetsIds = [
+					ElementsHelper.createButton( eColumn ).id,
+					ElementsHelper.createButton( eColumn ).id,
+				],
+				expectedIds = [ eSection.id, eColumn.id, ... eWidgetsIds ],
+				actualIds = [];
+
+			// Act.
+			eSection.forEachChildrenRecursive( ( container ) => actualIds.push( container.id ) );
+
+			// Assert.
+			assert.deepEqual( actualIds, expectedIds );
 		} );
 	} );
 } );

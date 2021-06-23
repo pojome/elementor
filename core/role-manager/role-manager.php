@@ -83,7 +83,7 @@ class Role_Manager extends Settings_Page {
 		$this->get_tabs();
 		?>
 		<div class="wrap">
-			<h1><?php echo esc_html( $this->get_page_title() ); ?></h1>
+			<h1 class="wp-heading-inline"><?php echo esc_html( $this->get_page_title() ); ?></h1>
 
 			<div id="elementor-role-manager">
 				<h3><?php echo __( 'Manage What Your Users Can Edit In Elementor', 'elementor' ); ?></h3>

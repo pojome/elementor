@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 abstract class Iterator extends Base_Object {
 
-	private $current_archive_path = '';
+	protected $temp_dir;
 
-	private $temp_dir;
+	private $current_archive_path = '';
 
 	abstract public function run();
 
@@ -19,18 +19,8 @@ abstract class Iterator extends Base_Object {
 		return $this->get_current_archive_path() . $file_name;
 	}
 
-	protected function get_temp_dir() {
-		if ( ! $this->temp_dir ) {
-			$wp_upload_dir = wp_upload_dir();
-
-			$this->temp_dir = implode( DIRECTORY_SEPARATOR, [ $wp_upload_dir['basedir'], 'elementor', 'tmp', 'kit' ] ) . DIRECTORY_SEPARATOR;
-
-			if ( ! is_dir( $this->temp_dir ) ) {
-				wp_mkdir_p( $this->temp_dir );
-			}
-		}
-
-		return $this->temp_dir;
+	public function get_archive_file_full_path( $file_name ) {
+		return $this->temp_dir . $this->get_archive_file_path( $file_name );
 	}
 
 	public function get_current_archive_path() {
@@ -39,7 +29,7 @@ abstract class Iterator extends Base_Object {
 
 	public function set_current_archive_path( $path ) {
 		if ( $path ) {
-			$path .= DIRECTORY_SEPARATOR;
+			$path .= '/';
 		}
 
 		$this->current_archive_path = $path;

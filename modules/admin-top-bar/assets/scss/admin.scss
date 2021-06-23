@@ -1,0 +1,232 @@
+// Ask Josh
+@import "../../../../assets/dev/scss/helpers/direction";
+@import "../../../../assets/dev/scss/helpers/variables";
+@import "../../../../assets/dev/scss/helpers/mixins";
+@import "../../../../assets/dev/scss/editor/breakpoints";
+
+$top-bar-height: 50px;
+
+// Hide the widget in admin dashboard that was created by checking the screen option checkbox.
+// "display: none" won't work here since it will influence the mechanism for saving the state for the checkbox in screen options.
+#e-dashboard-widget-admin-top-bar {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+// The width for top bar is calculated according to the width of the wordpress admin sidebar menu.
+#e-admin-top-bar-root {
+	@include end( 0 );
+	background: $white;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.0394871);
+	display: none;
+	position: absolute;
+	top: 0;
+	width: calc(100% - 160px);
+	z-index: $first-layer;
+
+
+	.e-admin-top-bar {
+		display: flex;
+		height: $top-bar-height;
+		justify-content: space-between;
+		padding: 0 16px;
+	}
+
+	.page-title-action {
+		background: $gray-lightest;
+		border: 1px solid $blue;
+		border-radius: 3px;
+		box-sizing: border-box;
+		color: $blue;
+		cursor: pointer;
+		display: inline-block;
+		line-height: 30px;
+		margin: 0 4px;
+		min-height: 30px;
+		padding: 0 10px;
+		text-decoration: none;
+
+		&:hover {
+			background: $gray-lighter;
+			border-color: $blue-flat;
+			color: $blue-flat;
+		}
+	}
+
+	.e-admin-top-bar__heading {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin-inline-end: 40px;
+	}
+
+	.e-admin-top-bar__main-area {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		button {
+			margin: 0 4px
+		}
+	}
+
+	.e-admin-top-bar__secondary-area {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+	}
+
+	.e-admin-top-bar__heading-logo {
+		width: 30px;
+	}
+
+	.e-admin-top-bar__heading-logo {
+		background: $editor-accent;
+		border-radius: 15px;
+		color: $white;
+		display: inline-block;
+		font-size: pxToRem(14px);
+		height: pxToRem(30px);
+		line-height: pxToRem(30px);
+		text-align: center;
+		width: pxToRem(30px);
+	}
+
+	.e-admin-top-bar__heading-title {
+		color: $editor-darkest;
+		font-size: 15px;
+		font-weight: 700;
+		font-family: 'Roboto', Arial, Helvetica, Verdana, sans-serif;
+		padding: 0 8px;
+		line-height: normal;
+		text-transform: uppercase;
+	}
+
+	&.e-admin-top-bar--active {
+		display: block;
+
+		&~ #wpbody {
+			#wpbody-content {
+				margin-top: $top-bar-height;
+			}
+
+			.wrap {
+				// Since there is no h1 tag (in the normal place of the admin page) we need to break the page content under screen options button.
+				clear: both;
+				padding-top: 10px;
+
+				h1 {
+					display: none;
+				}
+			}
+		}
+	}
+
+	&.e-admin-top-bar--inactive ~ #wpbody {
+		.wrap {
+			h1, .page-title-action {
+				display: inline-block;
+			}
+		}
+	}
+
+	.e-admin-top-bar__bar-button {
+		align-items: center;
+		cursor: pointer;
+		display: inline-flex;
+		justify-content: center;
+		margin: 0 10px;
+		text-decoration: none;
+		color: $editor-dark;
+
+		.e-admin-top-bar__bar-button-title {
+			color: $editor-dark;
+		}
+
+		.e-admin-top-bar__bar-button-icon {
+			margin: 0 4px;
+		}
+
+		&:hover {
+			.e-admin-top-bar__bar-button-title,
+			.e-admin-top-bar__bar-button-icon{
+				color: $editor-accent;
+			}
+		}
+	}
+
+	.e-admin-top-bar__bar-button-title {
+		font-size: 13px;
+		font-weight: 500;
+		font-family: 'Roboto';
+		margin: 0 4px;
+		line-height: normal;
+	}
+
+	// The title and buttons are not visible by default in the original place. They might be visible according to the result of the admin tp bar.
+	&~ #wpbody {
+		.wrap {
+			h1, .page-title-action {
+				display: none;
+			}
+		}
+	}
+}
+
+// The width for top bar is calculated according to the width of the wordpress admin sidebar menu.
+@media screen and (max-width: 960px) {
+	#e-admin-top-bar-root {
+		width: calc(100% - 36px);
+	}
+}
+
+@media screen and (max-width: 782px) {
+	#e-admin-top-bar-root {
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#e-admin-top-bar-root {
+		top: 46px;
+	}
+}
+
+// Mobile mode
+@media (max-width: $editor-screen-md-min) {
+	#e-admin-top-bar-root {
+		.e-admin-top-bar__main-area-buttons {
+			position: absolute;
+			top: calc(100% + 10px);
+		}
+
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		.e-admin-top-bar__secondary-area {
+			.e-admin-top-bar__secondary-area-buttons {
+				display: none;
+			}
+
+			> .e-admin-top-bar__bar-button {
+				.e-admin-top-bar__bar-button-title {
+					display: none;
+				}
+			}
+		}
+	}
+}
+
+// Desktop mode
+@media (min-width: $editor-screen-md-min) {
+	#e-admin-top-bar-root {
+		.e-admin-top-bar__secondary-area {
+			.e-admin-top-bar__secondary-area-buttons {
+				display: flex;
+			}
+		}
+	}
+}

@@ -1,7 +1,7 @@
 import DisableEnable from 'elementor-document/globals/commands/base/disable-enable';
 
 jQuery( () => {
-	QUnit.module( 'File: editor/document/globals/commands/base/disable-enable', () => {
+	QUnit.module( 'File: assets/dev/js/editor/document/globals/commands/base/disable-enable.js', () => {
 		QUnit.test( 'restore()', ( assert ) => {
 			const historyItem = {
 				get: ( key ) => {

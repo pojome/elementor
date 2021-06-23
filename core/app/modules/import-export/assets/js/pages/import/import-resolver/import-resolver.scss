@@ -1,0 +1,78 @@
+$e-app-import-resolver-panel-header-background-color: theme-colors(light);
+$e-app-import-resolver-panel-header-dark-background-color: dark-tints(500);
+$e-app-import-resolver-panel-body-background-color: rgba(theme-colors(light), $opacity-05);
+$e-app-import-resolver-panel-body-dark-background-color: rgba(dark-theme-colors(dark), $opacity-005);
+$e-app-import-resolver-conflicts-asset-border-color: tints(400);
+$e-app-import-resolver-conflicts-asset-dark-border-color: dark-tints(400);
+$e-app-import-resolver-conflicts-asset-inactive-color: tints(500);
+$e-app-import-resolver-conflicts-asset-inactive-dark-color: dark-tints(300);
+
+$root: e-app-import-resolver;
+
+.#{$root} {
+	--e-app-import-resolver-panel-header-background-color: #{$e-app-import-resolver-panel-header-background-color};
+	--e-app-import-resolver-panel-body-background-color: #{$e-app-import-resolver-panel-body-background-color};
+	--e-app-import-resolver-conflicts-asset-border-color: #{$e-app-import-resolver-conflicts-asset-border-color};
+	--e-app-import-resolver-conflicts-asset-inactive-color: #{$e-app-import-resolver-conflicts-asset-inactive-color};
+
+	padding-bottom: spacing(20);
+
+	&__notice {
+		margin-bottom: spacing(20);
+	}
+
+	&__panel {
+		&,
+		&:hover {
+			background-color: initial;
+		}
+
+		&-header {
+			background-color: var(--e-app-import-resolver-panel-header-background-color);
+		}
+
+		&-body {
+			background-color: var(--e-app-import-resolver-panel-body-background-color);
+		}
+	}
+
+	&-conflicts {
+		&__container {
+			box-shadow: $eps-box-shadow-1;
+		}
+
+		&__checkbox {
+			flex-shrink: 0;
+			margin-inline-end: spacing(12);
+		}
+
+		&__title {
+			line-height: 1;
+		}
+
+		&__asset {
+			&:not(:first-child) {
+				border-inline-start: 2px solid var(--e-app-import-resolver-conflicts-asset-border-color);
+				padding-inline-start: spacing(16);
+				margin-inline-start: spacing(16);
+			}
+
+			&:not(.active) {
+				color: var(--e-app-import-resolver-conflicts-asset-inactive-color);
+			}
+		}
+
+		&__edit-template {
+			margin-inline-start: spacing(5);
+		}
+	}
+}
+
+.eps-theme-dark {
+	.#{$root} {
+		--e-app-import-resolver-panel-header-background-color: #{$e-app-import-resolver-panel-header-dark-background-color};
+		--e-app-import-resolver-panel-body-background-color: #{$e-app-import-resolver-panel-body-dark-background-color};
+		--e-app-import-resolver-conflicts-asset-border-color: #{$e-app-import-resolver-conflicts-asset-dark-border-color};
+		--e-app-import-resolver-conflicts-asset-inactive-color: #{$e-app-import-resolver-conflicts-asset-inactive-dark-color};
+	}
+}

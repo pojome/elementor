@@ -7,6 +7,7 @@ $root: eps-list;
 	--eps-list-item-separated-border-color: #{$eps-list-item-separated-border-color};
 
 	padding: 0;
+	margin: 0;
 	list-style-type: none;
 
 	&--padding {
@@ -19,8 +20,10 @@ $root: eps-list;
 		&--padding {
 			padding: var(--eps-list-item-padding);
 		}
+	}
 
-		.#{$root}--separated &:not(:last-child) {
+	&--separated {
+		.#{$root}__item:not(:last-child) {
 			border-bottom: 1px solid var(--eps-list-item-separated-border-color);
 		}
 	}

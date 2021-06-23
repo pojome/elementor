@@ -59,7 +59,7 @@ abstract class Base {
 			$parent_name = $this->parent->get_name();
 
 			if ( $parent_name ) {
-				$parent_name .= DIRECTORY_SEPARATOR;
+				$parent_name .= '/';
 			}
 
 			$path = $parent_name . $path;

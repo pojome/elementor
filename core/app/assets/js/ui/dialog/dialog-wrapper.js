@@ -9,17 +9,17 @@ export default function DialogWrapper( props ) {
 
 	return (
 		<section className="eps-modal__overlay">
-			{
-				props.onClose &&
-				<Button
-					onClick={ props.onClose }
-					text={ __( 'Close', 'elementor' ) }
-					hideText={ true }
-					icon="eicon-close"
-					className="eps-dialog__close-button"
-				/>
-			}
 			<WrapperTag className="eps-modal eps-dialog" onSubmit={ props.onSubmit }>
+				{
+					props.onClose &&
+					<Button
+						onClick={ props.onClose }
+						text={ __( 'Close', 'elementor' ) }
+						hideText={ true }
+						icon="eicon-close"
+						className="eps-dialog__close-button"
+					/>
+				}
 				{ props.children }
 			</WrapperTag>
 		</section>

@@ -298,6 +298,16 @@ class Frontend extends App {
 			$classes[] = 'elementor-page elementor-page-' . $id;
 		}
 
+		if ( Plugin::$instance->preview->is_preview_mode() ) {
+			$editor_preferences = SettingsManager::get_settings_managers( 'editorPreferences' );
+
+			$show_hidden_elements = $editor_preferences->get_model()->get_settings( 'show_hidden_elements' );
+
+			if ( 'yes' === $show_hidden_elements ) {
+				$classes[] = 'e-preview--show-hidden-elements';
+			}
+		}
+
 		return $classes;
 	}
 
@@ -501,13 +511,6 @@ class Frontend extends App {
 		);
 
 		wp_register_style(
-			'elementor-animations',
-			$this->get_css_assets_url( 'animations', 'assets/lib/animations/', true ),
-			[],
-			ELEMENTOR_VERSION
-		);
-
-		wp_register_style(
 			'flatpickr',
 			$this->get_css_assets_url( 'flatpickr', 'assets/lib/flatpickr/' ),
 			[],
@@ -525,7 +528,9 @@ class Frontend extends App {
 
 		$direction_suffix = is_rtl() ? '-rtl' : '';
 
-		$frontend_file_name = 'frontend' . $direction_suffix . $min_suffix . '.css';
+		$frontend_base_file_name = $this->is_optimized_css_mode() ? 'frontend-lite' : 'frontend';
+
+		$frontend_file_name = $frontend_base_file_name . $direction_suffix . $min_suffix . '.css';
 
 		$has_custom_file = Plugin::$instance->breakpoints->has_custom_breakpoints();
 
@@ -608,6 +613,8 @@ class Frontend extends App {
 
 		$this->print_config();
 
+		$this->enqueue_conditional_assets();
+
 		/**
 		 * After frontend enqueue scripts.
 		 *
@@ -649,7 +656,7 @@ class Frontend extends App {
 			if ( ! $this->is_improved_assets_loading() || Plugin::$instance->preview->is_preview_mode() ) {
 				wp_enqueue_style( 'elementor-icons' );
 			}
-			wp_enqueue_style( 'elementor-animations' );
+
 			wp_enqueue_style( 'elementor-frontend' );
 
 			/**
@@ -672,6 +679,18 @@ class Frontend extends App {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Enqueue assets conditionally.
+	 *
+	 * Enqueue all assets that were pre-enabled.
+	 *
+	 * @since 3.3.0
+	 * @access private
+	 */
+	private function enqueue_conditional_assets() {
+		Plugin::$instance->assets_loader->enqueue_assets();
 	}
 
 	/**
@@ -1295,6 +1314,7 @@ class Frontend extends App {
 				'value' => $breakpoint->get_value(),
 				'direction' => $breakpoint->get_direction(),
 				'is_enabled' => $breakpoint->is_enabled(),
+				'default_value' => $breakpoint->get_default_value(),
 			];
 		}
 
@@ -1388,6 +1408,12 @@ class Frontend extends App {
 		}
 
 		return $dependencies;
+	}
+
+	private function is_optimized_css_mode() {
+		$is_optimized_css_loading = Plugin::$instance->experiments->is_feature_active( 'e_optimized_css_loading' );
+
+		return ! Utils::is_script_debug() && $is_optimized_css_loading && ! Plugin::$instance->preview->is_preview_mode();
 	}
 
 	private function add_elementor_icons_inline_css() {

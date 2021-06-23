@@ -1,0 +1,76 @@
+:root {
+	--eps-search-input-background-color: #{tints(100)};
+	--eps-search-input-background-color-focus: #{theme-colors(light)};
+	--eps-search-input-color: #{tints(700)};
+}
+
+.eps-theme-dark {
+	--eps-search-input-background-color: #{$eps-dark-gray-600};
+	--eps-search-input-background-color-focus: #{$eps-dark-gray-500};
+	--eps-search-input-color: #{$eps-dark-gray-200};
+}
+
+.eps-search-input {
+	width: 100%;
+	font-size: type(size, "15");
+	padding: spacing(10) spacing(44);
+	border: none;
+	background: var(--eps-search-input-background-color);
+	outline: none;
+	color: var(--eps-search-input-color);
+	line-height: type( line-height, 'flat' );
+	height: spacing(44);
+
+	&--sm {
+		font-size: type(size, "13");
+		padding: spacing(8) spacing(30);
+	}
+
+	&:focus {
+		background: var(--eps-search-input-background-color-focus);
+	}
+
+	&::placeholder {
+		color: tints(500);
+		font-style: italic;
+	}
+
+	&__container {
+		position: relative;
+	}
+
+	&__icon {
+		font-size: type(size, "20");
+		padding: spacing(10);
+		color: tints(500);
+		position: absolute;
+		top: 0;
+		@include start(0);
+		left: 0;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&--sm {
+			font-size: type(size, "12");
+		}
+	}
+
+	&__clear-icon {
+		font-size: type(size, "14");
+		padding: spacing(10);
+		color: tints(500);
+		position: absolute;
+		top: 0;
+		@include end(0);
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&--sm {
+			font-size: type(size, "11");
+		}
+	}
+}

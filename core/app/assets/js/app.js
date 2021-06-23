@@ -9,6 +9,8 @@ import Index from 'elementor-app/pages/index';
 import ErrorBoundary from 'elementor-app/organisms/error-boundary';
 import './app.scss';
 
+const { Suspense } = React;
+
 export default function App() {
 	// Use hash route because it's actually rendered on a WP Admin page.
 	// Make it public for external uses.
@@ -17,11 +19,13 @@ export default function App() {
 	return (
 		<ErrorBoundary>
 			<LocationProvider history={ router.appHistory }>
-				<Router>
-					{ router.getRoutes() }
-					<Index path="/" />
-					<NotFound default />
-				</Router>
+				<Suspense fallback={null}>
+					<Router>
+						{ router.getRoutes() }
+						<Index path="/" />
+						<NotFound default />
+					</Router>
+				</Suspense>
 			</LocationProvider>
 		</ErrorBoundary>
 	);

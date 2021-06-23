@@ -237,6 +237,15 @@ class Manager extends Base_Object {
 		] );
 
 		$this->add_feature( [
+			'name' => 'e_optimized_css_loading',
+			'title' => __( 'Improved CSS Loading', 'elementor' ),
+			'description' => __( 'Please Note! The “Improved CSS Loading” mode reduces the amount of CSS code that is loaded on the page by default. When activated, the CSS code will be loaded, rather inline or in a dedicated file, only when needed. Activating this experiment may cause conflicts with incompatible plugins.', 'elementor' )
+				. ' <a href="https://go.elementor.com/wp-dash-improved-asset-loading/" target="_blank">'
+				. __( 'Learn More', 'elementor' ) . '</a>',
+			'release_status' => self::RELEASE_STATUS_ALPHA,
+		] );
+
+		$this->add_feature( [
 			'name' => 'a11y_improvements',
 			'title' => __( 'Accessibility Improvements', 'elementor' ),
 			'description' => __( 'An array of accessibility enhancements in Elementor pages.', 'elementor' )
@@ -256,7 +265,8 @@ class Manager extends Base_Object {
 			'description' => __( 'Design sites faster with a template kit that contains some or all components of a complete site, like templates, content & site settings.', 'elementor' )
 				. '<br>'
 				. __( 'You can import a kit and apply it to your site, or export the elements from this site to be used anywhere else.', 'elementor' ),
-			'release_status' => self::RELEASE_STATUS_ALPHA,
+			'release_status' => self::RELEASE_STATUS_BETA,
+			'default' => self::STATE_ACTIVE,
 		] );
 	}
 

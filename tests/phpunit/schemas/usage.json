@@ -1,0 +1,758 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "https://raw.githubusercontent.com/elementor/elementor/schemas/usage.json",
+	"type": "object",
+	"title": "Elementor core usage schema",
+	"required": [
+		"system",
+		"site_lang",
+		"email",
+		"usages"
+	],
+	"definitions": {
+		"global": {
+			"$id": "#/definitions/global",
+			"enums": {
+				"$id": "#/definitions/global/enums",
+				"yes_no": {
+					"$id": "#/definitions/global/enums/yes_no",
+					"enum": [
+						"Yes",
+						"No"
+					],
+					"type": "string"
+				},
+				"active_inactive": {
+					"$id": "#/definitions/global/enums/active_inactive",
+					"enum": [
+						"Active",
+						"Inactive"
+					],
+					"type": "string"
+				}
+			},
+			"email": {
+				"$id": "#/definitions/global/email",
+				"type": "string",
+				"pattern": "^\\S+@\\S+$",
+				"examples": [
+					"local@local"
+				]
+			}
+		},
+		"plugins": {
+			"$id": "#/definitions/plugins",
+			"type": "object",
+			"patternProperties": {
+				".*\\.php$": {
+					"$id": "#/system/plugins/active_plugins/$plugin",
+					"type": "object",
+					"required": [
+						"Elementor tested up to",
+						"Name",
+						"PluginURI",
+						"Version",
+						"Description",
+						"Author",
+						"AuthorURI",
+						"TextDomain",
+						"DomainPath",
+						"Network",
+						"RequiresWP",
+						"RequiresPHP",
+						"Title",
+						"AuthorName"
+					],
+					"properties": {
+						"Elementor tested up to": {
+							"$id": "#/system/plugins/active_plugins/$plugin/Elementor tested up to",
+							"type": "string",
+							"title": "Elementor tested up to version",
+							"description": "Up to which elementor version the plugin tested to."
+						},
+						"Name": {
+							"$id": "#/system/plugins/active_plugins/$plugin/Name",
+							"type": "string",
+							"title": "Plugin Name",
+							"examples": [
+								"Elementor"
+							]
+						},
+						"PluginURI": {
+							"$id": "#/system/plugins/active_plugins/$plugin/PluginURI",
+							"type": "string",
+							"title": "Plugin URL",
+							"examples": [
+								"https://elementor.com/?utm_source=wp-plugins&utm_campaign=plugin-uri&utm_medium=wp-dash"
+							]
+						},
+						"Version": {
+							"$id": "#/system/plugins/active_plugins/$plugin/Version",
+							"type": "string",
+							"title": "Plugin Version",
+							"examples": [
+								"3.1.1"
+							]
+						},
+						"Description": {
+							"$id": "#/system/plugins/active_plugins/$plugin/Description",
+							"type": "string",
+							"title": "Plugin Description",
+							"examples": [
+								"The Elementor Website Builder has it all: drag and drop page builder, pixel perfect design, mobile responsive editing, and more. Get started now!"
+							]
+						},
+						"Author": {
+							"$id": "#/system/plugins/active_plugins/$plugin/Author",
+							"type": "string",
+							"title": "Plugin Author",
+							"examples": [
+								"Elementor.com"
+							]
+						},
+						"AuthorURI": {
+							"$id": "#/system/plugins/active_plugins/$plugin/AuthorURI",
+							"type": "string",
+							"title": "Plugin Author URI",
+							"examples": [
+								"https://elementor.com/?utm_source=wp-plugins&utm_campaign=author-uri&utm_medium=wp-dash"
+							]
+						},
+						"TextDomain": {
+							"$id": "#/system/plugins/active_plugins/$plugin/TextDomain",
+							"type": "string",
+							"title": "Plugin Text Domain",
+							"examples": [
+								"elementor"
+							]
+						},
+						"DomainPath": {
+							"$id": "#/system/plugins/active_plugins/$plugin/DomainPath",
+							"type": "string",
+							"title": "Plugin Domain Path"
+						},
+						"Network": {
+							"$id": "#/system/plugins/active_plugins/$plugin/Network",
+							"type": "boolean",
+							"title": "Network Plugin",
+							"description": "Is it a network plugin (WordPress Multisite)"
+						},
+						"RequiresWP": {
+							"$id": "#/system/plugins/active_plugins/$plugin/RequiresWP",
+							"type": "string",
+							"title": "Plugin required WordPress version"
+						},
+						"RequiresPHP": {
+							"$id": "#/system/plugins/active_plugins/$plugin/RequiresPHP",
+							"type": "string",
+							"title": "Plugin required PHP version"
+						},
+						"Title": {
+							"$id": "#/system/plugins/active_plugins/$plugin/Title",
+							"type": "string",
+							"title": "Plugin Title",
+							"examples": [
+								"Elementor"
+							]
+						},
+						"AuthorName": {
+							"$id": "#/system/plugins/active_plugins/$plugin/AuthorName",
+							"type": "string",
+							"title": "Plugin Autor Name",
+							"examples": [
+								"Elementor.com"
+							]
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		},
+		"posts_per_type_per_post_status": {
+			"$id": "#/definitions/posts",
+			"$comment": "Array ( [] ) means the value is empty",
+			"description": "Describes usage of documents per post-type for each post-type, post-status the value is the count",
+			"type": [
+				"object",
+				"array"
+			],
+			"patternProperties": {
+				"([^\\s]+)": {
+					"$id": "#/definitions/posts/$post-type",
+					"type": "object",
+					"title": "Posts per post-type",
+					"patternProperties": {
+						"(draft|pending|private|publish|inherit|trash)$": {
+							"$id": "#/usages/posts/$post-type/$post-status",
+							"$comment": "TODO: Should be number",
+							"type": "string",
+							"title": "Count of post(s) per post-type"
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		}
+	},
+	"properties": {
+		"system": {
+			"$id": "#/system",
+			"type": "object",
+			"title": "The system schema",
+			"description": "Represents system the environment.",
+			"default": {},
+			"required": [
+				"server",
+				"wordpress",
+				"theme",
+				"user",
+				"plugins"
+			],
+			"properties": {
+				"server": {
+					"$id": "#/system/server",
+					"type": "object",
+					"title": "Server",
+					"description": "Represents the WebServer environment: HTTP Server, DB, PHP, Library status, etc.",
+					"required": [
+						"os",
+						"software",
+						"mysql_version",
+						"php_version",
+						"php_max_input_vars",
+						"php_max_post_size",
+						"gd_installed",
+						"zip_installed",
+						"write_permissions",
+						"elementor_library"
+					],
+					"properties": {
+						"os": {
+							"$id": "#/system/server/os",
+							"type": "string",
+							"title": "Operation System",
+							"description": "Server operation system.",
+							"examples": [
+								"Darwin"
+							]
+						},
+						"software": {
+							"$id": "#/system/server/software",
+							"type": "string",
+							"title": "HTTP Server",
+							"description": "HTTP Server type and version.",
+							"examples": [
+								"Apache/2.4.46 (Unix) PHP/7.2.34"
+							]
+						},
+						"mysql_version": {
+							"$id": "#/system/server/mysql_version",
+							"type": "string",
+							"title": "MySQL version",
+							"examples": [
+								"Homebrew v10.5.8"
+							]
+						},
+						"php_version": {
+							"$id": "#/system/server/php_version",
+							"type": "string",
+							"title": "PHP version",
+							"examples": [
+								"7.2.34"
+							]
+						},
+						"php_max_input_vars": {
+							"$id": "#/system/server/php_max_input_vars",
+							"type": "string",
+							"title": "php_max_input_vars",
+							"description": "Describes the maximum number of input variables allowed for PHP system.",
+							"examples": [
+								"1000"
+							]
+						},
+						"php_max_post_size": {
+							"$id": "#/system/server/php_max_post_size",
+							"type": "string",
+							"title": "php_max_post_size",
+							"description": "Describes the maximum size allowed for POST requests in the PHP system.",
+							"examples": [
+								"8M"
+							]
+						},
+						"gd_installed": {
+							"$id": "#/system/server/gd_installed",
+							"$ref": "#/definitions/global/enums/yes_no",
+							"title": "Is gd_installed?",
+							"description": "Tells whether the GD (Image processing) extension is installed or not."
+						},
+						"zip_installed": {
+							"$id": "#/system/server/zip_installed",
+							"$ref": "#/definitions/global/enums/yes_no",
+							"title": "Is zip_installed?",
+							"description": "Tells whether the zip extension is installed or not."
+						},
+						"write_permissions": {
+							"$id": "#/system/server/write_permissions",
+							"type": "string",
+							"title": "Write permissions",
+							"description": "'All right' or string with list of file(s) with write permission problems.",
+							"examples": [
+								"All right"
+							]
+						},
+						"elementor_library": {
+							"$id": "#/system/server/elementor_library",
+							"type": "string",
+							"title": "elementor library connection status",
+							"description": "'Connected' or 'Not connected (THE_ERROR)'.",
+							"examples": [
+								"Connected"
+							]
+						}
+					},
+					"additionalProperties": false
+				},
+				"wordpress": {
+					"$id": "#/system/wordpress",
+					"type": "object",
+					"title": "The WordPress environment",
+					"description": "Represents the WordPress environment.",
+					"required": [
+						"version",
+						"site_url",
+						"home_url",
+						"is_multisite",
+						"max_upload_size",
+						"memory_limit",
+						"permalink_structure",
+						"language",
+						"timezone",
+						"admin_email",
+						"debug_mode"
+					],
+					"properties": {
+						"version": {
+							"$id": "#/system/wordpress/version",
+							"type": "string",
+							"title": "Wordpress version",
+							"examples": [
+								"5.6.1"
+							]
+						},
+						"site_url": {
+							"$id": "#/system/wordpress/site_url",
+							"type": "string",
+							"title": "Site URL",
+							"description": "Site URL for a given site where WordPress application files.",
+							"examples": [
+								"http://localhost/elementor"
+							]
+						},
+						"home_url": {
+							"$id": "#/system/wordpress/home_url",
+							"type": "string",
+							"title": "Home URL",
+							"description": "Home URL for a given site where the front end is accessible.",
+							"examples": [
+								"http://localhost/elementor"
+							]
+						},
+						"is_multisite": {
+							"$id": "#/system/wordpress/is_multisite",
+							"$ref": "#/definitions/global/enums/yes_no",
+							"title": "Is multisite?",
+							"description": "Is current WordPress have multisite configuration.",
+							"default": "No"
+						},
+						"max_upload_size": {
+							"$id": "#/system/wordpress/max_upload_size",
+							"type": "string",
+							"title": "Max upload size",
+							"description": "Describes the maximum upload size allowed",
+							"examples": [
+								"2 MB"
+							]
+						},
+						"memory_limit": {
+							"$id": "#/system/wordpress/memory_limit",
+							"type": "string",
+							"title": "Memory limit",
+							"description": "Describes the maximum memory allowed by the environment.",
+							"examples": [
+								"128M"
+							]
+						},
+						"permalink_structure": {
+							"$id": "#/system/wordpress/permalink_structure",
+							"title": "Permalink structure",
+							"description": "The permalink structure is format used for URL rewriting module.",
+							"examples": [
+								"/blog/%year%/%monthnum%/%day%/%postname%/"
+							]
+						},
+						"language": {
+							"$id": "#/system/wordpress/language",
+							"type": "string",
+							"title": "Language of WordPress",
+							"description": "Describes the WordPress language in locale (LCID) format .",
+							"examples": [
+								"en-US"
+							]
+						},
+						"timezone": {
+							"$id": "#/system/wordpress/timezone",
+							"type": "string",
+							"title": "The timezone (GMT offset)",
+							"description": "Describes the GMT offset by number could be negative or positive.",
+							"examples": [
+								"2"
+							]
+						},
+						"admin_email": {
+							"$id": "#/system/wordpress/admin_email",
+							"$ref": "#/definitions/global/email",
+							"title": "Admin email",
+							"description": "The administrator email."
+						},
+						"debug_mode": {
+							"$id": "#/system/wordpress/debug_mode",
+							"$ref": "#/definitions/global/enums/active_inactive",
+							"title": "Is debug_mode active?",
+							"description": "Is debug mode Active/Inactive.",
+							"default": "Inactive"
+						}
+					},
+					"additionalProperties": false
+				},
+				"theme": {
+					"$id": "#/system/theme",
+					"type": "object",
+					"title": "The theme schema",
+					"description": "Information about WordPress current theme.",
+					"required": [
+						"name",
+						"version",
+						"author",
+						"is_child_theme"
+					],
+					"properties": {
+						"name": {
+							"$id": "#/system/theme/name",
+							"type": "string",
+							"title": "The theme name",
+							"examples": [
+								"Twenty Twenty"
+							]
+						},
+						"version": {
+							"$id": "#/system/theme/version",
+							"type": [
+								"string",
+								"boolean"
+							],
+							"title": "The version of theme",
+							"default": false,
+							"examples": [
+								"1.5"
+							]
+						},
+						"author": {
+							"$id": "#/system/theme/author",
+							"type": [
+								"string",
+								"boolean"
+							],
+							"title": "The author of theme",
+							"default": false,
+							"examples": [
+								"the WordPress team"
+							]
+						},
+						"is_child_theme": {
+							"$id": "#/system/theme/is_child_theme",
+							"$ref": "#/definitions/global/enums/yes_no",
+							"title": "Is is_child_theme?"
+						}
+					},
+					"additionalProperties": false
+				},
+				"user": {
+					"$comment": "TODO: Remove - Not in use.",
+					"$id": "#/system/user",
+					"type": "object",
+					"title": "The user schema (Ignore it, it's empty)",
+					"description": "Information about current user.",
+					"required": [
+						"role",
+						"locale",
+						"agent"
+					],
+					"properties": {
+						"role": {
+							"$id": "#/system/user/role",
+							"type": [
+								"null",
+								"string"
+							],
+							"title": "User role",
+							"description": "Role of current user.",
+							"examples": [
+								"administrator"
+							]
+						},
+						"locale": {
+							"$id": "#/system/user/locale",
+							"type": "string",
+							"title": "User locale",
+							"description": "A language used by the user in locale (LCID) format.",
+							"examples": [
+								"en_US"
+							]
+						},
+						"agent": {
+							"$id": "#/system/user/agent",
+							"type": "string",
+							"title": "User agent",
+							"description": "The agent of user browser.",
+							"examples": [
+								"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
+							]
+						}
+					},
+					"additionalProperties": false
+				},
+				"plugins": {
+					"$id": "#/system/plugins",
+					"type": "object",
+					"title": "Plugins",
+					"required": [
+						"active_plugins"
+					],
+					"properties": {
+						"active_plugins": {
+							"$id": "#/system/plugins/active_plugins",
+							"$ref": "#/definitions/plugins",
+							"type": "object",
+							"title": "Active Plugins",
+							"description": "A list of active plugins.",
+							"required": [
+								"elementor/elementor.php"
+							]
+						}
+					},
+					"additionalProperties": false
+				},
+				"network_plugins": {
+					"$id": "#/network_plugins",
+					"type": "object",
+					"properties": {
+						"network_active_plugins": {
+							"$id": "#/network_plugins/network_active_plugins",
+							"$ref": "#/definitions/plugins",
+							"description": "A list of active network plugins."
+						}
+					},
+					"additionalProperties": false
+				},
+				"mu_plugins": {
+					"$id": "#/mu_plugins",
+					"type": "object",
+					"properties": {
+						"must_use_plugins": {
+							"$id": "#/network_plugins/mu_plugins/must_use_plugins",
+							"$ref": "#/definitions/plugins",
+							"description": "A list of must to use plugins."
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		},
+		"site_lang": {
+			"$id": "#/site_lang",
+			"type": "string",
+			"title": "The site language",
+			"description": "The site language (LCID format).",
+			"examples": [
+				"en-US"
+			]
+		},
+		"email": {
+			"$comment": "TODO: Remove duplicated data",
+			"$id": "#/email",
+			"$ref": "#/definitions/global/email",
+			"title": "Admin email",
+			"description": "The administrator email."
+		},
+		"usages": {
+			"$id": "#/usages",
+			"type": "object",
+			"title": "The usages schema",
+			"description": "The usages of various components in Elementor.",
+			"required": [
+				"posts",
+				"non-elementor-posts",
+				"library",
+				"elements"
+			],
+			"properties": {
+				"posts": {
+					"$id": "#/usages/posts",
+					"$ref": "#/definitions/posts_per_type_per_post_status",
+					"title": "The posts schema"
+				},
+				"non-elementor-posts": {
+					"$id": "#/usages/non-elementor-posts",
+					"$ref": "#/definitions/posts_per_type_per_post_status",
+					"title": "The non-elementor-posts schema",
+					"examples": [
+						{
+							"attachment": {
+								"inherit": "15"
+							},
+							"elementor_snippet": {
+								"auto-draft": "1",
+								"publish": "1"
+							},
+							"page": {
+								"draft": "1",
+								"publish": "1"
+							},
+							"post": {
+								"auto-draft": "2"
+							}
+						}
+					]
+				},
+				"library": {
+					"$id": "#/usages/library",
+					"$comment": "This definition is only post_type 'elementor-library'. Array ( [] ) means the value is empty",
+					"type": [
+						"object",
+						"array"
+					],
+					"title": "The library schema",
+					"description": "The usage of library templates by template-type the value is the count.",
+					"patternProperties": {
+						"([^\\s]+)": {
+							"$id": "#/usages/library/$template_type",
+							"$comment": "TODO: Should be number",
+							"title": "Count of template-type usage",
+							"type": "string"
+						}
+					},
+					"additionalProperties": false
+				},
+				"elements": {
+					"$id": "#/usages/elements",
+					"$comment": "Boolean ( false ) means the value is empty",
+					"type": [
+						"object",
+						"boolean"
+					],
+					"description": "Usage of controls per document-type.",
+					"patternProperties": {
+						"([^\\s]+)": {
+							"$id": "#/usages/elements/$document-type",
+							"type": "object",
+							"description": "Each document-type holding the elements that are used within the document-type.",
+							"patternProperties": {
+								"([^\\s]+)": {
+									"$id": "#/usages/elements/$document-type/$element",
+									"type": "object",
+									"description": "Each element per document-type holding the the count of it own usage and its controls.",
+									"properties": {
+										"count": {
+											"$id": "#/usages/elements/$document-type/$element/count",
+											"description": "Count for usage of element per document-type.",
+											"type": "number"
+										},
+										"control_percent": {
+											"$id": "#/usages/elements/$document-type/$element/control_percent",
+											"$comment": "It should be required, but seems like its not always present",
+											"description": "Usage percent of total changed controls per element.",
+											"type": "number"
+										},
+										"controls": {
+											"$id": "#/usages/elements/$document-type/$element/controls",
+											"$comment": "Array ( [] ) means the value is empty",
+											"type": [
+												"object",
+												"array"
+											],
+											"patternProperties": {
+												"(content|style|advanced|layout|general)$": {
+													"$id": "#/usages/elements/$document-type/$element/controls/$tab",
+													"type": "object",
+													"description": "Tab of current document-type controls, each tab contain sections.",
+													"patternProperties": {
+														"([^\\s]+)": {
+															"$id": "#/usages/elements/$document-type/$element/controls/$tab/$section",
+															"$comment": "Array ( [] ) means the value is empty",
+															"type": [
+																"object",
+																"array"
+															],
+															"description": "Section of current tab, each section contains controls and their usage.",
+															"patternProperties": {
+																"([^\\s]+)": {
+																	"$id": "#/usages/elements/$document-type/$element/controls/$tab/$section/$control",
+																	"description": "Control usage, each control has it own usage count.",
+																	"type": "number"
+																}
+															},
+															"additionalProperties": false
+														}
+													},
+													"additionalProperties": false
+												}
+											},
+											"properties": {
+												"general": {
+													"$id": "#/usages/elements/$document-type/$element/controls/general",
+													"type": "object",
+													"properties": {
+														"__dynamic__": {
+															"$id": "#/usages/elements/$document-type/$element/controls/general/__dynamic__",
+															"type": "object",
+															"properties": {
+																"count": {
+																	"$id": "#/usages/elements/$document-type/$element/controls/general/__dynamic__/count",
+																	"type": "number"
+																}
+															},
+															"additionalProperties": false
+														}
+													},
+													"additionalProperties": false
+												}
+											},
+											"additionalProperties": false
+										}
+									},
+									"additionalProperties": false,
+									"required": [
+										"count",
+										"controls"
+									]
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"additionalProperties": false
+		},
+		"is_first_time": {
+			"$id": "#/is_first_time",
+			"type": "boolean",
+			"title": "Is it the first time sending usage data?"
+		}
+	},
+	"additionalProperties": false
+}

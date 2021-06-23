@@ -16,15 +16,18 @@ $root: e-app-import-export-wizard-step;
 	position: relative;
 	text-align: center;
 
-	&__image-container {
+	&__media-container {
 		height: 140px;
 		margin: (spacing(44) * 2) 0 spacing(44);
 	}
 
 	&__icon {
-		margin-bottom: spacing(44);
 		color: var(--e-app-import-export-wizard-step-icon-color);
 		font-size: 50px;
+
+		&.eicon-loading {
+			font-size: type( size, '30' );
+		}
 	}
 
 	&__heading {
@@ -33,6 +36,11 @@ $root: e-app-import-export-wizard-step;
 
 	&__description {
 		color: var(--e-app-import-export-wizard-step-text-color);
+	}
+
+	&__content {
+		text-align: initial;
+		margin-bottom: spacing(20);
 	}
 
 	&__notice {

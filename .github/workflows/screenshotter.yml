@@ -32,7 +32,7 @@ jobs:
           elementor-screenshotter-import-templates --config=${screenshotter_config_path} --debug=true
       - name: Build Package & Run Test
         run: |
-          elementor-screenshotter-run-test --config=${screenshotter_config_path} --debug=true --deepDebug=true
+          elementor-screenshotter-run-test --config=${screenshotter_config_path} --debug=true
       - uses: actions/upload-artifact@master
         if: failure()
         with:

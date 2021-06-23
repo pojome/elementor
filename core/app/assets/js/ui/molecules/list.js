@@ -9,7 +9,7 @@ export default function List( props ) {
 
 	let style;
 
-	if ( props.padding ) {
+	if ( props.hasOwnProperty( 'padding' ) ) {
 		style = {
 			'--eps-list-padding': pxToRem( props.padding ),
 		};

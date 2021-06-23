@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from '@reach/router';
 
-import { Context } from '../../../context/import/import-context';
+import { Context } from '../../../context/context-provider';
 
 import Layout from '../../../templates/layout';
 import PageHeader from '../../../ui/page-header/page-header';
@@ -10,38 +10,65 @@ import InlineLink from 'elementor-app/ui/molecules/inline-link';
 import Notice from 'elementor-app/ui/molecules/notice';
 import DropZone from 'elementor-app/organisms/drop-zone';
 
+import useAjax from 'elementor-app/hooks/use-ajax';
+
 import './import-kit.scss';
 
 export default function ImportKit() {
-	const [ isImportFailed, setIsImportFailed ] = useState( false ),
-		importContext = useContext( Context ),
+	const { ajaxState, setAjax } = useAjax(),
+		[ isImportFailed, setIsImportFailed ] = useState( false ),
+		[ isLoading, setIsLoading ] = useState( false ),
+		context = useContext( Context ),
 		navigate = useNavigate(),
 		resetImportProcess = () => {
-			importContext.dispatch( { type: 'SET_FILE', payload: null } );
+			context.dispatch( { type: 'SET_FILE', payload: null } );
 			setIsImportFailed( false );
 		},
 		getLearnMoreLink = () => (
-			<InlineLink url="https://go.elementor.com/app-what-are-kits" italic>
+			<InlineLink url="https://go.elementor.com/app-what-are-kits" key="learn-more-link" italic>
 				{ __( 'Learn More', 'elementor' ) }
 			</InlineLink>
 		);
 
 	useEffect( () => {
-		if ( importContext.data.file ) {
-			navigate( '/import/process' );
+		if ( context.data.file ) {
+			setAjax( {
+				data: {
+					e_import_file: context.data.file,
+					action: 'elementor_import_kit',
+					data: JSON.stringify( {
+						stage: 1,
+					} ),
+				},
+			} );
 		}
-	}, [ importContext.data.file ] );
+	}, [ context.data.file ] );
+
+	useEffect( () => {
+		if ( 'success' === ajaxState.status ) {
+			context.dispatch( { type: 'SET_FILE_RESPONSE', payload: { stage1: ajaxState.response } } );
+		}
+	}, [ ajaxState.status ] );
+
+	useEffect( () => {
+		if ( context.data.fileResponse && context.data.file ) {
+			navigate( '/import/content' );
+		}
+	}, [ context.data.fileResponse ] );
+
+	useEffect( () => {
+		context.dispatch( { type: 'SET_INCLUDES', payload: [] } );
+	}, [] );
 
 	return (
 		<Layout type="import">
 			<section className="e-app-import">
 				<PageHeader
-					heading={ __( 'Import Kits', 'elementor' ) }
-					description={
-						<>
-							{ __( 'Upload a file with Elementor components - pages, site settings, headers, etc. - so you can access them later and quickly apply them to your site.', 'elementor' ) } { getLearnMoreLink() }
-						</>
-					}
+					heading={ __( 'Import a Template Kit', 'elementor' ) }
+					description={ [
+						__( 'Upload a file with templates, site settings, content, etc., and apply them to your site automatically.', 'elementor' ),
+						getLearnMoreLink(),
+					] }
 				/>
 
 				<Notice label={ __( 'Important', 'elementor' ) } color="warning" className="e-app-import__notice">
@@ -55,12 +82,19 @@ export default function ImportKit() {
 					secondaryText={ __( 'Or', 'elementor' ) }
 					filetypes={ [ 'zip' ] }
 					onFileSelect={ ( file ) => {
-						importContext.dispatch( { type: 'SET_FILE', payload: file } );
+						setIsLoading( true );
+						context.dispatch( { type: 'SET_FILE', payload: file } );
 					} }
 					onError={ () => setIsImportFailed( true ) }
+					isLoading={ isLoading }
 				/>
 
-				{ isImportFailed && <ImportFailedDialog onRetry={ resetImportProcess } /> }
+				{ isImportFailed &&
+					<ImportFailedDialog
+						onApprove={ () => window.open( 'https://elementor.com/help/import-kit?utm_source=import-export&utm_medium=wp-dash&utm_campaign=learn', '_blank' ) }
+						onDismiss={ resetImportProcess }
+					/>
+				}
 			</section>
 		</Layout>
 	);

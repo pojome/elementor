@@ -88,4 +88,14 @@ class Control_Exit_Animation extends Control_Animation {
 
 		return array_merge( $animations, $additional_animations );
 	}
+
+	public static function get_assets( $setting ) {
+		if ( ! $setting || 'none' === $setting ) {
+			return [];
+		}
+
+		return [
+			'styles' => [ 'e-animations' ],
+		];
+	}
 }

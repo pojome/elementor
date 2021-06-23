@@ -1,0 +1,46 @@
+$e-kit-library-sticky-search-z-index: 2;
+
+.e-kit-library {
+	&__index-layout-container {
+		flex-grow: 1;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__index-layout-top-area {
+		padding: spacing(44);
+		position: sticky;
+		top: -1px;
+		width: 100%;
+		z-index: $e-kit-library-sticky-search-z-index;
+		background-color: var(--app-background-color);
+		gap: spacing( 24 );
+
+		&-search, &-sort {
+			min-width: 265px;
+		}
+
+		&-search {
+			flex: 1;
+		}
+	}
+
+	&__index-layout-main {
+		padding-top: spacing(0);
+		padding-bottom: spacing(24);
+		overflow-y: hidden;
+		height: auto;
+		flex: 1 0 auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	&__envato-promotion {
+		width: 100%;
+		text-align: center;
+		margin-top: spacing(30);
+		color: tints(600);
+	}
+}

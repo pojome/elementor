@@ -18,7 +18,7 @@ $button-primary-background-color: theme-colors(success);
 $button-primary-hover-background-color: darken($button-primary-background-color, $button-hover-constant);
 $button-primary-active-background-color: darken($button-primary-background-color, $button-active-constant);
 $button-primary-color: theme-colors(light);
-$button-secondary-background-color: tints(400);
+$button-secondary-background-color: tints(500);
 $button-secondary-hover-background-color: darken($button-secondary-background-color, $button-hover-constant);
 $button-secondary-active-background-color: darken($button-secondary-background-color, $button-active-constant);
 $button-secondary-color: theme-colors(light);

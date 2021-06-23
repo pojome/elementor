@@ -1,6 +1,8 @@
 <?php
 namespace Elementor;
 
+use Elementor\Core\Kits\Manager;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -31,6 +33,8 @@ class Maintenance {
 
 		wp_schedule_event( time(), 'daily', 'elementor/tracker/send_event' );
 		flush_rewrite_rules();
+
+		Manager::create_default_kit();
 
 		if ( is_multisite() && $network_wide ) {
 			return;

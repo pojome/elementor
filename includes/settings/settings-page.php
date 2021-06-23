@@ -292,7 +292,7 @@ abstract class Settings_Page {
 		$tabs = $this->get_tabs();
 		?>
 		<div class="wrap">
-			<h1><?php echo $this->get_page_title(); ?></h1>
+			<h1 class="wp-heading-inline"><?php echo $this->get_page_title(); ?></h1>
 			<div id="elementor-settings-tabs-wrapper" class="nav-tab-wrapper">
 				<?php
 				foreach ( $tabs as $tab_id => $tab ) {

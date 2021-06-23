@@ -5,6 +5,14 @@ use Elementor\Core\Utils\ImportExport\WP_Import;
 use Elementor\Testing\Elementor_Test_Base;
 
 class Test_WP_Import extends Elementor_Test_Base {
+	public function setUp() {
+		parent::setUp();
+
+		// Should remove the default kit because it is actually a post and it affect
+		// the number of posts that exists.
+		$this->remove_default_kit();
+	}
+
 	public function test_run() {
 		// Arrange.
 		$importer = new WP_Import( __DIR__ . '/mock/fresh-wordpress-database.xml' );
@@ -25,8 +33,15 @@ class Test_WP_Import extends Elementor_Test_Base {
 				'categories' => 0,
 				'tags' => 0,
 				'terms' => 0,
-				'posts' => 3,
-			]
+				'posts' => [
+					'failed' => [],
+					'succeed' => [
+						1 => 1,
+						2 => 2,
+						3 => 3,
+					],
+				],
+			],
 		], $result );
 		$this->assertCount( 3, $posts );
 	}

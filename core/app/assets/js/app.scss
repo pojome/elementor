@@ -35,7 +35,7 @@
 		background-color: var(--app-header-background-color);
 		box-shadow: $app-header-box-shadow;
 		position: relative;
-		z-index: 1;
+		z-index: $app-header-z-index;
 		height: $app-header-height;
 		padding: $app-header-padding-y $spp-header-padding-x;
 	}
@@ -107,7 +107,7 @@
 		flex-grow: 0;
 		overflow-y: auto;
 		box-shadow: $app-sidebar-box-shadow;
-		z-index: 2;
+		z-index: $app-sidebar-z-index;
 	}
 
 	&__content {

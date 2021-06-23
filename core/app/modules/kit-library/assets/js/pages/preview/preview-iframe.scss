@@ -1,0 +1,9 @@
+.e-kit-library__preview-library {
+	border: none;
+	transition: $transition-hover;
+	box-shadow: shadow("2");
+
+	&-container {
+		overflow-y: auto;
+	}
+}

@@ -3,6 +3,7 @@
 namespace Elementor\Core\Kits\Documents\Tabs;
 
 use Elementor\Controls_Manager;
+use Elementor\Group_Control_Background;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Text_Shadow;
@@ -104,14 +105,23 @@ class Theme_Style_Buttons extends Tab_Base {
 			]
 		);
 
-		$this->add_control(
-			'button_background_color',
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
 			[
-				'label' => __( 'Background Color', 'elementor' ),
-				'type' => Controls_Manager::COLOR,
-				'dynamic' => [],
-				'selectors' => [
-					$button_selector => 'background-color: {{VALUE}};',
+				'name' => 'button_background',
+				'types' => [ 'classic', 'gradient' ],
+				'exclude' => [ 'image' ],
+				'selector' => $button_selector,
+				'fields_options' => [
+					'background' => [
+						'default' => 'classic',
+					],
+					'color' => [
+						'dynamic' => [],
+					],
+					'color_b' => [
+						'dynamic' => [],
+					],
 				],
 			]
 		);
@@ -170,14 +180,23 @@ class Theme_Style_Buttons extends Tab_Base {
 			]
 		);
 
-		$this->add_control(
-			'button_hover_background_color',
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
 			[
-				'label' => __( 'Background Color', 'elementor' ),
-				'type' => Controls_Manager::COLOR,
-				'dynamic' => [],
-				'selectors' => [
-					$button_hover_selector => 'background-color: {{VALUE}};',
+				'name' => 'button_hover_background',
+				'types' => [ 'classic', 'gradient' ],
+				'exclude' => [ 'image' ],
+				'selector' => $button_hover_selector,
+				'fields_options' => [
+					'background' => [
+						'default' => 'classic',
+					],
+					'color' => [
+						'dynamic' => [],
+					],
+					'color_b' => [
+						'dynamic' => [],
+					],
 				],
 			]
 		);

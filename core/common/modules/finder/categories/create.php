@@ -2,8 +2,8 @@
 namespace Elementor\Core\Common\Modules\Finder\Categories;
 
 use Elementor\Core\Common\Modules\Finder\Base_Category;
+use Elementor\Plugin;
 use Elementor\TemplateLibrary\Source_Local;
-use Elementor\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -54,7 +54,7 @@ class Create extends Base_Category {
 			if ( Source_Local::CPT === $post_type ) {
 				$url = admin_url( Source_Local::ADMIN_MENU_SLUG . '#add_new' );
 			} else {
-				$url = Utils::get_create_new_post_url( $post_type );
+				$url = Plugin::$instance->documents->get_create_new_post_url( $post_type );
 			}
 
 			$items[ $post_type ] = [

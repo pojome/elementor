@@ -1,0 +1,24 @@
+:root {
+	--eps-badge-background-color: #{$eps-theme-light};
+}
+
+.eps-theme-dark {
+	--eps-badge-background-color: #{$eps-dark-gray-600};
+}
+
+.eps-badge {
+	display: inline-block;
+	background: var(--eps-badge-background-color);
+	padding: 0 spacing(8);
+	line-height: type(line-height, lg);
+	box-shadow: shadow("1");
+	border-radius: 4px;
+	font-size: type(size, "12");
+
+	&--sm {
+		font-size: type(size, '10');
+		border-radius: 3px;
+		padding: 0 spacing(5);
+		line-height: type(line-height, base);
+	}
+}

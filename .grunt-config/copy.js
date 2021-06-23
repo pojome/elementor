@@ -36,7 +36,7 @@ const getBuildFiles = [
 	'!phpunit.xml',
 	'!CHANGELOG.md',
 	'!README.md',
-	'!ruleset.xml',
+	'!phpcs.xml',
 	'!tests/**',
 	'!vendor/**',
 	'!yarn.lock',

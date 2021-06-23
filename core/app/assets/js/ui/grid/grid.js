@@ -1,4 +1,4 @@
-import { arrayToClassName } from 'elementor-app/utils/utils.js';
+import { arrayToClassName, pxToRem } from 'elementor-app/utils/utils.js';
 
 import './grid.scss';
 
@@ -21,7 +21,7 @@ export default function Grid( props ) {
 			xl: '-item-xl{{ -VALUE }}',
 			xxl: '-item-xxl{{ -VALUE }}',
 		},
-		getStyle = () => isValidPropValue( props.spacing ) ? { '--grid-spacing-gutter': props.spacing } : {},
+		getStyle = () => isValidPropValue( props.spacing ) ? { '--grid-spacing-gutter': pxToRem( props.spacing ) } : {},
 		classes = [ getBaseClassName(), props.className, ...getPropsClasses( propsMap, props ) ];
 
 	return (

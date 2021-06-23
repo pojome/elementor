@@ -14,17 +14,20 @@ export default function WizardStep( props ) {
 	return (
 		<Grid className={ arrayToClassName( classes ) } justify="center" container>
 			<Grid item>
-				{ props.image &&
-				<Grid className="e-app-import-export-wizard-step__image-container" justify="center" alignItems="end" container>
-					<img
-						className="e-app-import-export-wizard-step__image"
-						src={ props.image }
-					/>
+				{ ( props.image || props.icon ) &&
+				<Grid className="e-app-import-export-wizard-step__media-container" justify="center" alignItems="end" container>
+					{
+						props.image &&
+						<img
+							className="e-app-import-export-wizard-step__image"
+							src={ props.image }
+						/>
+					}
+					{
+						props.icon &&
+						<Icon className={ `e-app-import-export-wizard-step__icon ${ props.icon }` } />
+					}
 				</Grid>
-				}
-
-				{ props.icon &&
-				<Icon className={ `e-app-import-export-wizard-step__icon ${ props.icon }` } />
 				}
 
 				{ props.heading &&
@@ -37,6 +40,12 @@ export default function WizardStep( props ) {
 				<Text variant="xl" className="e-app-import-export-wizard-step__description" >
 					{ props.description }
 				</Text>
+				}
+
+				{ props.children &&
+				<Grid item className="e-app-import-export-wizard-step__content">
+					{ props.children }
+				</Grid>
 				}
 
 				{ props.notice &&
@@ -56,6 +65,7 @@ WizardStep.propTypes = {
 	heading: PropTypes.string,
 	description: PropTypes.oneOfType( [ PropTypes.string, PropTypes.object ] ),
 	notice: PropTypes.oneOfType( [ PropTypes.string, PropTypes.object ] ),
+	children: PropTypes.any,
 };
 
 WizardStep.defaultProps = {

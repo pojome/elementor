@@ -16,7 +16,7 @@ export const Move = () => {
 
 				// Validate first section have 3 columns.
 				setTimeout( () => {
-					assert.equal( elementor.getPreviewContainer().children[ 0 ].children.length, 3, 3,
+					assert.equal( elementor.getPreviewContainer().children[ 0 ].children.length, 3,
 						'Section were moved.' );
 
 					done();
@@ -31,7 +31,7 @@ export const Move = () => {
 				ElementsHelper.move( eColumn, eSection2 );
 
 				// Validate.
-				assert.equal( eSection2.view.collection.length, 2,
+				assert.equal( eSection2.children.length, 2,
 					'Columns were moved.' );
 			} );
 
@@ -44,9 +44,9 @@ export const Move = () => {
 				ElementsHelper.move( eButton, eColumn2 );
 
 				// Validate.
-				assert.equal( eColumn1.view.collection.length, 0,
+				assert.equal( eColumn1.children.length, 0,
 					'Widget were removed from first column.' );
-				assert.equal( eColumn2.view.collection.length, 1,
+				assert.equal( eColumn2.children.length, 1,
 					'Widget were moved/created at the second column.' );
 			} );
 
@@ -216,7 +216,7 @@ export const Move = () => {
 				ElementsHelper.multiMove( [ eColumn1, eColumn2 ], eSection2 );
 
 				// Validate.
-				assert.equal( eSection2.view.collection.length, 3,
+				assert.equal( eSection2.children.length, 3,
 					'Columns were moved.' );
 			} );
 
@@ -230,10 +230,30 @@ export const Move = () => {
 				ElementsHelper.multiMove( [ eButton1, eButton2 ], eColumn2 );
 
 				// Validate.
-				assert.equal( eColumn1.view.collection.length, 0,
+				assert.equal( eColumn1.children.length, 0,
 					'Widgets were removed from the first column.' );
-				assert.equal( eColumn2.view.collection.length, 2,
+				assert.equal( eColumn2.children.length, 2,
 					'Widgets were moved/create at the second column.' );
+			} );
+		} );
+
+		QUnit.module( 'Misc', () => {
+			QUnit.test( 'Swap column places -- Ensure valid containers', ( assert ) => {
+				// Arrange.
+				const eSection = ElementsHelper.createSectionStructure( 2 ),
+					columnsIds = [],
+					actualColumnsIds = [];
+
+				eSection.children.forEach( ( eColumn ) => columnsIds.push( eColumn.id ) );
+
+				// Act.
+				ElementsHelper.move( eSection.children[ 0 ], eSection, { at: 1 } );
+
+				eSection.children.forEach( ( eColumn ) => actualColumnsIds.push( eColumn.id ) );
+
+				// Assert.
+				assert.deepEqual( actualColumnsIds, columnsIds.reverse(),
+					'The column ids actually reversed' );
 			} );
 		} );
 	} );

@@ -1,5 +1,4 @@
 var ControlBaseDataView = require( 'elementor-controls/base-data' ),
-	NumberValidator = require( 'elementor-validator/number' ),
 	ControlNumberItemView;
 
 ControlNumberItemView = ControlBaseDataView.extend( {
@@ -19,7 +18,7 @@ ControlNumberItemView = ControlBaseDataView.extend( {
 		} );
 
 		if ( ! jQuery.isEmptyObject( validationTerms ) ) {
-			this.addValidator( new NumberValidator( {
+			this.addValidator( new this.validatorTypes.Number( {
 				validationTerms: validationTerms,
 			} ) );
 		}

@@ -1,46 +1,47 @@
-import { Context } from '../../../../../context/export/export-context';
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from '@reach/router';
+
+import { Context } from '../../../../../context/context-provider';
 
 import Button from 'elementor-app/ui/molecules/button';
 
 export default function ExportButton() {
-	const getDownloadUrl = ( exportContext, isDownloadAllowed ) => {
-			if ( ! isDownloadAllowed ) {
-				return '';
-			}
-
+	const context = useContext( Context ),
+		navigate = useNavigate(),
+		[ isDownloadAllowed, setIsDownloadAllowed ] = useState( false ),
+		getDownloadUrl = () => {
 			const exportURL = elementorAppConfig[ 'import-export' ].exportURL,
 				exportData = {
 					elementor_export_kit: {
-						include: exportContext.data.includes,
+						include: context.data.includes,
+						kitInfo: context.data.kitInfo,
 					},
 				};
 
 			return exportURL + '&' + jQuery.param( exportData );
 	};
 
-	return (
-		<Context.Consumer>
-			{
-				( exportContext ) => {
-					const isDownloadAllowed = exportContext.data.includes.length,
-						downloadURL = getDownloadUrl( exportContext, isDownloadAllowed );
+	useEffect( () => {
+		setIsDownloadAllowed( ! ! context.data.includes.length );
+	}, [ context.data.includes ] );
 
-					return (
-						<Button
-							variant="contained"
-							text={ __( 'Export', 'elementor' ) }
-							color={ isDownloadAllowed ? 'primary' : 'disabled' }
-							url="complete"
-							onClick={ () => {
-								if ( isDownloadAllowed ) {
-									exportContext.dispatch( { type: 'SET_DOWNLOAD_URL', payload: downloadURL } );
-								}
-							} }
-						/>
-					);
+	useEffect( () => {
+		if ( context.data.downloadUrl ) {
+			navigate( '/export/process' );
+		}
+	}, [ context.data.downloadUrl ] );
+
+	return (
+		<Button
+			variant="contained"
+			text={ __( 'Export', 'elementor' ) }
+			color={ isDownloadAllowed ? 'primary' : 'disabled' }
+			onClick={ () => {
+				if ( isDownloadAllowed ) {
+					context.dispatch( { type: 'SET_DOWNLOAD_URL', payload: getDownloadUrl() } );
 				}
-			}
-		</Context.Consumer>
+			} }
+		/>
 	);
 }
 

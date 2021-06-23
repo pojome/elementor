@@ -5,15 +5,13 @@
 @import "../../modules/site-editor/assets/js/templates/site-editor.scss";
 @import "../../modules/site-editor/assets/scss/loading.scss";
 @import "../../modules/site-editor/assets/js/organisms/menu.scss";
-@import "../../modules/import-export/assets/js/pages/import/import-process/import-process-style.scss";
 @import "../../modules/import-export/assets/js/pages/import/import-kit/import-kit.scss";
 @import "../../modules/site-editor/assets/js/pages/promotion.scss";
-@import "../../modules/import-export/assets/js/ui/message/message.scss";
 @import "../../modules/import-export/assets/js/ui/wizard-step/wizard-step.scss";
 @import "../../modules/import-export/assets/js/ui/page-header/page-header.scss";
-@import "../../modules/import-export/assets/js/pages/export/export-kit/components/kit-content/kit-content.scss";
+@import "../../modules/import-export/assets/js/shared/kit-content/kit-content";
 @import "../js/organisms/wizard-footer.scss";
-@import "../../modules/import-export/assets/js/pages/export/export-kit/components/kit-content/components/templates-features/templates-features.scss";
+@import "../../modules/import-export/assets/js/shared/kit-content/components/templates-features/templates-features.scss";
 @import "../js/ui/card/card.scss";
 @import "../js/ui/menu/menu-item.scss";
 @import "../js/ui/grid/grid.scss";
@@ -31,4 +29,31 @@
 // Should be after buttons.scss to prevent dialog button style overwrite.
 @import "../js/ui/dialog/dialog.scss";
 @import "../js/ui/molecules/inline-link.scss";
+@import "../js/ui/atoms/text-field.scss";
 @import "../../modules/import-export/assets/js/shared/content-layout/content-layout.scss";
+@import "../../modules/import-export/assets/js/pages/export/export-complete/export-complete.scss";
+@import "../../modules/import-export/assets/js/shared/kit-content/kit-content.scss";
+@import "../../modules/import-export/assets/js/shared/kit-data/kit-data.scss";
+@import "../../modules/import-export/assets/js/pages/import/import-resolver/import-resolver.scss";
+@import "../../modules/import-export/assets/js/ui/panel/panel.scss";
+@import "../../modules/import-export/assets/js/pages/export/export-kit/export-kit.scss";
+@import "../../modules/import-export/assets/js/shared/info-modal/info-modal.scss";
+
+// Kit library
+@import "../../modules/kit-library/assets/js/components/badge.scss";
+@import "../../modules/kit-library/assets/js/components/collapse.scss";
+@import "../../modules/kit-library/assets/js/components/favorites-actions.scss";
+@import "../../modules/kit-library/assets/js/components/filter-indication-text.scss";
+@import "../../modules/kit-library/assets/js/components/item-header.scss";
+@import "../../modules/kit-library/assets/js/components/kit-list-item.scss";
+@import "../../modules/kit-library/assets/js/components/layout/header-back-button.scss";
+@import "../../modules/kit-library/assets/js/components/tags-filter.scss";
+@import "../../modules/kit-library/assets/js/pages/index/index-header.scss";
+@import "../../modules/kit-library/assets/js/pages/index/index-no-results.scss";
+@import "../../modules/kit-library/assets/js/pages/index/index.scss";
+@import "../../modules/kit-library/assets/js/pages/overview/overview-sidebar.scss";
+@import "../../modules/kit-library/assets/js/pages/overview/overview.scss";
+@import "../../modules/kit-library/assets/js/pages/preview/preview.scss";
+@import "../../modules/kit-library/assets/js/pages/preview/preview-responsive-controls.scss";
+@import "../../modules/kit-library/assets/js/components/search-input.scss";
+@import "../../modules/kit-library/assets/js/components/sort-select.scss";

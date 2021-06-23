@@ -34,7 +34,7 @@ class Post_Type extends Base {
 		$query_args = [
 			'post_type' => $this->post_type,
 			'post_status' => 'publish',
-			'posts_per_page' => 20,
+			'posts_per_page' => -1,
 			'meta_query' => [
 				[
 					'key' => '_elementor_data',
@@ -76,7 +76,7 @@ class Post_Type extends Base {
 
 	protected function import( array $import_settings ) {
 		$result = [
-			'success' => [],
+			'succeed' => [],
 			'failed' => [],
 		];
 
@@ -90,7 +90,7 @@ class Post_Type extends Base {
 					continue;
 				}
 
-				$result['success'][] = $import;
+				$result['succeed'][ $id ] = $import;
 			} catch ( \Error $error ) {
 				$result['failed'][ $id ] = $error->getMessage();
 			}
@@ -115,18 +115,18 @@ class Post_Type extends Base {
 			return $new_document;
 		}
 
+		$post_data['import_settings'] = $post_settings;
+
 		$new_document->import( $post_data );
-
-		if ( $post_settings['thumbnail'] ) {
-			$attachment = Plugin::$instance->templates_manager->get_import_images_instance()->import( [ 'url' => $post_settings['thumbnail'] ] );
-
-			set_post_thumbnail( $new_document->get_main_post(), $attachment['id'] );
-		}
 
 		$new_id = $new_document->get_main_id();
 
-		if ( $this->show_page_on_front && ! empty( $post_settings['show_on_front'] ) ) {
+		if ( ! empty( $post_settings['show_on_front'] ) ) {
 			update_option( 'page_on_front', $new_id );
+
+			if ( ! $this->show_page_on_front ) {
+				update_option( 'show_on_front', 'page' );
+			}
 		}
 
 		return $new_id;

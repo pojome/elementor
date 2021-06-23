@@ -14,6 +14,7 @@ $card-padding: spacing(10);
 
 $card-header-padding: $card-padding;
 $card-header-footer-border: $eps-border;
+$card-header-footer-active-border: $eps-border-width-md $eps-border-style $eps-border-color-dark;
 $card-header-height: $card-padding * 4;
 
 $card-headline-color: tints(600);
@@ -34,16 +35,19 @@ $card-image-overlay-transition: $card-transition;
 $card-dark-background-color: rgba(dark-tints(600), $opacity-05);
 $card-dark-background-color-hover: dark-tints(600);
 $card-dark-box-shadow: $eps-box-shadow;
-$card-dark-header-border: 1px solid dark-tints(700);
+$card-dark-header-footer-border: $eps-border-width $eps-border-style dark-tints(700);
+$card-dark-header-footer-active-border: $eps-border-width $eps-border-style dark-tints(800);
 $card-dark-headline-color: dark-tints(100);
 $card-dark-figure-background-color: dark-tints(700);
 $card-dark-image-overlay-background-color: rgba(dark-tints(700), $opacity-05);
+
 
 :root {
 	--card-background-color: #{$card-background-color};
 	--card-background-color-hover: #{$card-background-color-hover};
 	--card-box-shadow: #{$card-box-shadow};
 	--card-header-footer-border: #{$card-header-footer-border};
+	--card-header-footer-active-border: #{$card-header-footer-active-border};
 	--card-headline-color: #{$card-headline-color};
 	--card-figure-background-color: #{$card-figure-background-color};
 	--card-image-overlay-background-color: #{$card-image-overlay-background-color};
@@ -53,7 +57,8 @@ $card-dark-image-overlay-background-color: rgba(dark-tints(700), $opacity-05);
 	--card-background-color: #{$card-dark-background-color};
 	--card-background-color-hover: #{$card-dark-background-color-hover};
 	--card-box-shadow: #{$card-dark-box-shadow};
-	--card-header-footer-border: #{$card-dark-header-border};
+	--card-header-footer-border: #{$card-dark-header-footer-border};
+	--card-header-footer-active-border: #{$card-dark-header-footer-active-border};
 	--card-headline-color: #{$card-dark-headline-color};
 	--card-figure-background-color: #{$card-dark-figure-background-color};
 	--card-image-overlay-background-color: #{$card-dark-image-overlay-background-color};

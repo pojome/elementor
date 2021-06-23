@@ -15,7 +15,7 @@ export const Empty = () => {
 			ElementsHelper.empty();
 
 			// Check.
-			assert.equal( elementor.getPreviewContainer().view.collection.length, 0,
+			assert.equal( elementor.getPreviewContainer().children.length, 0,
 				'all elements were removed.' );
 			assert.equal( elementor.saver.isEditorChanged(), true, 'Command applied the saver editor is changed.' );
 		} );

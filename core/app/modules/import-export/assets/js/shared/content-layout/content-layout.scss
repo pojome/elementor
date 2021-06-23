@@ -1,5 +1,9 @@
 .e-app-import-export-content-layout {
+	display: flex;
+	justify-content: center;
 	height: 100%;
-	max-width: 1075px;
-	margin: 0 auto;
+
+	&__container {
+		flex-basis: 1075px;
+	}
 }

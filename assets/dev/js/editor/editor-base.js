@@ -18,6 +18,7 @@ import ResponsiveBar from './regions/responsive-bar/responsive-bar';
 import Stylesheet from './utils/stylesheet';
 import DevTools from 'elementor/modules/dev-tools/assets/js/editor/dev-tools';
 import LandingPageLibraryModule from 'elementor/modules/landing-pages/assets/js/editor/module';
+import ElementsColorPicker from 'elementor/modules/elements-color-picker/assets/js/editor/module';
 
 export default class EditorBase extends Marionette.Application {
 	widgetsCache = {};
@@ -306,6 +307,9 @@ export default class EditorBase extends Marionette.Application {
 		return this.previewView;
 	}
 
+	/**
+	 * @returns {Container}
+	 */
 	getPreviewContainer() {
 		return this.getPreviewView().getContainer();
 	}
@@ -353,6 +357,10 @@ export default class EditorBase extends Marionette.Application {
 		// Adds the Landing Page tab to the Template library modal when editing Landing Pages.
 		if ( elementorCommon.config.experimentalFeatures[ 'landing-pages' ] ) {
 			this.modules.landingLibraryPageModule = new LandingPageLibraryModule();
+		}
+
+		if ( elementorCommon.config.experimentalFeatures[ 'elements-color-picker' ] ) {
+			this.modules.elementsColorPicker = new ElementsColorPicker();
 		}
 
 		elementorCommon.elements.$window.trigger( 'elementor:init-components' );
@@ -598,18 +606,19 @@ export default class EditorBase extends Marionette.Application {
 	}
 
 	getBreakpointResizeOptions( currentBreakpoint ) {
-		const specialBreakpointsHeights = {
-			mobile: {
-				minHeight: 480,
-				height: 667,
-				maxHeight: 896,
-			},
-			tablet: {
-				minHeight: 768,
-				height: 1024,
-				maxHeight: 1024,
-			},
-		};
+		const previewHeight = elementor.$previewWrapper.height() - 80, // 80 = responsive bar height + ui-resizable-handle
+			specialBreakpointsHeights = {
+				mobile: {
+					minHeight: 480,
+					height: 736,
+					maxHeight: 896,
+				},
+				tablet: {
+					minHeight: 768,
+					height: previewHeight,
+					maxHeight: 1024,
+				},
+			};
 
 		let deviceConstrains = this.getCurrentDeviceConstrains();
 
@@ -1020,6 +1029,13 @@ export default class EditorBase extends Marionette.Application {
 			return;
 		}
 
+		// Cannot load editor without kit.
+		if ( ! elementor.config.kit_id ) {
+			this.kitNotExistsError();
+
+			return;
+		}
+
 		this.$previewContents = this.$preview.contents();
 
 		this.initFrontend();
@@ -1088,6 +1104,19 @@ export default class EditorBase extends Marionette.Application {
 				onButtonClick: true,
 			},
 			onConfirm: () => this.hide(),
+		} );
+	}
+
+	kitNotExistsError() {
+		this.showFatalErrorDialog( {
+			className: 'elementor-preview-loading-error',
+			headerMessage: __( 'Your site doesn\'t have a default kit', 'elementor' ),
+			message: __( 'Seems like your kit was deleted, please create new one or try restore it from trash.', 'elementor' ),
+			strings: {
+				confirm: __( 'Recreate Kit', 'elementor' ),
+				cancel: __( 'Go Back', 'elementor' ),
+			},
+			onConfirm: () => open( elementor.config.admin_tools_url, '_blank' ),
 		} );
 	}
 

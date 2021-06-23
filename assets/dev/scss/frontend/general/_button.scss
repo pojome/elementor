@@ -1,0 +1,103 @@
+// Shared button style.
+.elementor-button {
+	display: inline-block;
+	line-height: 1;
+	background-color: $gray;
+	font-size: 15px; //size-sm
+	padding: 12px 24px; //size-sm
+	border-radius: 3px; //size-sm
+	color: #fff;
+	fill: #fff;
+	text-align: center;
+	transition: $transition-hover;
+
+	&:hover,
+	&:focus,
+	&:visited {
+		color: #fff;
+	}
+
+	&-content-wrapper {
+		display: flex;
+		justify-content: center;
+	}
+
+	&-icon {
+		flex-grow: 0;
+		order: 5;
+		svg {
+			width: 1em;
+		}
+	}
+
+	&-text {
+		flex-grow: 1;
+		order: 10;
+		display: inline-block;
+	}
+
+	&.elementor-size- {
+		&xs {
+			font-size: 13px;
+			padding: 10px 20px;
+			border-radius: 2px;
+		}
+
+		&sm {
+			//default size
+		}
+
+		&md {
+			font-size: 16px;
+			padding: 15px 30px;
+			border-radius: 4px;
+		}
+
+		&lg {
+			font-size: 18px;
+			padding: 20px 40px;
+			border-radius: 5px;
+		}
+
+		&xl {
+			font-size: 20px;
+			padding: 25px 50px;
+			border-radius: 6px;
+		}
+	}
+
+	.elementor-align-icon- {
+		&right {
+			margin-left: 5px;
+			order: getValueByDirection( 15, 5 );
+		}
+
+		&left {
+			margin-right: 5px;
+			order: getValueByDirection( 5, 15 );
+		}
+	}
+
+	span {
+		text-decoration: inherit; //fix for conflict with text-decoration & inline-block
+	}
+}
+
+/* TODO: REMOVE THIS EXCEPTION AFTER PRO 2.8 RELEASES */
+.elementor-menu-cart__toggle .elementor-button-icon {
+	order: 15;
+}
+
+.elementor-element.elementor-button- {
+	@include button-types( '.elementor-button' );
+
+}
+
+.elementor-widget-button {
+	.elementor-button {
+		.elementor-button- {
+
+			@include button-types( '' );
+		}
+	}
+}

@@ -160,4 +160,14 @@ class Control_Animation extends Base_Data_Control {
 		<# } #>
 		<?php
 	}
+
+	public static function get_assets( $setting ) {
+		if ( ! $setting || 'none' === $setting ) {
+			return [];
+		}
+
+		return [
+			'styles' => [ 'e-animations' ],
+		];
+	}
 }

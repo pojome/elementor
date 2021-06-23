@@ -45,4 +45,14 @@ $eps-inline-link-color-disabled: theme-colors(disabled);
 	&--italic {
 		font-style: italic;
 	}
+
+	// Reset style for button tag.
+	background-color: initial;
+	border: 0;
+	padding: 0;
+
+	&,
+	&:focus {
+		outline: none;
+	}
 }

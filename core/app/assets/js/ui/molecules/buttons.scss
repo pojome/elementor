@@ -31,10 +31,17 @@
 		color: var(--button-color);
 		padding: var(--button-padding-y) var(--button-padding-x);
 		background-color: var(--button-background-color, transparent);
+		border: $eps-border-width $eps-border-style var(--button-background-color);
 
 		&:hover {
 			color: var(--button-color);
 		}
+	}
+
+	&--outlined {
+		display: block;
+		padding: var(--button-padding-y) var(--button-padding-x);
+		border: $eps-border-width $eps-border-style var(--button-background-color);
 	}
 
 	&--contained,

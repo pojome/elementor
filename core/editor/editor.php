@@ -529,6 +529,7 @@ class Editor {
 			'version' => ELEMENTOR_VERSION,
 			'home_url' => home_url(),
 			'admin_settings_url' => admin_url( 'admin.php?page=' . Settings::PAGE_ID ),
+			'admin_tools_url' => admin_url( 'admin.php?page=' . Tools::PAGE_ID ),
 			'autosave_interval' => AUTOSAVE_INTERVAL,
 			'tabs' => $plugin->controls_manager->get_tabs(),
 			'controls' => $plugin->controls_manager->get_controls_data(),
@@ -807,30 +808,6 @@ class Editor {
 	}
 
 	/**
-	 * Add editor template.
-	 *
-	 * Registers new editor templates.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 2.3.0 Use `Plugin::$instance->common->add_template()`
-	 * @access public
-	 *
-	 * @param string $template Can be either a link to template file or template
-	 *                         HTML content.
-	 * @param string $type     Optional. Whether to handle the template as path
-	 *                         or text. Default is `path`.
-	 */
-	public function add_editor_template( $template, $type = 'path' ) {
-		_deprecated_function( __METHOD__, '2.3.0', 'Plugin::$instance->common->add_template()' );
-
-		$common = Plugin::$instance->common;
-
-		if ( $common ) {
-			Plugin::$instance->common->add_template( $template, $type );
-		}
-	}
-
-	/**
 	 * WP footer.
 	 *
 	 * Prints Elementor editor with all the editor templates, and render controls,
@@ -932,96 +909,6 @@ class Editor {
 		}
 
 		return $results;
-	}
-
-	/**
-	 * Create nonce.
-	 *
-	 * If the user has edit capabilities, it creates a cryptographic token to
-	 * give him access to Elementor editor.
-	 *
-	 * @since 1.8.1
-	 * @since 1.8.7 The `$post_type` parameter was introduces.
-	 * @deprecated 2.3.0 Use `Plugin::$instance->common->get_component( 'ajax' )->create_nonce()` instead
-	 * @access public
-	 *
-	 * @param string $post_type The post type to check capabilities.
-	 *
-	 * @return null|string The nonce token, or `null` if the user has no edit
-	 *                     capabilities.
-	 */
-	public function create_nonce( $post_type ) {
-		_deprecated_function( __METHOD__, '2.3.0', 'Plugin::$instance->common->get_component( \'ajax\' )->create_nonce()' );
-
-		/** @var Ajax $ajax */
-		$ajax = Plugin::$instance->common->get_component( 'ajax' );
-
-		return $ajax->create_nonce();
-	}
-
-	/**
-	 * Verify nonce.
-	 *
-	 * The user is given an amount of time to use the token, so therefore, since
-	 * the user ID and `$action` remain the same, the independent variable is
-	 * the time.
-	 *
-	 * @since 1.8.1
-	 * @deprecated 2.3.0
-	 * @access public
-	 *
-	 * @param string $nonce Nonce to verify.
-	 *
-	 * @return false|int If the nonce is invalid it returns `false`. If the
-	 *                   nonce is valid and generated between 0-12 hours ago it
-	 *                   returns `1`. If the nonce is valid and generated
-	 *                   between 12-24 hours ago it returns `2`.
-	 */
-	public function verify_nonce( $nonce ) {
-		_deprecated_function( __METHOD__, '2.3.0', 'wp_verify_nonce()' );
-
-		return wp_verify_nonce( $nonce );
-	}
-
-	/**
-	 * Verify request nonce.
-	 *
-	 * Whether the request nonce verified or not.
-	 *
-	 * @since 1.8.1
-	 * @deprecated 2.3.0 Use `Plugin::$instance->common->get_component( 'ajax' )->verify_request_nonce()` instead
-	 * @access public
-	 *
-	 * @return bool True if request nonce verified, False otherwise.
-	 */
-	public function verify_request_nonce() {
-		_deprecated_function( __METHOD__, '2.3.0', 'Plugin::$instance->common->get_component( \'ajax\' )->verify_request_nonce()' );
-
-		/** @var Ajax $ajax */
-		$ajax = Plugin::$instance->common->get_component( 'ajax' );
-
-		return $ajax->verify_request_nonce();
-	}
-
-	/**
-	 * Verify ajax nonce.
-	 *
-	 * Verify request nonce and send a JSON request, if not verified returns an
-	 * error.
-	 *
-	 * @since 1.9.0
-	 * @deprecated 2.3.0
-	 * @access public
-	 */
-	public function verify_ajax_nonce() {
-		_deprecated_function( __METHOD__, '2.3.0' );
-
-		/** @var Ajax $ajax */
-		$ajax = Plugin::$instance->common->get_component( 'ajax' );
-
-		if ( ! $ajax->verify_request_nonce() ) {
-			wp_send_json_error( new \WP_Error( 'token_expired', 'Nonce token expired.' ) );
-		}
 	}
 
 	/**

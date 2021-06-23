@@ -7,7 +7,9 @@ export const Create = () => {
 		QUnit.module( 'Single Selection', () => {
 			QUnit.test( 'Section', ( assert ) => {
 				const eSection = ElementsHelper.createSection( 1 ),
-					isSectionCreated = Boolean( elementor.getPreviewContainer().view.children.findByModel( eSection.model ) );
+					isSectionCreated = !! elementor.getPreviewContainer().children.find(
+						( section ) => eSection.id === section.id
+					);
 
 				// Check.
 				assert.equal( isSectionCreated, true, 'Section were created.' );
@@ -16,9 +18,9 @@ export const Create = () => {
 
 			QUnit.test( 'Column', ( assert ) => {
 				const eColumn = ElementsHelper.createSection( 1, true ),
-					isColumnCreated = elementor.getPreviewContainer().view.children.some( ( a ) => {
-						return a.children.findByModel( eColumn.model );
-					} );
+					isColumnCreated = !! elementor.getPreviewContainer().children[ 0 ].children.find(
+						( column ) => eColumn.id === column.id
+					);
 
 				// Check column exist.
 				assert.equal( isColumnCreated, true, 'Column were created.' );
@@ -28,7 +30,9 @@ export const Create = () => {
 			QUnit.test( 'Widget', ( assert ) => {
 				const eColumn = ElementsHelper.createSection( 1, true ),
 					eButton = ElementsHelper.createButton( eColumn ),
-					isButtonCreated = Boolean( eColumn.view.children.findByModel( eButton.model ) );
+					isButtonCreated = !! elementor.getPreviewContainer().children[ 0 ].children[ 0 ].children.find(
+						( widget ) => widget.id === eButton.id
+					);
 
 				// Check button exist.
 				assert.equal( isButtonCreated, true, 'Button were created.' );
@@ -36,12 +40,12 @@ export const Create = () => {
 
 			QUnit.test( 'Widget: Inner Section', ( assert ) => {
 				const eSection = ElementsHelper.createSection( 1 ),
-					eColumn = eSection.view.children.findByIndex( 0 ).getContainer(),
+					eColumn = eSection.children[ 0 ],
 					eInnerSection = ElementsHelper.createInnerSection( eColumn ),
-					isInnerSectionCreated = Boolean( eColumn.view.children.findByModel( eInnerSection.model ) );
+					isInnerSectionCreated = !! eColumn.children.find( ( widget ) => eInnerSection.id === widget.id );
 
 				assert.equal( isInnerSectionCreated, true, 'inner section were created.' );
-				assert.equal( eInnerSection.view.collection.length, DEFAULT_INNER_SECTION_COLUMNS,
+				assert.equal( eInnerSection.children.length, DEFAULT_INNER_SECTION_COLUMNS,
 					`'${ DEFAULT_INNER_SECTION_COLUMNS }' columns were created in the inner section.` );
 			} );
 
@@ -129,13 +133,13 @@ export const Create = () => {
 						historyItem = HistoryHelper.getFirstItem().attributes,
 						innerSectionColumnsIds = [];
 
-					eInnerSection.view.children.forEach( ( el ) => innerSectionColumnsIds.push( el.model.id ) );
+					eInnerSection.children.forEach( ( eInnerColumn ) => innerSectionColumnsIds.push( eInnerColumn.id ) );
 
 					// Exist in history.
 					HistoryHelper.inHistoryValidate( assert, historyItem, 'add', 'Inner Section' );
 
 					// Inner section have x columns.
-					assert.equal( eInnerSection.view.collection.length, DEFAULT_INNER_SECTION_COLUMNS,
+					assert.equal( eInnerSection.children.length, DEFAULT_INNER_SECTION_COLUMNS,
 						`InnerSection have "${ DEFAULT_INNER_SECTION_COLUMNS }" columns` );
 
 					// Undo.
@@ -153,7 +157,7 @@ export const Create = () => {
 					const eInnerSectionAfterRedo = eInnerSection.lookup(),
 						innerSectionAfterRedoColumnsIds = [];
 
-					eInnerSectionAfterRedo.view.children.forEach( ( el ) => innerSectionAfterRedoColumnsIds.push( el.model.id ) );
+					eInnerSectionAfterRedo.children.forEach( ( eInnerColumn ) => innerSectionAfterRedoColumnsIds.push( eInnerColumn.id ) );
 
 					// Does two columns with the same ids as before.
 					assert.equal( innerSectionAfterRedoColumnsIds.length, DEFAULT_INNER_SECTION_COLUMNS,
@@ -173,9 +177,9 @@ export const Create = () => {
 				// Check columns exist.
 				let count = 1;
 				eColumns.forEach( ( eColumn ) => {
-					const isColumnCreated = elementor.getPreviewContainer().view.children.some( ( a ) => {
-						return a.children.findByModel( eColumn.model );
-					} );
+					const isColumnCreated = !! elementor.getPreviewContainer().children.find( ( section ) =>
+						!! section.children.find( ( column ) => eColumn.id === column.id )
+					);
 
 					assert.equal( isColumnCreated, true, `Column #${ count } were created.` );
 					++count;
@@ -186,8 +190,8 @@ export const Create = () => {
 				const eColumn1 = ElementsHelper.createSection( 1, true ),
 					eColumn2 = ElementsHelper.createSection( 1, true ),
 					eButtons = ElementsHelper.multiCreateButton( [ eColumn1, eColumn2 ] ),
-					isButton1Created = Boolean( eColumn1.view.children.findByModel( eButtons[ 0 ].model ) ),
-					isButton2Created = Boolean( eColumn2.view.children.findByModel( eButtons[ 1 ].model ) );
+					isButton1Created = !! eColumn1.children.find( ( widget ) => eButtons[ 0 ].id === widget.id ),
+					isButton2Created = !! eColumn2.children.find( ( widget ) => eButtons[ 1 ].id === widget.id );
 
 				// Check button exist.
 				assert.equal( isButton1Created, true, 'Button #1 were created.' );
@@ -248,14 +252,14 @@ export const Create = () => {
 							innerSectionColumnsIds[ eInnerSection.id ] = [];
 						}
 
-						eInnerSection.view.children.forEach( ( el ) => innerSectionColumnsIds[ eInnerSection.id ].push( el.model.id ) );
+						eInnerSection.children.forEach( ( eInnerColumn ) => innerSectionColumnsIds[ eInnerSection.id ].push( eInnerColumn.id ) );
 					} );
 
 					// Exist in history.
 					HistoryHelper.inHistoryValidate( assert, historyItem, 'add', 'Inner Section' );
 
 					// Inner section have x columns.
-					eInnerSections.forEach( ( eInnerSection ) => assert.equal( eInnerSection.view.collection.length,
+					eInnerSections.forEach( ( eInnerSection ) => assert.equal( eInnerSection.children.length,
 						DEFAULT_INNER_SECTION_COLUMNS, `InnerSection have "${ DEFAULT_INNER_SECTION_COLUMNS }" columns` ) );
 
 					// Undo.
@@ -279,8 +283,8 @@ export const Create = () => {
 							innerSectionAfterRedoColumnsIds[ eInnerSection.id ] = [];
 						}
 
-						eInnerSection.view.children.forEach( ( el ) =>
-							innerSectionAfterRedoColumnsIds[ eInnerSection.id ].push( el.model.id )
+						eInnerSection.children.forEach( ( eInnerColumn ) =>
+							innerSectionAfterRedoColumnsIds[ eInnerSection.id ].push( eInnerColumn.id )
 						);
 					} );
 

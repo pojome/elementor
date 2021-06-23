@@ -8,6 +8,7 @@ $eps-modal-header-background-color: theme-colors(info);
 $eps-modal-header-color: theme-colors(light);
 $eps-modal-header-height: spacing(44);
 $eps-modal-header-padding: spacing(10) spacing(16);
+$eps-modal-header-border-radius: $eps-radius;
 $eps-modal-icon-spacing: spacing(10);
 $eps-modal-body-padding: spacing(30);
 $eps-modal-close-button-spacing: spacing(16);
@@ -42,7 +43,6 @@ $eps-dark-modal-header-background-color: dark-theme-colors(info);
 	background: var(--eps-modal-background-color);
 	border-radius: $eps-modal-border-radius;
 	animation: $eps-modal-animation;
-	overflow: hidden;
 
 	&__overlay {
 		background: $eps-modal-overlay;
@@ -60,9 +60,14 @@ $eps-dark-modal-header-background-color: dark-theme-colors(info);
 	&__header {
 		font-size: $eps-modal-header-type;
 		background: var(--eps-modal-header-background-color);
-		color: $eps-modal-header-color;
 		height: $eps-modal-header-height;
 		padding: $eps-modal-header-padding;
+		border-radius: $eps-modal-header-border-radius;
+
+		&,
+		& .title {
+			color: $eps-modal-header-color;
+		}
 	}
 
 	&__icon {
@@ -83,6 +88,10 @@ $eps-dark-modal-header-background-color: dark-theme-colors(info);
 		&:not(:first-child) {
 			margin-top: $eps-tip-margin-top;
 		}
+	}
+
+	&__section:not(:first-child) {
+		margin-top: spacing(30);
 	}
 
 	&__close-wrapper {

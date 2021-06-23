@@ -17,6 +17,7 @@
 
 	&.reverse {
 		animation-direction: reverse;
+		animation-fill-mode: forwards;
 	}
 }
 

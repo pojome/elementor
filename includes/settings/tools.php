@@ -1,6 +1,8 @@
 <?php
 namespace Elementor;
 
+use Elementor\Core\Kits\Manager;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -58,6 +60,36 @@ class Tools extends Settings_Page {
 		Plugin::$instance->files_manager->clear_cache();
 
 		wp_send_json_success();
+	}
+
+	/**
+	 * Recreate kit.
+	 *
+	 * Recreate default kit (only when default kit does not exist).
+	 *
+	 * Fired by `wp_ajax_elementor_recreate_kit` action.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function ajax_elementor_recreate_kit() {
+		check_ajax_referer( 'elementor_recreate_kit', '_nonce' );
+
+		$id = Plugin::$instance->kits_manager->get_active_id();
+
+		if ( $id ) {
+			wp_send_json_error( __( 'There\'s already an active kit.', 'elementor' ) );
+		}
+
+		$created_default_kit = Plugin::$instance->kits_manager->create_default();
+
+		if ( ! $created_default_kit ) {
+			wp_send_json_error( __( 'An error occurred while trying to create a kit.', 'elementor' ) );
+		}
+
+		update_option( Manager::OPTION_ACTIVE, $created_default_kit );
+
+		wp_send_json_success( __( 'New kit have been created successfully', 'elementor' ) );
 	}
 
 	/**
@@ -139,6 +171,7 @@ class Tools extends Settings_Page {
 		if ( ! empty( $_POST ) ) {
 			add_action( 'wp_ajax_elementor_clear_cache', [ $this, 'ajax_elementor_clear_cache' ] );
 			add_action( 'wp_ajax_elementor_replace_url', [ $this, 'ajax_elementor_replace_url' ] );
+			add_action( 'wp_ajax_elementor_recreate_kit', [ $this, 'ajax_elementor_recreate_kit' ] );
 		}
 
 		add_action( 'admin_post_elementor_rollback', [ $this, 'post_elementor_rollback' ] );
@@ -216,7 +249,7 @@ class Tools extends Settings_Page {
 		}
 		$rollback_html .= '</select>';
 
-		return [
+		$tabs = [
 			'general' => [
 				'label' => __( 'General', 'elementor' ),
 				'sections' => [
@@ -328,6 +361,18 @@ class Tools extends Settings_Page {
 				],
 			],
 		];
+
+		if ( ! Plugin::$instance->kits_manager->get_active_kit() ) {
+			$tabs['general']['sections']['tools']['fields']['recreate_kit'] = [
+				'label' => __( 'Recreate Kit', 'elementor' ),
+				'field_args' => [
+					'type' => 'raw_html',
+					'html' => sprintf( '<button data-nonce="%s" class="button elementor-button-spinner" id="elementor-recreate-kit-button">%s</button>', wp_create_nonce( 'elementor_recreate_kit' ), __( 'Recreate Kit', 'elementor' ) ),
+					'desc' => __( 'It seems like your site doesn\'t have any active Kit. The active Kit includes all of your Site Settings. By recreating your Kit you will able to start edit your Site Settings again.', 'elementor' ),
+				],
+			];
+		}
+		return $tabs;
 	}
 
 	/**

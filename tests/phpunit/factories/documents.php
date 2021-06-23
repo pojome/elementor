@@ -99,18 +99,18 @@ class Documents extends WP_UnitTest_Factory_For_Thing {
 			'post_title' => new \WP_UnitTest_Generator_Sequence( 'Elementor post title %s' ),
 			'post_content' => new \WP_UnitTest_Generator_Sequence( 'Elementor post content %s' ),
 			'post_excerpt' => new \WP_UnitTest_Generator_Sequence( 'Elementor post excerpt %s' ),
-			'post_type' => 'post',
+			'type' => 'post',
 		];
 	}
 
 	public function create_object( $args ) {
-		$type = 'page';
+		$type = $this->default_generation_definitions['type'];
 		$meta = [];
 
-		if ( isset( $args['post_type'] ) ) {
-			$type = $args['post_type'];
+		if ( isset( $args['type'] ) ) {
+			$type = $args['type'];
 
-			unset( $args['post_type'] );
+			unset( $args['type'] );
 		}
 
 		if ( isset( $args['meta_input'] ) ) {
@@ -155,5 +155,34 @@ class Documents extends WP_UnitTest_Factory_For_Thing {
 		$document = $this->create_and_get( $args );
 
 		return $this->update_object( $document->get_id(), [ 'post_status' => 'publish' ] );
+	}
+
+	public function publish_with_duplicated_widget() {
+		$document = $this->create_and_get();
+		$elementor_data = $document->get_json_meta( '_elementor_data' );
+
+		$section = &$elementor_data[ 0 ];
+		$column = &$section['elements'][ 0 ];
+		$widget = &$column['elements'][ 0 ];
+
+		// Duplicate widget.
+		$column['elements'][] = $widget;
+
+		// Find better way.
+		$document->save( [
+			'settings' => [
+				'post_status' => 'publish'
+			],
+			'elements' => $elementor_data,
+		] );
+
+		return $document;
+	}
+
+	public function create_and_get_template( $template_type, $args = [] ) {
+		return $this->create_and_get( array_merge( [
+			'type' => $template_type,
+			'post_type' => 'elementor_library',
+		], $args ) );
 	}
 }

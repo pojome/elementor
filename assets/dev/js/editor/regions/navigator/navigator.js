@@ -271,7 +271,13 @@ export default class extends BaseRegion {
 	}
 
 	onEditModeSwitched( activeMode ) {
-		if ( 'edit' === activeMode && this.storage.visible ) {
+		// Determine when the navigator should be visible.
+		const visibleModes = [
+			'edit',
+			'picker',
+		];
+
+		if ( visibleModes.includes( activeMode ) && this.storage.visible ) {
 			this.open();
 		} else {
 			this.close( true );

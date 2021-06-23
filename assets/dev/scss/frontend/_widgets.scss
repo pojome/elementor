@@ -1,32 +1,19 @@
 //
 // Widgets
 //
-
-//Default Hover Transition
-.elementor-element {
-
-	.elementor-widget-container {
-		transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
-	}
-
-}
-
+@import "widgets-global";
 @import "widgets/accordion";
 @import "widgets/alert";
-@import "widgets/base-tabs";
-@import "widgets/button";
 @import "widgets/counter";
 @import "widgets/divider";
-@import "widgets/gallery";
-@import "widgets/google-maps";
+@import "widgets/image-gallery";
+@import "widgets/google_maps";
 @import "widgets/heading";
-@import "widgets/icon";
 @import "widgets/icon-box";
 @import "widgets/icon-list";
 @import "widgets/image";
 @import "widgets/image-box";
 @import "widgets/image-carousel";
-@import "widgets/image-gallery";
 @import "widgets/menu-anchor";
 @import "widgets/progress";
 @import "widgets/social-icons";

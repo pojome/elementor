@@ -114,9 +114,9 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend( {
 		// Set current doc id to attach uploaded images.
 		wp.media.view.settings.post.id = elementor.config.document.id;
 		this.frame = wp.media( {
-			button: {
-				text: __( 'Insert Media', 'elementor' ),
-			},
+			frame: 'post',
+			type: 'image',
+			multiple: false,
 			states: [
 				new wp.media.controller.Library( {
 					title: __( 'Insert Media', 'elementor' ),
@@ -127,11 +127,54 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend( {
 			],
 		} );
 
+		// Remove unwanted elements when frame is opened.
+		this.frame.on( 'ready open', this.onFrameReady.bind( this ) );
+
 		// When a file is selected, run a callback.
 		this.frame.on( 'insert select', this.select.bind( this ) );
 
 		if ( elementor.config.filesUpload.unfilteredFiles ) {
 			this.setUploadMimeType( this.frame, mediaType );
+		}
+	},
+
+	/**
+	 * Hack to remove unwanted elements from modal & Open the `Insert from URL` tab.
+	 */
+	onFrameReady() {
+		const $frame = this.frame.$el;
+
+		const elementsToRemove = [
+			'#menu-item-insert',
+			'#menu-item-gallery',
+			'#menu-item-playlist',
+			'#menu-item-video-playlist',
+			'.embed-link-settings',
+		];
+
+		$frame.find( elementsToRemove.join( ',' ) ).remove();
+
+		// Change the default button text using CSS by passing the text as a variable.
+		$frame.css( '--button-text', `'${ __( 'Insert Media', 'elementor' ) }'` );
+
+		// Remove elements from the URL upload tab.
+		$frame.addClass( 'e-wp-media-elements-removed' );
+
+		if ( 'url' === this.getControlValue( 'source' ) ) {
+			// Go to the url tab.
+			$frame.find( '#menu-item-embed' ).trigger( 'click' );
+
+			// Hide the top media tabs ( WordPress does that automatically if a real user clicks the url tab ).
+			$frame.addClass( 'hide-router' );
+
+			// Load the image URL.
+			this.frame.views.get( '.media-frame-content' )[ 0 ].url.model.set( {
+				url: this.getControlValue( 'url' ),
+				alt: this.getControlValue( 'alt' ),
+			} );
+		} else {
+			// Go to the upload tab.
+			$frame.find( '#menu-item-library' ).trigger( 'click' );
 		}
 	},
 
@@ -156,13 +199,29 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend( {
 	select: function() {
 		this.trigger( 'before:select' );
 
-		// Get the attachment from the modal frame.
-		var attachment = this.frame.state().get( 'selection' ).first().toJSON();
+		const state = this.frame.state();
+		let attachment;
+
+		if ( 'embed' === state.get( 'id' ) ) {
+			// Insert from URL.
+			attachment = {
+				url: state.props.get( 'url' ),
+				id: '',
+				alt: state.props.get( 'alt' ),
+				source: 'url',
+			};
+		} else {
+			// Get the attachment from the modal frame.
+			attachment = this.frame.state().get( 'selection' ).first().toJSON();
+			attachment.source = 'library';
+		}
 
 		if ( attachment.url ) {
 			this.setValue( {
 				url: attachment.url,
 				id: attachment.id,
+				alt: attachment.alt,
+				source: attachment.source,
 			} );
 
 			this.applySavedValue();

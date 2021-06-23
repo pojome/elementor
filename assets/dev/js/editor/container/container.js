@@ -7,6 +7,10 @@ import Panel from './panel';
  */
 
 export default class Container extends ArgsObject {
+	// TODO: Swap those backwards compatibility is required.
+	static TYPE_REPEATER = 'repeater-control';
+	static TYPE_REPEATER_ITEM = 'repeater';
+
 	/**
 	 * Container type.
 	 *
@@ -151,6 +155,17 @@ export default class Container extends ArgsObject {
 		this.globals = new Backbone.Model( this.settings.get( '__globals__' ) );
 		this.panel = new Panel( this );
 
+		this.initialize();
+	}
+
+	initialize() {
+		if ( this.view ) {
+			this.addToParent();
+			this.handleChildrenRecursive();
+
+			this.view.on( 'destroy', this.removeFromParent.bind( this ) );
+		}
+
 		this.handleRepeaterChildren();
 	}
 
@@ -194,6 +209,40 @@ export default class Container extends ArgsObject {
 		return result;
 	}
 
+	handleChildrenRecursive() {
+		if ( this.view.children?.length ) {
+			Object.values( this.view.children._views ).forEach( ( view ) => {
+				if ( ! view.container ) {
+					return;
+				}
+				const container = view.container;
+
+				container.parent.children[ view._index ] = container;
+				container.handleChildrenRecursive();
+			} );
+		} else {
+			this.children = [];
+		}
+	}
+
+	addToParent() {
+		if ( ! this.parent.children || this.isRepeaterItem() ) {
+			return;
+		}
+
+		// On create container tell the parent where it was created.
+		this.parent.children.splice( this.view._index, 0, this );
+	}
+
+	removeFromParent() {
+		if ( ! this.parent.children || this.isRepeater() ) {
+			return;
+		}
+
+		// When delete container its should notify its parent, that his children is dead.
+		this.parent.children = this.parent.children.filter( ( filtered ) => filtered.id !== this.id );
+	}
+
 	handleRepeaterChildren() {
 		Object.values( this.controls ).forEach( ( control ) => {
 			if ( ! control.is_repeater ) {
@@ -205,8 +254,7 @@ export default class Container extends ArgsObject {
 			} );
 
 			this.repeaters[ control.name ] = new elementorModules.editor.Container( {
-				// TODO: replace to `repeater`, and the item should by `repeater-item`.
-				type: 'repeater-control',
+				type: Container.TYPE_REPEATER,
 				id: control.name,
 				model,
 				settings: model,
@@ -238,6 +286,17 @@ export default class Container extends ArgsObject {
 		}
 	}
 
+	/**
+	 * Function addRepeaterItem().
+	 *
+	 * The method add repeater item, find the repeater control by it name, and create new container for the item.
+	 *
+	 * @param {string} repeaterName
+	 * @param {Backbone.Model} rowSettingsModel
+	 * @param {number} index
+	 *
+	 * @returns {Container}
+	 */
 	addRepeaterItem( repeaterName, rowSettingsModel, index ) {
 		let rowId = rowSettingsModel.get( '_id' );
 
@@ -248,7 +307,7 @@ export default class Container extends ArgsObject {
 		}
 
 		this.repeaters[ repeaterName ].children.splice( index, 0, new elementorModules.editor.Container( {
-			type: 'repeater',
+			type: Container.TYPE_REPEATER_ITEM,
 			id: rowSettingsModel.get( '_id' ),
 			model: new Backbone.Model( {
 				name: repeaterName,
@@ -260,6 +319,8 @@ export default class Container extends ArgsObject {
 			controls: rowSettingsModel.options.controls,
 			renderer: this.renderer,
 		} ) );
+
+		return this.repeaters[ repeaterName ];
 	}
 
 	/**
@@ -284,7 +345,7 @@ export default class Container extends ArgsObject {
 
 		if ( undefined === this.view || ! this.view.lookup || ! this.view.isDisconnected() ) {
 			// Hack For repeater item the result is the parent container.
-			if ( 'repeater' === this.type ) {
+			if ( Container.TYPE_REPEATER_ITEM === this.type ) {
 				this.settings = this.parent.parent.settings.get( this.model.get( 'name' ) ).findWhere( { _id: this.id } );
 			}
 			return result;
@@ -296,13 +357,66 @@ export default class Container extends ArgsObject {
 			result = lookup.getContainer();
 
 			// Hack For repeater item the result is the parent container.
-			if ( 'repeater' === this.type ) {
+			if ( Container.REPEATER === this.type ) {
 				this.settings = result.settings.get( this.model.get( 'name' ) ).findWhere( { _id: this.id } );
 				return this;
+			}
+
+			// If lookup were done, new container were created and parent does not know about it.
+			if ( result.parent.children ) {
+				result.parent.children[ result.view._index ] = result;
 			}
 		}
 
 		return result;
+	}
+
+	/**
+	 * Function findChildrenRecursive().
+	 *
+	 * Will run over children recursively and pass the children to the callback till the callback returns positive value.
+	 *
+	 * @param {function(container:Container)} callback
+	 *
+	 * @returns {false|Container}
+	 */
+	findChildrenRecursive( callback ) {
+		if ( callback( this ) ) {
+			return this;
+		}
+
+		if ( this.children.length ) {
+			for ( const container of this.children ) {
+				const foundChildren = container.findChildrenRecursive( callback );
+
+				if ( foundChildren ) {
+					return foundChildren;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Function forEachChildrenRecursive().
+	 *
+	 * Will run over children recursively.
+	 *
+	 * @param {function(container:Container)} callback
+	 *
+	 * @returns {false|Container}
+	 */
+	forEachChildrenRecursive( callback ) {
+		callback( this );
+
+		if ( this.children.length ) {
+			for ( const container of this.children ) {
+				container.forEachChildrenRecursive( callback );
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -336,5 +450,108 @@ export default class Container extends ArgsObject {
 
 	isDesignable() {
 		return elementor.userCan( 'design' ) && this.isEditable();
+	}
+
+	isRepeater() {
+		return Container.TYPE_REPEATER === this.type;
+	}
+
+	isRepeaterItem() {
+		return Container.TYPE_REPEATER_ITEM === this.type;
+	}
+
+	getSetting( name, localOnly = false ) {
+		const localValue = this.settings.get( name );
+
+		if ( localOnly ) {
+			return localValue;
+		}
+
+		// Try to get the value in the order: Global, Local, Global default.
+		let globalValue;
+
+		if ( this.getGlobalKey( name ) ) {
+			globalValue = this.getGlobalValue( name );
+		}
+
+		return globalValue || localValue || this.getGlobalDefault( name );
+	}
+
+	getGlobalKey( name ) {
+		return this.globals.get( name );
+	}
+
+	getGlobalValue( name ) {
+		const control = this.controls[ name ],
+			globalKey = this.getGlobalKey( name ),
+			globalArgs = $e.data.commandExtractArgs( globalKey ),
+			data = $e.data.getCache( $e.components.get( 'globals' ), globalArgs.command, globalArgs.args.query );
+
+		if ( ! data?.value ) {
+			return;
+		}
+
+		const id = data.id;
+
+		let value;
+
+		// it's a global settings with additional controls in group.
+		if ( control.groupType ) {
+			let propertyName = control.name.replace( control.groupPrefix, '' ).replace( /(_tablet|_mobile)$/, '' );
+
+			if ( ! data.value[ elementor.config.kit_config.typography_prefix + propertyName ] ) {
+				return;
+			}
+
+			propertyName = propertyName.replace( '_', '-' );
+
+			value = `var( --e-global-${ control.groupType }-${ id }-${ propertyName } )`;
+
+			if ( elementor.config.ui.defaultGenericFonts && control.groupPrefix + 'font_family' === control.name ) {
+				value += `, ${ elementor.config.ui.defaultGenericFonts }`;
+			}
+		} else {
+			value = `var( --e-global-${ control.type }-${ id } )`;
+		}
+
+		return value;
+	}
+
+	/**
+	 * Determine if a control's global value is applied.
+	 * It actually checks if the local value is different than the global value.
+	 *
+	 * @param {string} controlName - Control name
+	 * @returns {boolean}
+	 */
+	isGlobalApplied( controlName ) {
+		return this.getSetting( controlName ) !== this.settings.get( controlName );
+	}
+
+	getGlobalDefault( controlName ) {
+		const controlGlobalArgs = this.controls[ controlName ]?.global;
+
+		if ( controlGlobalArgs?.default ) {
+			// Temp fix.
+			let controlType = this.controls[ controlName ].type;
+
+			if ( 'color' === controlType ) {
+				controlType = 'colors';
+			}
+			// End temp fix
+
+			// If the control is a color/typography control and default colors/typography are disabled, don't return the global value.
+			if ( ! elementor.config.globals.defaults_enabled[ controlType ] ) {
+				return '';
+			}
+
+			const { command, args } = $e.data.commandExtractArgs( controlGlobalArgs.default ),
+				result = $e.data.getCache( $e.components.get( 'globals' ), command, args.query );
+
+			return result?.value;
+		}
+
+		// No global default.
+		return '';
 	}
 }

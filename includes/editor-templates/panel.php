@@ -245,6 +245,11 @@ $document = Plugin::$instance->documents->get( Plugin::$instance->editor->get_po
 		<i class="eicon-database"></i>
 	</div>
 </script>
+<script type="text/template" id="tmpl-elementor-control-element-color-picker">
+	<div class="elementor-control-element-color-picker e-control-tool" data-tooltip="<?php echo __( 'Element Color Picker', 'elementor' ); ?>">
+		<i class="eicon-eyedropper"></i>
+	</div>
+</script>
 
 <script type="text/template" id="tmpl-elementor-control-dynamic-cover">
 	<div class="elementor-dynamic-cover__settings">

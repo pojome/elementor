@@ -1,0 +1,26 @@
+.e-kit-library__filter-indication {
+	margin-top: spacing(24);
+	display: flex;
+	align-items: center;
+
+	&-text {
+		margin-bottom: spacing(0);
+		display: flex;
+		align-items: center;
+	}
+
+	&-badge {
+		@include margin-start(spacing(5));
+		display: flex;
+		align-items: center;
+	}
+
+	&-badge-remove {
+		@include margin-start(spacing(5));
+		font-size: type( size, "14" )
+	}
+
+	&-button {
+		@include margin-start(spacing(24));
+	}
+}

@@ -1,0 +1,61 @@
+:root {
+	--eps-sort-select-select-background-color: #{tints(100)};
+	--eps-sort-select-select-color: #{tints(700)};
+	--eps-sort-select-button-background-color: #{tints(100)};
+	--eps-sort-select-button-border: #{1px solid $eps-border-color};
+}
+
+.eps-theme-dark {
+	--eps-sort-select-select-background-color: #{$eps-dark-gray-600};
+	--eps-sort-select-select-color: #{$eps-dark-gray-200};
+	--eps-sort-select-button-background-color: #{$eps-dark-gray-600};
+	--eps-sort-select-button-border: #{1px solid $eps-dark-gray-800};
+}
+
+.eps-sort-select {
+	width: 100%;
+	font-size: type(size, "15");
+	display: flex;
+
+	&__select-wrapper {
+		flex: 1;
+		position: relative;
+
+		&::after {
+			content: "\e8ad";
+			font-family: eicons;
+			position: absolute;
+			@include end( spacing( 10 ) );
+			top: 0;
+			bottom: 0;
+			color: tints(500);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			pointer-events: none;
+		}
+	}
+
+	&__select {
+		width: 100%;
+		padding: spacing(10) spacing(10);
+		border: none;
+		background: var(--eps-sort-select-select-background-color);
+		outline: none;
+		color: var(--eps-sort-select-select-color);
+		line-height: type( line-height, 'flat' );
+		cursor: pointer;
+		height: spacing(44);
+		appearance: none;
+		-webkit-appearance:none;
+		border-radius: 0;
+	}
+
+	&__button {
+		padding: spacing(12) spacing(12);
+		background: var(--eps-sort-select-button-background-color);
+		@include border-start( var(--eps-sort-select-button-border) );
+		line-height: type( line-height, 'flat' );
+		color: tints(500);
+	}
+}
