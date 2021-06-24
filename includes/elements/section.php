@@ -336,6 +336,7 @@ class Element_Section extends Element_Base {
 					'default' => __( 'Default', 'elementor' ),
 					'full' => __( 'Fit To Screen', 'elementor' ),
 					'min-height' => __( 'Min Height', 'elementor' ),
+					'fixed-height' => __( 'Fixed Height', 'elementor' ),
 				],
 				'prefix_class' => 'elementor-section-height-',
 				'hide_in_inner' => true,
@@ -370,6 +371,30 @@ class Element_Section extends Element_Base {
 				],
 				'condition' => [
 					'height' => [ 'min-height' ],
+				],
+				'hide_in_inner' => true,
+			]
+		);
+		
+		$this->add_responsive_control(
+			'custom_height_fixed',
+			[
+				'label' => __( 'Fixed Height', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => 400,
+				],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1440,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} > .elementor-container' => 'height: {{SIZE}}{{UNIT}};',
+				],
+				'condition' => [
+					'height' => [ 'fixed-height' ],
 				],
 				'hide_in_inner' => true,
 			]
