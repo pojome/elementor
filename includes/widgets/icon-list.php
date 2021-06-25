@@ -438,7 +438,28 @@ class Widget_Icon_List extends Widget_Base {
 				],
 			]
 		);
-
+    
+		$this->add_control(
+			'icon_hover_transition',
+			[
+				'label' => __( 'Transition Duration', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'separator' => 'before',
+				'default' => [
+					'size' => 0.3,
+				],
+				'range' => [
+					'px' => [
+						'max' => 3,
+						'step' => 0.1,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-icon-list-icon i' => 'transition: color {{icon_hover_transition.SIZE}}s',
+  			],
+			]
+		);
+    
 		$this->add_responsive_control(
 			'icon_self_align',
 			[
@@ -534,6 +555,27 @@ class Widget_Icon_List extends Widget_Base {
 			[
 				'name' => 'text_shadow',
 				'selector' => '{{WRAPPER}} .elementor-icon-list-text',
+			]
+		);
+
+		$this->add_control(
+			'text_hover_transition',
+			[
+				'label' => __( 'Transition Duration', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'separator' => 'before',
+				'default' => [
+					'size' => 0.3,
+				],
+				'range' => [
+					'px' => [
+						'max' => 3,
+						'step' => 0.1,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-icon-list-text' => 'transition: color {{text_hover_transition.SIZE}}s',
+				],
 			]
 		);
 
