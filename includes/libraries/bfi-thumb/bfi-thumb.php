@@ -436,7 +436,7 @@ if ( ! class_exists( 'BFI_Thumb_1_3' ) ) {
 			//define upload path & dir
 			$upload_info = wp_upload_dir();
 			$upload_dir = $upload_info['basedir'];
-			$upload_url = $upload_info['baseurl'];
+			$upload_url = set_url_scheme( $upload_info['baseurl'] );
 			$theme_url = get_template_directory_uri();
 			$theme_dir = get_template_directory();
 
