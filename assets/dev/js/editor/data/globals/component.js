@@ -2,8 +2,6 @@ import ComponentBase from 'elementor-api/modules/component-base';
 import TypographyComponent from './typography/component';
 import ColorsComponent from './colors/component';
 
-import * as commandsData from './commands/data/';
-
 export default class Component extends ComponentBase {
 	__construct( args = {} ) {
 		super.__construct( args );
@@ -23,7 +21,11 @@ export default class Component extends ComponentBase {
 	}
 
 	defaultData() {
-		return this.importCommands( commandsData );
+		return {
+			index: 'globals',
+			colors: 'globals/colors/{id}',
+			typography: 'globals/typography/{id}',
+		};
 	}
 
 	refreshGlobalData() {
