@@ -41,6 +41,12 @@ class Manager {
 		return Plugin::$instance->documents->get( $id );
 	}
 
+	public function set_active_kit( $post_id ) {
+		if ( $this->is_kit( $post_id ) ) {
+			update_option( self::OPTION_ACTIVE, $post_id );
+		}
+	}
+
 	public function get_active_kit_for_frontend() {
 		$id = $this->get_active_id();
 

@@ -55,6 +55,12 @@ class Templates extends Base {
 					continue;
 				}
 
+				if ( ! empty( $template_settings['metadata']['template_type'] ) && $template_settings['metadata']['template_type'] === 'global-styles' ) {
+					// We've just imported some global kit styles from an Envato template kit.
+					// We need to activate these as the new global styles
+					Plugin::$instance->kits_manager->set_active_kit( $import );
+				}
+
 				$result['success'][] = $import;
 			} catch ( \Error $error ) {
 				$result['failed'][ $id ] = $error->getMessage();
@@ -66,6 +72,16 @@ class Templates extends Base {
 
 	private function import_template( $id, array $template_settings ) {
 		$template = $this->importer->read_json_file( $id );
+
+		// Envato uses "page_settings", Elementor uses "settings". Make them compatible.
+		if ( ! empty( $template['page_settings'] ) ) {
+			$template['settings'] = $template['page_settings'];
+		}
+
+		// Envato uses "type", Elementor uses "doc_type". Make them compatible.
+		if ( ! empty( $template['type'] ) ) {
+			$template['doc_type'] = $template['type'];
+		}
 
 		$doc_type = $template_settings['doc_type'];
 
