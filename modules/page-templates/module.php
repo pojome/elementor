@@ -308,10 +308,22 @@ class Module extends BaseModule {
 			$control_id . '_default_description',
 			[
 				'type' => Controls_Manager::RAW_HTML,
-				'raw' => '<b>' . __( 'Default Page Template from your theme', 'elementor' ) . '</b>',
+				'raw' => '<b>' . __( 'The default page template as defined in Elementor Panel → Hamburger Menu → Site Settings.', 'elementor' ) . '</b>',
 				'content_classes' => 'elementor-descriptor',
 				'condition' => [
 					$control_id => 'default',
+				],
+			]
+		);
+
+		$document->add_control(
+			$control_id . '_theme_description',
+			[
+				'type' => Controls_Manager::RAW_HTML,
+				'raw' => '<b>' . __( 'Default Page Template from your theme.', 'elementor' ) . '</b>',
+				'content_classes' => 'elementor-descriptor',
+				'condition' => [
+					$control_id => self::TEMPLATE_THEME,
 				],
 			]
 		);
