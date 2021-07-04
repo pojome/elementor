@@ -225,6 +225,13 @@ class Preview extends App {
 	 */
 	private function enqueue_styles() {
 		// Hold-on all jQuery plugins after all HTML markup render.
+		wp_enqueue_script(
+			'e-holdready-polyfill',
+			ELEMENTOR_ASSETS_URL . 'lib/jquery/e-holdready-polyfill.js',
+			[ 'jquery' ],
+			'0.1.0'
+		);
+
 		wp_add_inline_script( 'jquery-migrate', 'jQuery.holdReady( true );' );
 
 		Plugin::$instance->frontend->enqueue_styles();
