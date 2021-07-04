@@ -660,7 +660,7 @@ class Element_Column extends Element_Base {
 			]
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'text_align',
 			[
 				'label' => __( 'Text Align', 'elementor' ),
