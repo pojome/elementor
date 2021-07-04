@@ -165,6 +165,9 @@ abstract class Base {
 	public function update_file() {
 		$this->content = $this->parse_content();
 
+		// Allow other plugins to interact with the content, before being saved
+		$this->content = apply_filters( ‘elementor/files/content’, $this->content );
+
 		if ( $this->content ) {
 			$this->write();
 		} else {
