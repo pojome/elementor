@@ -590,7 +590,7 @@ class Widget_Icon_List extends Widget_Base {
 					}
 
 					$migrated = isset( $item['__fa4_migrated']['selected_icon'] );
-					$is_new = ! isset( $item['icon'] ) && $migration_allowed;
+					$is_new = empty( $item['icon'] ) && $migration_allowed;
 					if ( ! empty( $item['icon'] ) || ( ! empty( $item['selected_icon']['value'] ) && $is_new ) ) :
 						?>
 						<span class="elementor-icon-list-icon">
