@@ -104,13 +104,13 @@ class Documents extends WP_UnitTest_Factory_For_Thing {
 	}
 
 	public function create_object( $args ) {
-		$type = 'page';
+		$document_type = 'page';
 		$meta = [];
 
-		if ( isset( $args['post_type'] ) ) {
-			$type = $args['post_type'];
+		if ( isset( $args['document_type'] ) ) {
+			$document_type = $args['document_type'];
 
-			unset( $args['post_type'] );
+			unset( $args['document_type'] );
 		}
 
 		if ( isset( $args['meta_input'] ) ) {
@@ -123,7 +123,7 @@ class Documents extends WP_UnitTest_Factory_For_Thing {
 			$meta['_elementor_data'] = wp_json_encode( self::DEFAULT_DOCUMENT_DATA_MOCK );
 		}
 
-		return Plugin::$instance->documents->create( $type, $args, $meta )->get_id();
+		return Plugin::$instance->documents->create( $document_type, $args, $meta )->get_id();
 	}
 
 	public function update_object( $document_id, $fields ) {

@@ -2,6 +2,7 @@
 namespace Elementor\TemplateLibrary;
 
 use Elementor\Api;
+use Elementor\Core\Utils\Collection;
 use Elementor\Core\Common\Modules\Ajax\Module as Ajax;
 use Elementor\Core\Settings\Manager as SettingsManager;
 use Elementor\TemplateLibrary\Classes\Import_Images;
@@ -200,15 +201,18 @@ class Manager {
 	 *
 	 * Retrieve all the templates from all the registered sources.
 	 *
-	 * @since 1.0.0
-	 * @access public
+	 * @param array $only_sources
 	 *
-	 * @return array Templates array.
+	 * @return array
 	 */
-	public function get_templates() {
+	public function get_templates( $only_sources = [] ) {
 		$templates = [];
 
 		foreach ( $this->get_registered_sources() as $source ) {
+			if ( ! empty( $only_sources ) && ! in_array( $source->get_id(), $only_sources, true ) ) {
+				continue;
+			}
+
 			$templates = array_merge( $templates, $source->get_items() );
 		}
 
@@ -234,7 +238,9 @@ class Manager {
 		Plugin::$instance->documents->get_document_types();
 
 		return [
-			'templates' => $this->get_templates(),
+			'templates' => $this->get_templates(
+				isset( $args['only_sources'] ) ? $args['only_sources'] : []
+			),
 			'config' => $library_data['types_data'],
 		];
 	}
