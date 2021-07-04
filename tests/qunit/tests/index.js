@@ -20,6 +20,7 @@ export const tests = () => {
 	require( './assets/dev/js/editor/document/component.spec' );
 
 	require( './assets/dev/js/editor/data/globals/component.spec' );
+	require( './assets/dev/js/editor/regions/navigator/component.spec' );
 
 	require( './core/kits/assets/js/manager.spec' );
 	require( './core/kits/assets/js/component.spec' );

@@ -314,6 +314,15 @@ export default class EditorBase extends Marionette.Application {
 		return this.getPreviewView().getContainer();
 	}
 
+	/**
+	 * Function getContainer().
+	 *
+	 * Get container object by element id.
+	 *
+	 * @param {string} id
+	 *
+	 * @returns {Container|false}
+	 */
 	getContainer( id ) {
 		if ( 'document' === id ) {
 			return this.getPreviewContainer();

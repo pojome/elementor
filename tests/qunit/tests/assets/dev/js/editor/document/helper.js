@@ -41,6 +41,7 @@ export default class DocumentHelper {
 		return result;
 	}
 
+	// TODO: this method should move to core/common.
 	static testCommands( commands ) {
 		Object.values( commands ).forEach( ( reference ) => reference() );
 	}

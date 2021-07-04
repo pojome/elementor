@@ -2,9 +2,61 @@
 	<span class="button-text">{{{ settings.text }}}</span>
 </script>
 
+
 <script type="text/html" id="tmpl-elementor-tag-post-custom-field-content">
 	<span>{{{  }}}</span>
 </script>
+
+
+<script type="text/template" id="tmpl-elementor-navigator">
+	<div id="elementor-navigator__header">
+		<i id="elementor-navigator__toggle-all" class="eicon-expand" data-elementor-action="expand"></i>
+		<div id="elementor-navigator__header__title">Navigator</div>
+		<i id="elementor-navigator__close" class="eicon-close"></i>
+	</div>
+	<div id="elementor-navigator__elements"></div>
+	<div id="elementor-navigator__footer">
+		<i class="eicon-ellipsis-h"></i>
+	</div>
+</script>
+
+
+<script type="text/template" id="tmpl-elementor-navigator__elements--empty">
+	<div class="elementor-empty-view__title">Empty column</div>
+</script>
+
+
+<script type="text/template" id="tmpl-elementor-navigator__root--empty">
+	<img class="elementor-nerd-box-icon" src="" alt="icon" />
+	<div class="elementor-nerd-box-title">Easy Navigation is Here!</div>
+	<div class="elementor-nerd-box-message"></div>
+</script>
+
+
+<script type="text/template" id="tmpl-elementor-navigator__elements">
+	<# if ( obj.elType ) { #>
+	<div class="elementor-navigator__item">
+		<div class="elementor-navigator__element__list-toggle">
+			<i class="eicon-sort-down"></i>
+		</div>
+		<#
+		if ( icon ) { #>
+		<div class="elementor-navigator__element__element-type">
+			<i class="{{{ icon }}}"></i>
+		</div>
+		<# } #>
+		<div class="elementor-navigator__element__title">
+			<span class="elementor-navigator__element__title__text">{{{ title }}}</span>
+		</div>
+		<div class="elementor-navigator__element__toggle">
+			<i class="eicon-preview-medium"></i>
+		</div>
+		<div class="elementor-navigator__element__indicators"></div>
+	</div>
+	<# } #>
+	<div class="elementor-navigator__elements"></div>
+</script>
+
 
 <div id="elementor-editor-wrapper">
 	<div id="elementor-panel">
@@ -20,6 +72,18 @@
 				<div class="elementor-panel-container">
 				</div>
 			</footer>
+		</div>
+	</div>
+
+	<div id="elementor-navigator">
+		<div id="elementor-navigator__header">
+			<i id="elementor-navigator__toggle-all" class="eicon-expand" data-elementor-action="expand"></i>
+			<div id="elementor-navigator__header__title">Navigator</div>
+			<i id="elementor-navigator__close" class="eicon-close"></i>
+		</div>
+		<div id="elementor-navigator__elements"></div>
+		<div id="elementor-navigator__footer">
+			<i class="eicon-ellipsis-h"></i>
 		</div>
 	</div>
 

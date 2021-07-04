@@ -1,4 +1,4 @@
-export default class extends Marionette.ItemView {
+export default class RootEmpty extends Marionette.ItemView {
 	getTemplate() {
 		return '#tmpl-elementor-navigator__root--empty';
 	}

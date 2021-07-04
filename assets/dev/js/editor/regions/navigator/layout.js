@@ -1,6 +1,6 @@
-import ElementView from './element';
+import Element from './elements/view/element';
 
-export default class extends Marionette.LayoutView {
+export default class Layout extends Marionette.LayoutView {
 	getTemplate() {
 		return '#tmpl-elementor-navigator';
 	}
@@ -18,8 +18,8 @@ export default class extends Marionette.LayoutView {
 
 	events() {
 		return {
-			'click @ui.toggleAll': 'toggleAll',
-			'click @ui.close': 'onCloseClick',
+			'click @ui.toggleAll': () => $e.run( 'navigator/elements/toggle-folding-all' ),
+			'click @ui.close': () => $e.run( 'navigator/close' ),
 		};
 	}
 
@@ -27,18 +27,6 @@ export default class extends Marionette.LayoutView {
 		return {
 			elements: '#elementor-navigator__elements',
 		};
-	}
-
-	toggleAll() {
-		const state = 'expand' === this.ui.toggleAll.data( 'elementor-action' ),
-			classes = [ 'eicon-collapse', 'eicon-expand' ];
-
-		this.ui.toggleAll
-			.data( 'elementor-action', state ? 'collapse' : 'expand' )
-			.removeClass( classes[ +state ] )
-			.addClass( classes[ +! state ] );
-
-		this.elements.currentView.recursiveChildInvoke( 'toggleList', state );
 	}
 
 	activateElementsMouseInteraction() {
@@ -50,12 +38,8 @@ export default class extends Marionette.LayoutView {
 	}
 
 	onShow() {
-		this.elements.show( new ElementView( {
+		this.elements.show( new Element( {
 			model: elementor.elementsModel,
 		} ) );
-	}
-
-	onCloseClick() {
-		$e.components.get( 'navigator' ).close();
 	}
 }

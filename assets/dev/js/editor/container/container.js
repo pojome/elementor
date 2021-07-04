@@ -1,5 +1,6 @@
 import ArgsObject from '../../modules/imports/args-object';
 import Panel from './panel';
+import Navigator from './navigator';
 
 /**
  * TODO: ViewsOptions
@@ -117,6 +118,13 @@ export default class Container extends ArgsObject {
 	panel;
 
 	/**
+	 * Container navigator.
+	 *
+	 * @type {Navigator}
+	 */
+	navigator;
+
+	/**
 	 * Function constructor().
 	 *
 	 * Create container.
@@ -153,7 +161,9 @@ export default class Container extends ArgsObject {
 
 		this.dynamic = new Backbone.Model( this.settings.get( '__dynamic__' ) );
 		this.globals = new Backbone.Model( this.settings.get( '__globals__' ) );
+
 		this.panel = new Panel( this );
+		this.navigator = new Navigator( this );
 
 		this.initialize();
 	}

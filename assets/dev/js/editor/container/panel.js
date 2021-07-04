@@ -1,15 +1,6 @@
-export default class Panel {
-	/**
-	 * Function constructor().
-	 *
-	 * Create constructor panel.
-	 *
-	 * @param {Container} container
-	 */
-	constructor( container ) {
-		this.container = container;
-	}
+import Base from './base';
 
+export default class Panel extends Base {
 	/**
 	 * Function refresh().
 	 *

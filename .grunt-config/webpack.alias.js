@@ -26,6 +26,7 @@ module.exports = {
 			'elementor-utils': path.resolve( __dirname, '../assets/dev/js/utils' ),
 			'elementor-validator': path.resolve( __dirname, '../assets/dev/js/editor/components/validator' ),
 			'elementor-views': path.resolve( __dirname, '../assets/dev/js/editor/views' ),
+			'elementor-tests-qunit': path.resolve( __dirname, '../tests/qunit' ),
 		},
 	},
 };

@@ -12,7 +12,7 @@ Marionette.TemplateCache.get = function( template ) {
 		return originalGet.apply( Marionette.TemplateCache, [ template ] );
 	}
 
-	return () => `<div class="${ template }"></div>`;
+	return () => `<div class="${ template.replace( '#tmpl-', '' ) }"><code>${ template }</code></div>`;
 };
 
 Marionette.Region.prototype._ensureElement = () => {
