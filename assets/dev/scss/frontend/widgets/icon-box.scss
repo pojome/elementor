@@ -3,8 +3,6 @@
 //
 .elementor-widget-icon-box {
 
-	@media (min-width: $screen-md-min) {
-
 		&.elementor-position- {
 
 			&left,
@@ -67,17 +65,6 @@
 				}
 			}
 		}
-	}
-
-	@media (max-width: $screen-sm-max) {
-
-		// TEMP code to override the icon spacing
-		.elementor-icon-box-icon {
-			margin-left: auto !important;
-			margin-right: auto !important;
-			margin-bottom: 15px;
-		}
-	}
 
 	.elementor-icon-box-wrapper {
 		text-align: center;
@@ -97,4 +84,33 @@
 	.elementor-icon-box-description {
 		margin: 0;
 	}
+
+	@media (max-width: $screen-sm-max) {
+
+		&.elementor-position- {
+
+			&right {
+
+				.elementor-icon-box-icon {
+					margin-left: 15px;
+				}
+			}
+
+			&left {
+
+				.elementor-icon-box-icon {
+					margin-right: 15px;
+				}
+			}
+
+			&top {
+
+				.elementor-icon-box-icon {
+					margin-bottom: 15px;
+				}
+			}
+		}
+
+	}
+
 }
