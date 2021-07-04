@@ -297,6 +297,16 @@ ul.elementor-icon-list-items.elementor-inline-items {
 
 		&#{$device}-0 {
 			.elementor-grid {
+				display: flex;
+				overflow: hidden;
+				flex-wrap: wrap;
+				margin-right: calc(-1 * var(--grid-side-margin)/2);
+				margin-left: calc(-1 * var(--grid-side-margin)/2);
+
+				&-item > div, &-item > a {
+					margin-right: calc(var(--grid-side-margin) / 2);
+					margin-left: calc(var(--grid-side-margin) / 2);
+					margin-bottom: var(--grid-bottom-margin);
 				display: inline-block;
 				width: 100%;
 				word-spacing: var(--grid-column-gap);
