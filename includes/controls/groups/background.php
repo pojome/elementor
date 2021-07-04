@@ -137,7 +137,7 @@ class Group_Control_Background extends Group_Control_Base {
 				'{{SELECTOR}}' => 'background-color: {{VALUE}};',
 			],
 			'condition' => [
-				'background' => [ 'classic', 'gradient' ],
+				'background' => [ 'classic', 'gradient', 'video' ],
 			],
 		];
 
