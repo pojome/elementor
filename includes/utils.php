@@ -670,7 +670,8 @@ class Utils {
 	 * @return string
 	 */
 	public static function validate_html_tag( $tag ) {
-		return in_array( strtolower( $tag ), self::ALLOWED_HTML_WRAPPER_TAGS ) ? $tag : 'div';
+		$allowed_tags = apply_filters( 'elementor/utils/allowed_html_wrapper_tags', self::ALLOWED_HTML_WRAPPER_TAGS );
+		return in_array( strtolower( $tag ), $allowed_tags ) ? $tag : 'div';
 	}
 
 	/**
