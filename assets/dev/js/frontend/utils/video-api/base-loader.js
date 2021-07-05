@@ -15,7 +15,12 @@ export default class BaseLoader extends elementorModules.ViewModule {
 	}
 
 	insertAPI() {
-		this.elements.$firstScript.before( jQuery( '<script>', { src: this.getApiURL() } ) );
+		// Check if consent is given for the external video service (if no `consentApi` is available, fallback to immediate loading)
+		const apiUrl = this.getApiURL();
+		const consentPromise = window.consentApi ? window.consentApi.unblock( apiUrl ) : Promise.resolve();
+		consentPromise.then( () => {
+			this.elements.$firstScript.before( jQuery( '<script>', { src: apiUrl } ) );
+		} );
 
 		this.setSettings( 'isInserted', true );
 	}
