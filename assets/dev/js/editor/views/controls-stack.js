@@ -11,6 +11,8 @@ ControlsStack = Marionette.CompositeView.extend( {
 
 	activeSection: null,
 
+	isFiltered: false,
+
 	className: function() {
 		return 'elementor-controls-stack';
 	},
@@ -32,12 +34,14 @@ ControlsStack = Marionette.CompositeView.extend( {
 		return {
 			tabs: '.elementor-panel-navigation-tab',
 			reloadButton: '.elementor-update-preview-button',
+			searchControls: '#elementor-panel-controls-search-input',
 		};
 	},
 
 	events: function() {
 		return {
 			'click @ui.reloadButton': 'onReloadButtonClick',
+			'keyup @ui.searchControls': 'onSearchControlsKeyUp',
 		};
 	},
 
@@ -66,7 +70,53 @@ ControlsStack = Marionette.CompositeView.extend( {
 		this.collection = new Backbone.Collection( _.values( elementor.mergeControlsSettings( this.getOption( 'controls' ) ) ) );
 	},
 
+	// Override Backbone's base function.
+	_filteredSortedModels: function( addedAt ) {
+		const models = Marionette.CompositeView.prototype._filteredSortedModels.apply( this, [ addedAt ] );
+
+		// If the user has filtered the controls.
+		if ( this.isFiltered ) {
+			let withSections = [];
+
+			// Iterate over the filtered models.
+			models.forEach( ( model ) => {
+				// Get the section that contains the current model.
+				const sectionName = ( 'section' === model.get( 'type' ) ) ? model.get( 'name' ) : model.get( 'section' );
+				const section = model.collection.find( { name: sectionName } );
+
+				// Add the section and its child-models to the output.
+				if ( section && ! withSections.includes( section ) ) {
+					withSections.push( section );
+
+					const sectionControls = model.collection.filter( { section: sectionName } );
+					withSections = withSections.concat( sectionControls );
+				}
+			} );
+
+			return withSections;
+		}
+
+		return models;
+	},
+
 	filter: function( controlModel ) {
+		// Remove underscore / hyphen, lower case & trim a string.
+		const normalizeString = ( str ) => {
+			return str.replace( /[-_]/ig, ' ' ).toLowerCase().trim();
+		};
+
+		if ( this.ui.searchControls ) {
+			const searchTerm = normalizeString( this.ui.searchControls.val() || '' );
+
+			// Filter the controls by the user input if present.
+			if ( searchTerm ) {
+				const show = normalizeString( controlModel.get( 'label' ) ).includes( searchTerm );
+				this.isFiltered = show || this.isFiltered;
+
+				return show;
+			}
+		}
+
 		if ( controlModel.get( 'tab' ) !== this.activeTab ) {
 			return false;
 		}
@@ -158,7 +208,15 @@ ControlsStack = Marionette.CompositeView.extend( {
 				return activeSection === view.model.get( 'name' );
 			} );
 
-		if ( activeSectionView[ 0 ] ) {
+		if ( this.isFiltered ) {
+			this.children.forEach( function( view ) {
+				if ( 'section' === view.model.get( 'type' ) ) {
+					view.$el.addClass( 'elementor-open' );
+				}
+			} );
+
+			this.isFiltered = false;
+		} else if ( activeSectionView[ 0 ] ) {
 			activeSectionView[ 0 ].$el.addClass( 'elementor-open' );
 
 			const eventNamespace = this.getNamespaceArray();
@@ -181,6 +239,15 @@ ControlsStack = Marionette.CompositeView.extend( {
 
 	onReloadButtonClick: function() {
 		elementor.reloadPreview();
+	},
+
+	onSearchControlsKeyUp: function() {
+		// Debounce the render to improve performance.
+		clearTimeout( this.keyUpTimeout );
+
+		this.keyUpTimeout = setTimeout( () => {
+			this._renderChildren();
+		}, 100 );
 	},
 
 	onDeviceModeChange: function() {

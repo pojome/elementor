@@ -30,7 +30,7 @@
 		align-items: center;
 		justify-content: center;
 		background-color: rgba(255, 255, 255, 0.5);
-		z-index: $second-layer;
+		z-index: $fourth-layer;
 	}
 
 	.eicon-loading {
@@ -39,42 +39,46 @@
 	}
 }
 
-#elementor-panel-elements-search-area {
+.e-panel-search-area {
 	position: sticky;
 	top: 0;
 	padding: 10px;
 	background-color: $editor-background;
-	z-index: $first-layer;
-}
+	z-index: $third-layer;
 
-#elementor-panel-elements-search-wrapper {
-	position: relative;
-}
-
-#elementor-panel-elements-search-input {
-	background-color: rgba(255,255,255,.7);
-	font-size: 11px;
-	@include padding(10px, 10px, 10px, 29px);
-	font-style: italic;
-	color: $editor-light;
-	border: none;
-	transition: all 1s;
-	border-radius: 3px;
-	appearance: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-
-	+ i {
-		position: absolute;
-		@include start(10px);
-		top: 50%;
-		color: $editor-light;
-		transform: translateY(-50%);
+	&.e-panel-controls-search-area {
+		margin-bottom: -10px; // Pull the first controls section up to fix the UI.
 	}
+}
 
-	&:focus {
-		background-color: rgba(255,255,255,1);
-		@include padding-end(15px);
+.e-panel-search-wrapper {
+	position: relative;
+
+	input[type="search"] {
+		background-color: rgba(255, 255, 255, .7);
+		font-size: 11px;
+		@include padding(10px, 10px, 10px, 29px);
+		font-style: italic;
+		color: $editor-light;
+		border: none;
+		transition: all 1s;
+		border-radius: 3px;
+		appearance: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+
+		+ i {
+			position: absolute;
+			@include start(10px);
+			top: 50%;
+			color: $editor-light;
+			transform: translateY(-50%);
+		}
+
+		&:focus {
+			background-color: rgba(255, 255, 255, 1);
+			@include padding-end(15px);
+		}
 	}
 }
 

@@ -39,7 +39,7 @@
 	}
 
 	.ps__rail-y {
-		z-index: 2; // Avoid panel elements (like divider control) from appearing above the scrollbar
+		z-index: $third-layer; // Avoid panel elements (like divider control) from appearing above the scrollbar
 	}
 
 	.elementor-responsive-panel {

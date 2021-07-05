@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="elementor-component-tab elementor-panel-navigation-tab" data-tab="categories"><?php echo __( 'Elements', 'elementor' ); ?></div>
 		<div class="elementor-component-tab elementor-panel-navigation-tab" data-tab="global"><?php echo __( 'Global', 'elementor' ); ?></div>
 	</div>
-	<div id="elementor-panel-elements-search-area"></div>
+	<div id="elementor-panel-elements-search-area" class="e-panel-search-area"></div>
 	<div id="elementor-panel-elements-wrapper"></div>
 </script>
 

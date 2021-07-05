@@ -276,20 +276,20 @@ select {
 		}
 	}
 
-	#elementor-panel-elements-search-area {
+	.e-panel-search-area {
 		background-color: $theme-dark-gray-darkest;
-	}
 
-	#elementor-panel-elements-search-input {
-		background-color: $theme-dark-gray;
-		color: $theme-dark-light;
-
-		&:focus {
-			background-color: $theme-dark-gray-dark;
+		input[type="search"] {
+			background-color: $theme-dark-gray;
 			color: $theme-dark-light;
 
-			+ i {
+			&:focus {
+				background-color: $theme-dark-gray-dark;
 				color: $theme-dark-light;
+
+				+ i {
+					color: $theme-dark-light;
+				}
 			}
 		}
 	}
