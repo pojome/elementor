@@ -314,7 +314,7 @@ ul.elementor-icon-list-items.elementor-inline-items {
 
 			&#{$device}-#{$i} {
 				.elementor-grid {
-					grid-template-columns: repeat(#{$i} , 1fr);
+					grid-template-columns: repeat(auto-fit, minmax(#{(100%/$i)}, 1fr));
 				}
 			}
 		}
