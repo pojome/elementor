@@ -242,6 +242,18 @@ class Widget_Button extends Widget_Base {
 		);
 
 		$this->add_control(
+			'icon_flyover', [
+				'label' => __( 'Icon Flyover', 'elementor' ),
+				'type' => Controls_Manager::SWITCHER,
+				'label_off' => __( 'Off', 'elementor' ),
+				'label_on' => __( 'On', 'elementor' ),
+				'selector' => [
+					'{{WRAPPER}} .elementor-button-icon:hover' => 'display: block;',
+				],
+			]
+		);
+
+		$this->add_control(
 			'view',
 			[
 				'label' => __( 'View', 'elementor' ),
@@ -399,6 +411,46 @@ class Widget_Button extends Widget_Base {
 		$this->end_controls_tab();
 
 		$this->end_controls_tabs();
+
+		$this->add_responsive_control(
+			'icon_size',
+			[
+				'label' => __( 'Icon Size', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'range' => [
+					'px' => [
+						'min' => 6,
+						'max' => 300,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-button-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+				],
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_responsive_control(
+			'icon_rotate',
+			[
+				'label' => __( 'Icon Rotate', 'elementor' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'deg' ],
+				'default' => [
+					'size' => 0,
+					'unit' => 'deg',
+				],
+				'tablet_default' => [
+					'unit' => 'deg',
+				],
+				'mobile_default' => [
+					'unit' => 'deg',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .elementor-button-icon i, {{WRAPPER}} .elementor-button-icon svg' => 'transform: rotate({{SIZE}}{{UNIT}});',
+				],
+			]
+		);
 
 		$this->add_group_control(
 			Group_Control_Border::get_type(),
