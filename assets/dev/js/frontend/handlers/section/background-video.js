@@ -93,7 +93,7 @@ export default class BackgroundVideo extends elementorModules.frontend.handlers.
 		}
 	}
 
-	prepareVimeoVideo( Vimeo, videoId ) {
+	prepareVimeoVideo( Vimeo, videoId, videoLinkOptions ) {
 		const elementSettings = this.getElementSettings(),
 			startTime = elementSettings.background_video_start ? elementSettings.background_video_start : 0,
 			videoSize = this.elements.$backgroundVideoContainer.outerWidth(),
@@ -105,6 +105,8 @@ export default class BackgroundVideo extends elementorModules.frontend.handlers.
 				transparent: false,
 				background: true,
 				muted: true,
+				// Any custom URL param options passed in by the user via the video link
+				...videoLinkOptions,
 			};
 
 		this.player = new Vimeo.Player( this.elements.$backgroundVideoContainer, vimeoOptions );
@@ -151,7 +153,7 @@ export default class BackgroundVideo extends elementorModules.frontend.handlers.
 		} );
 	}
 
-	prepareYTVideo( YT, videoID ) {
+	prepareYTVideo( YT, videoID, videoLinkOptions ) {
 		const $backgroundVideoContainer = this.elements.$backgroundVideoContainer,
 			elementSettings = this.getElementSettings();
 		let startStateCode = YT.PlayerState.PLAYING;
@@ -191,6 +193,8 @@ export default class BackgroundVideo extends elementorModules.frontend.handlers.
 				controls: 0,
 				rel: 0,
 				playsinline: 1,
+				// Any custom URL param options passed in by the user via the video link
+				...videoLinkOptions,
 			},
 		};
 
@@ -208,6 +212,8 @@ export default class BackgroundVideo extends elementorModules.frontend.handlers.
 	activate() {
 		let videoLink = this.getElementSettings( 'background_video_link' ),
 			videoID;
+		// Extract any URL param options passed in by the user
+		const videoLinkOptions = Object.fromEntries( new URLSearchParams( new URL( videoLink ).search ) );
 
 		const playOnce = this.getElementSettings( 'background_play_once' );
 
@@ -224,11 +230,11 @@ export default class BackgroundVideo extends elementorModules.frontend.handlers.
 
 			this.apiProvider.onApiReady( ( apiObject ) => {
 				if ( 'youtube' === this.videoType ) {
-					this.prepareYTVideo( apiObject, videoID );
+					this.prepareYTVideo( apiObject, videoID, videoLinkOptions );
 				}
 
 				if ( 'vimeo' === this.videoType ) {
-					this.prepareVimeoVideo( apiObject, videoID );
+					this.prepareVimeoVideo( apiObject, videoID, videoLinkOptions );
 				}
 			} );
 		} else {
