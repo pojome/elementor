@@ -46,12 +46,18 @@
 				}
 			} );
 		};
+		
+		var decodeHTMLEntities = function(text) {
+		    var textArea = document.createElement('textarea');
+		    textArea.innerHTML = text;
+		    return textArea.value;
+		}
 
 		var initSettings = function() {
 			$.extend( settings, ShareLink.defaultSettings, userSettings );
 
 			[ 'title', 'text' ].forEach( function( propertyName ) {
-				settings[ propertyName ] = settings[ propertyName ].replace( '#', '' );
+				settings[ propertyName ] = encodeURI(decodeHTMLEntities(settings[ propertyName ]).replace( '#', '' ));
 			} );
 
 			settings.classPrefixLength = settings.classPrefix.length;
