@@ -41,6 +41,7 @@ class Theme_Style_Form_Fields extends Tab_Base {
 		$input_selectors = [
 			'{{WRAPPER}} input:not([type="button"]):not([type="submit"])',
 			'{{WRAPPER}} textarea',
+			'{{WRAPPER}} select',
 			'{{WRAPPER}} .elementor-field-textual',
 		];
 
