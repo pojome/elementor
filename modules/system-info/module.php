@@ -62,6 +62,17 @@ class Module extends BaseModule {
 		'plugins' => [],
 		'network_plugins' => [],
 		'mu_plugins' => [],
+		'experiments' => [],
+	];
+
+	private static $usage_reports = [
+		'server' => [],
+		'wordpress' => [],
+		'theme' => [],
+		'user' => [],
+		'plugins' => [],
+		'network_plugins' => [],
+		'mu_plugins' => [],
 	];
 
 	/**
@@ -342,6 +353,15 @@ class Module extends BaseModule {
 	 */
 	public static function get_allowed_reports() {
 		return self::$reports;
+	}
+
+	/**
+	 * Get allowed reports for tracking data.
+	 *
+	 * @return array
+	 */
+	public static function get_allowed_usage_reports() {
+		return self::$usage_reports;
 	}
 
 	/**
