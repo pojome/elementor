@@ -38,7 +38,7 @@ export default class extends elementorModules.ViewModule {
 	}
 
 	runElementsHandlers() {
-		this.elements.$elements.each( ( index, element ) => elementorFrontend.elementsHandler.runReadyTrigger( element ) );
+		this.elements.$elements.each( ( index, element ) => setTimeout( () => elementorFrontend.elementsHandler.runReadyTrigger( element ) ) );
 	}
 
 	onInit() {
