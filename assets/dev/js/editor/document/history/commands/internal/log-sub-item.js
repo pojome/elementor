@@ -1,6 +1,6 @@
-import Base from '../base/base';
+import CommandHistoryInternalBase from '../base/command-history-internal-base';
 
-export class LogSubItem extends Base {
+export class LogSubItem extends CommandHistoryInternalBase {
 	apply( args ) {
 		if ( ! this.history.getActive() ) {
 			return;

@@ -1,6 +1,6 @@
-import CommandHistory from 'elementor-document/commands/base/command-history';
+import CommandHistoryBase from '../../command-bases/command-history-base';
 
-export class Duplicate extends CommandHistory {
+export class Duplicate extends CommandHistoryBase {
 	validateArgs( args ) {
 		this.requireContainer( args );
 	}

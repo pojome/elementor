@@ -1,6 +1,6 @@
-import Base from '../base/base';
+import CommandInternalBase from 'elementor-api/modules/command-internal-base';
 
-export class ClearTransaction extends Base {
+export class ClearTransaction extends CommandInternalBase {
 	apply() {
 		this.component.transactions = [];
 	}

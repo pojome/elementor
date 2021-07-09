@@ -9,8 +9,8 @@ export class KitSaveRouteHistory extends BaseOpenClose {
 		return 'save-route-history--/panel/global/open';
 	}
 
-	getConditions( args = {}, result ) {
-		return args.route;
+	getConditions( args ) {
+		return !! args.route;
 	}
 
 	apply( args ) {

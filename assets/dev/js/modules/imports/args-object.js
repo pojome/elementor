@@ -16,6 +16,10 @@ export default class ArgsObject extends InstanceType {
 		super();
 
 		this.args = args;
+
+		if ( ! this.instanceTypes ) {
+			this.instanceTypes = [];
+		}
 	}
 
 	/**

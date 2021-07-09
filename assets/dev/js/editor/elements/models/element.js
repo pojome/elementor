@@ -162,7 +162,7 @@ ElementModel = Backbone.Model.extend( {
 	},
 
 	renderRemoteServer: function() {
-		if ( ! this.remoteRender ) {
+		if ( ! elementorCommonConfig.isTesting || ! this.remoteRender ) {
 			return;
 		}
 

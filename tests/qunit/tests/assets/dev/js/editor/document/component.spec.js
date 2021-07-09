@@ -8,7 +8,7 @@ QUnit.module( 'Component: document', ( rootHooks ) => {
 		eData.attachCache();
 
 		// Save current document before go.
-		const documentBeforeTest = elementor.documents.getCurrent(),
+		const documentTemp = elementor.documents.getCurrent(),
 			documentConfigMaster = { id: 2 },
 			documentConfigSlave = { id: 3 };
 
@@ -16,8 +16,8 @@ QUnit.module( 'Component: document', ( rootHooks ) => {
 		const documentMaster = elementor.documents.addDocumentByConfig( documentConfigMaster ),
 			documentSlave = elementor.documents.addDocumentByConfig( documentConfigSlave );
 
-		documentMaster.container = documentBeforeTest.container;
-		documentSlave.container = documentBeforeTest.container;
+		documentMaster.container = documentTemp.container;
+		documentSlave.container = documentTemp.container;
 
 		// Set current document to master.
 		elementor.documents.setCurrent( documentMaster );
@@ -59,11 +59,11 @@ QUnit.module( 'Component: document', ( rootHooks ) => {
 			assert.equal( elementor.documents.getCurrent().history.getItems().length, 3,
 				'Master document still have "3" items in history.' );
 
-			// Put back saved document, to current.
-			elementor.documents.setCurrent( documentBeforeTest );
-			eData.emptyFetch();
-
 			done();
+
+			elementor.documents.setCurrent( documentTemp );
+
+			eData.restoreFetch();
 		} );
 	} );
 

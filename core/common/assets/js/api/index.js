@@ -22,7 +22,7 @@ export default class API {
 	/**
 	 * Function constructor().
 	 *
-	 * Create's 'elementor' api.
+	 * Creates 'elementor' api.
 	 */
 	constructor() {
 		window.$e = this;
@@ -38,9 +38,18 @@ export default class API {
 		this.data = new Data();
 
 		this.modules = {
+			// get CommandInternalBase() {
+			// 	elementorCommon.helpers.softDeprecated(
+			// 		'$e.modules.CommandInternalBase',
+			// 		'3.0.3',
+			// 		'$e.modules.CommandInternal'
+			// 	);
+			//
+			// 	return this.CommandInternal;
+			// },
+
 			CommandBase,
 			CommandInternalBase,
-
 			CommandData,
 
 			ComponentBase,
@@ -66,7 +75,7 @@ export default class API {
 	 * Alias of `$e.commands.run()`.
 	 *
 	 * @param {string} command
-	 * @param [args={}]
+	 * @param {{}} [args={}]
 	 *
 	 * @returns {*}
 	 */
@@ -80,9 +89,9 @@ export default class API {
 	 * Alias of `$e.commandsInternal.run()`.
 	 *
 	 * @param {string} command
-	 * @param [args={}]
+	 * @param {{}} [args={}]
 	 *
-	 * @returns {boolean}
+	 * @returns {*}
 	 */
 	internal( command, args = {} ) {
 		return $e.commandsInternal.run( command, args );

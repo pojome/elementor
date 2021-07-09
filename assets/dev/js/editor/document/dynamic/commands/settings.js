@@ -1,4 +1,4 @@
-import CommandHistoryDebounce from 'elementor-document/commands/base/command-history-debounce';
+import CommandHistoryDebounceBase from 'elementor-document/command-bases/command-history-debounce-base';
 import ElementsSettings from 'elementor-document/elements/commands/settings';
 
 /**
@@ -6,7 +6,7 @@ import ElementsSettings from 'elementor-document/elements/commands/settings';
  * that `document/elements/settings` apply settings to `container.settings` and `document/dynamic/settings` affect
  * `container.settings.__dynamic__`, also clearing the dynamic if `args.settings` is empty.
  */
-export class Settings extends CommandHistoryDebounce {
+export class Settings extends CommandHistoryDebounceBase {
 	static restore( historyItem, isRedo ) {
 		const data = historyItem.get( 'data' );
 

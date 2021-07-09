@@ -1,10 +1,8 @@
+import CommandInfra from 'elementor-api/modules/command-infra';
 import CommandBase from 'elementor-api/modules/command-base';
 import CommandInternalBase from 'elementor-api/modules/command-internal-base';
 import CommandData from 'elementor-api/modules/command-data';
-import CommandHistory from 'elementor-document/commands/base/command-history';
-import CommandHistoryDebounce from 'elementor-document/commands/base/command-history-debounce';
 import ComponentBase from 'elementor-api/modules/component-base';
-import * as errors from 'elementor-api/modules/errors';
 
 jQuery( () => {
 	QUnit.module( 'File: core/common/assets/js/api/modules/command-data.js', () => {
@@ -24,6 +22,7 @@ jQuery( () => {
 						}
 					} ),
 					args = {
+						__manualConstructorHandling: true,
 						options: {
 							type: 'get',
 						},
@@ -32,7 +31,7 @@ jQuery( () => {
 					commandFull = component.getNamespace() + '/test-command';
 
 				command.component = component;
-				command.currentCommand = commandFull;
+				command.command = commandFull;
 
 				const requestData = command.getRequestData();
 
@@ -45,44 +44,19 @@ jQuery( () => {
 				assert.equal( requestData.type, 'get' );
 			} );
 
-			// TODO: Same with all instanceOf validations, each file handle his own tests.
 			QUnit.test( 'instanceOf(): validation', ( assert ) => {
 				const validateCommandData = ( command ) => {
+					assert.equal( command instanceof CommandInfra, true, );
 					assert.equal( command instanceof CommandBase, true, );
 					assert.equal( command instanceof CommandInternalBase, false );
 					assert.equal( command instanceof CommandData, true, );
-					assert.equal( command instanceof CommandHistory, false );
-					assert.equal( command instanceof CommandHistoryDebounce, false );
 					assert.equal( command instanceof $e.modules.CommandBase, true );
 					assert.equal( command instanceof $e.modules.CommandInternalBase, false );
 					assert.equal( command instanceof $e.modules.CommandData, true );
-					assert.equal( command instanceof $e.modules.document.CommandHistory, false );
-					assert.equal( command instanceof $e.modules.document.CommandHistoryDebounce, false );
 				};
 
-				validateCommandData( new CommandData( {} ) );
-				validateCommandData( new $e.modules.CommandData( {} ) );
-			} );
-
-			QUnit.test( 'onCatchApply(): make sure it transform the error to our semantic errors', ( assert ) => {
-				const notFoundCalled = assert.async();
-				const defaultCalled = assert.async();
-
-				const commandData = new CommandData( {} );
-
-				// Mock the notify functions.
-				errors.NotFoundError.prototype.notify = () => {
-					assert.ok( true, 'NotFoundError notify has been called.' );
-					notFoundCalled();
-				};
-
-				errors.DefaultError.prototype.notify = () => {
-					assert.ok( true, 'DefaultError notify has not been called.' );
-					defaultCalled();
-				};
-
-				commandData.onCatchApply( { data: { status: 404 } } );
-				commandData.onCatchApply( {} );
+				validateCommandData( new CommandData( { __manualConstructorHandling: true } ) );
+				validateCommandData( new $e.modules.CommandData( { __manualConstructorHandling: true } ) );
 			} );
 		} );
 	} );

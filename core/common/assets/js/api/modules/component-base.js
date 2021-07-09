@@ -1,3 +1,6 @@
+import CommandBase from 'elementor-api/modules/command-base';
+import CommandCallback from 'elementor-api/modules/command-callback';
+
 export default class ComponentBase extends elementorModules.Module {
 	__construct( args = {} ) {
 		if ( args.manager ) {
@@ -103,8 +106,33 @@ export default class ComponentBase extends elementorModules.Module {
 		return this.data;
 	}
 
-	registerCommand( command, callback ) {
-		$e.commands.register( this, command, callback );
+	/**
+	 * @param {string} command
+	 * @param {(function()|typeof CommandInfra)} context
+	 * @param commandsAPI
+	 */
+	registerCommand( command, context, commandsAPI = $e.commands ) {
+		const fullCommand = this.getNamespace() + '/' + command,
+			instanceType = context.getInstanceType ? context.getInstanceType() : false,
+			registerConfig = {
+				command: fullCommand,
+				component: this,
+			};
+
+		// Support pure callback.
+		if ( ! instanceType ) {
+			if ( $e.devTools ) {
+				$e.devTools.log.warn( `Attach command-callback, on command: '${ fullCommand }', context is unknown type.` );
+			}
+
+			registerConfig.callback = context;
+
+			context = CommandCallback;
+		}
+
+		context.setRegisterConfig( registerConfig );
+
+		commandsAPI.register( this, command, context );
 	}
 
 	/**
@@ -114,16 +142,16 @@ export default class ComponentBase extends elementorModules.Module {
 		return instance.register();
 	}
 
-	registerCommandInternal( command, callback ) {
-		$e.commandsInternal.register( this, command, callback );
+	registerCommandInternal( command, context ) {
+		this.registerCommand( command, context, $e.commandsInternal );
 	}
 
 	registerRoute( route, callback ) {
 		$e.routes.register( this, route, callback );
 	}
 
-	registerData( command, callback ) {
-		$e.data.register( this, command, callback );
+	registerData( command, context ) {
+		this.registerCommand( command, context, $e.data );
 	}
 
 	unregisterRoute( route ) {
@@ -264,17 +292,17 @@ export default class ComponentBase extends elementorModules.Module {
 		return commandName.replace( /[A-Z]/g, ( match, offset ) => ( offset > 0 ? '-' : '' ) + match.toLowerCase() );
 	}
 
+	/**
+	 * @param {Object.<string, CommandBase>} commandsFromImport
+	 * @returns {{}} imported commands
+	 */
 	importCommands( commandsFromImport ) {
 		const commands = {};
 
 		// Convert `Commands` to `ComponentBase` workable format.
 		Object.entries( commandsFromImport ).forEach( ( [ className, Class ] ) => {
 			const command = this.normalizeCommandName( className );
-			commands[ command ] = ( args ) => ( new Class( args ) ).run();
-
-			// TODO: Temporary code, remove after merge with 'require-commands-base' branch.
-			// should not return callback, but Class or Instance without run ( gain performance ).
-			$e.commands.classes[ this.getNamespace() + '/' + command ] = Class;
+			commands[ command ] = Class;
 		} );
 
 		return commands;

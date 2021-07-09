@@ -1,13 +1,11 @@
-import CommandBase from 'elementor-api/modules/command-base';
+import CommandDataChangeBase from './command-data-change-base';
 
-export default class CommandHistory extends CommandBase {
+export default class CommandHistoryBase extends CommandDataChangeBase {
 	static getInstanceType() {
-		return 'CommandHistory';
+		return 'CommandHistoryBase';
 	}
 
-	constructor( args ) {
-		super( args );
-
+	initialize( args = {} ) {
 		/**
 		 * Get History from child command.
 		 *
@@ -62,11 +60,16 @@ export default class CommandHistory extends CommandBase {
 	}
 
 	onCatchApply( e ) {
-		super.onCatchApply( e );
-
 		// Rollback history on failure.
 		if ( e instanceof $e.modules.HookBreak && this.historyId ) {
 			$e.internal( 'document/history/delete-log', { id: this.historyId } );
 		}
+
+		super.onCatchApply( e );
+	}
+
+	isDataChanged() {
+		// All the commands who use history are commands that changing the data.
+		return true;
 	}
 }

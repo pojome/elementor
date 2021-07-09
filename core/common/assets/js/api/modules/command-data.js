@@ -88,8 +88,8 @@ export default class CommandData extends CommandBase {
 			args: this.args,
 			timestamp: new Date().getTime(),
 			component: this.component,
-			command: this.currentCommand,
-			endpoint: $e.data.commandToEndpoint( this.currentCommand, elementorCommon.helpers.cloneObject( this.args ), this.constructor.getEndpointFormat() ),
+			command: this.command,
+			endpoint: $e.data.commandToEndpoint( this.command, elementorCommon.helpers.cloneObject( this.args ), this.constructor.getEndpointFormat() ),
 		};
 	}
 

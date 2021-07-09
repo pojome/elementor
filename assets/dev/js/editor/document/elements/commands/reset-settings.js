@@ -1,6 +1,6 @@
-import CommandHistory from '../../commands/base/command-history';
+import CommandHistoryBase from '../../command-bases/command-history-base';
 
-export class ResetSettings extends CommandHistory {
+export class ResetSettings extends CommandHistoryBase {
 	validateArgs( args ) {
 		this.requireContainer( args );
 	}

@@ -1,6 +1,7 @@
 import DocumentHelper from '../helper';
-import ElementsHelper from './helper';
 import HistoryHelper from '../history/helper';
+import ElementsHelper from './helper';
+
 import * as commands from './commands/index.spec.js';
 
 QUnit.module( 'Component: document/elements', ( hooks ) => {

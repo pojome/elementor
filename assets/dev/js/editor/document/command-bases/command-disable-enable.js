@@ -1,7 +1,11 @@
-import CommandHistory from './command-history';
+import CommandHistoryBase from './command-history-base';
 import ElementsSettings from 'elementor-document/elements/commands/settings';
 
-export default class CommandDisableEnable extends CommandHistory {
+export default class CommandDisableEnable extends CommandHistoryBase {
+	static getName() {
+		elementorModules.ForceMethodImplementation();
+	}
+
 	/**
 	 * @returns {string}
 	 */
@@ -39,18 +43,16 @@ export default class CommandDisableEnable extends CommandHistory {
 	}
 
 	initialize( args ) {
-		super.initialize( args );
 		/**
 		 * Which command is running.
 		 *
 		 * @type {string}
 		 */
-		this.type = this.currentCommand === this.constructor.getEnableCommand() ?
+		this.type = this.command === this.constructor.getEnableCommand() ?
 			'enable' : 'disable';
-	}
 
-	getTitle() {
-		elementorModules.ForceMethodImplementation();
+		// Override default logic, since getHistory() depends on `this.type`.
+		super.initialize( args );
 	}
 
 	validateArgs( args ) {
@@ -73,7 +75,7 @@ export default class CommandDisableEnable extends CommandHistory {
 			changes[ id ] = settings;
 		} );
 
-		const subTitle = this.getTitle() + ' ' + ElementsSettings.getSubTitle( args ),
+		const subTitle = elementor.translate( this.constructor.getName() ) + ' ' + ElementsSettings.getSubTitle( args ),
 			type = this.type;
 
 		return {
@@ -81,14 +83,10 @@ export default class CommandDisableEnable extends CommandHistory {
 			subTitle,
 			data: {
 				changes,
-				command: this.currentCommand,
+				command: this.command,
 			},
 			type,
 			restore: this.constructor.restore,
 		};
-	}
-
-	isDataChanged() {
-		return true;
 	}
 }

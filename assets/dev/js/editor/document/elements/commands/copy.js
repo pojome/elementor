@@ -1,6 +1,6 @@
-import CommandBase from 'elementor-api/modules/command-base';
+import CommandEditorBase from 'elementor-editor/command-bases/command-editor-base';
 
-export class Copy extends CommandBase {
+export class Copy extends CommandEditorBase {
 	validateArgs( args ) {
 		this.requireContainer( args );
 	}

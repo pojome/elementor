@@ -199,7 +199,7 @@ module.exports = {
 	fetchFa4ToFa5Mapping() {
 		const storageKey = 'fa4Tofa5Mapping';
 		let mapping = elementorCommon.storage.get( storageKey );
-		if ( ! mapping ) {
+		if ( ! elementorCommonConfig.isTesting && ! mapping ) {
 			jQuery.getJSON( elementor.config.fa4_to_fa5_mapping_url, ( data ) => {
 				mapping = data;
 				elementorCommon.storage.set( storageKey, data );

@@ -8,10 +8,7 @@ export default class EditorBootstrap {
 	}
 
 	initialize() {
-		// Since JS API catch errors that occurs while running commands, the tests should expect it.
-		console.error = ( ... args ) => {
-			throw new Error( args );
-		};
+		this.initializeTestUtils();
 
 		const EditorTest = require( './test' ).default,
 			ajax = require( '../mock/ajax' ),
@@ -45,6 +42,34 @@ export default class EditorBootstrap {
 		elementor.start();
 
 		elementor.$preview.trigger( 'load' );
+	}
+
+	initializeTestUtils() {
+		// Since JS API catch errors that occurs while running commands, the tests should expect it.
+		const exceptCatchApply = [];
+		const catchApplyOrig = $e.commands.catchApply;
+
+		if ( ! $e.tests ) {
+			$e.tests = {};
+		}
+
+		$e.tests.commands = {
+			exceptCatchApply: ( callback, count = 1 ) => {
+				for ( let i = 0; i < count; ++i ) {
+					exceptCatchApply.push( ( e, instance ) => callback( e, instance ) );
+				}
+			},
+		};
+
+		$e.commands.catchApply = ( e, instance ) => {
+			catchApplyOrig( e, instance );
+
+			if ( exceptCatchApply.length ) {
+				exceptCatchApply.pop()( e, instance );
+			} else {
+				throw new Error( e );
+			}
+		};
 	}
 
 	runTests() {

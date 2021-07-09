@@ -503,7 +503,7 @@ export default class Data extends Commands {
 		super.register( component, command, callback );
 
 		const fullCommandName = component.getNamespace() + '/' + command,
-			commandInstance = $e.commands.getCommandClass( fullCommandName ),
+			commandInstance = $e.data.getCommandClass( fullCommandName ),
 			format = commandInstance?.getEndpointFormat ? commandInstance.getEndpointFormat() : false;
 
 		if ( format ) {
