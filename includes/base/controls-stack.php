@@ -2035,7 +2035,11 @@ abstract class Controls_Stack extends Base_Object {
 	 *
 	 * @return array Sanitized settings.
 	 */
-	private function sanitize_settings( array $settings, array $controls = [] ) {
+	private function sanitize_settings( array $settings = null, array $controls = [] ) {
+		if ( is_null( $settings ) ) {
+			$settings = [];
+		}
+
 		if ( ! $controls ) {
 			$controls = $this->get_controls();
 		}
