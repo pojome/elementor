@@ -22,7 +22,7 @@ The components are extensible so a 3rd party plugin can add some routes, command
 	| `$e.components.isActive()`   | `{String}` *namespace*         | `{Boolean}` *isActive*                        | Is component active.
      > **Note:** to see all the components please. please visit [`{$e.commands.getAll()}`](commands-methods/getall.md)**method**
 
-* **Examples**:
+* ## **Examples**:
     ```javascript
      // Example of creating and registering a new component, available to run in the console and does not depend on anything else.
      class CustomComponent extends $e.modules.ComponentBase {
