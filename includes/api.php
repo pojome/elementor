@@ -70,7 +70,7 @@ class Api {
 
 		$info_data = get_transient( $cache_key );
 
-		if ( $force_update || false === $info_data ) {
+		if ( $force_update || empty( $info_data ) ) {
 			$timeout = ( $force_update ) ? 25 : 8;
 
 			$response = wp_remote_get( self::$api_info_url, [
