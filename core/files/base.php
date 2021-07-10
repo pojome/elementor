@@ -301,4 +301,12 @@ abstract class Base {
 
 		$this->path = $dir_path . $this->file_name;
 	}
+
+	/**
+	 * @since 2.9.14
+	 * @access public
+	 */
+	public function get_path() {
+		return $this->path;
+	}
 }
