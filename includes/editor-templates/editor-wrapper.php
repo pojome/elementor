@@ -37,18 +37,8 @@ $notice = Plugin::$instance->editor->notice_bar->get_notice();
 <div id="elementor-editor-wrapper">
 	<div id="elementor-panel" class="elementor-panel"></div>
 	<div id="elementor-preview">
-		<div id="elementor-loading">
-			<div class="elementor-loader-wrapper">
-				<div class="elementor-loader">
-					<div class="elementor-loader-boxes">
-						<div class="elementor-loader-box"></div>
-						<div class="elementor-loader-box"></div>
-						<div class="elementor-loader-box"></div>
-						<div class="elementor-loader-box"></div>
-					</div>
-				</div>
-				<div class="elementor-loading-title"><?php echo __( 'Loading', 'elementor' ); ?></div>
-			</div>
+		<div id="elementor-loading" class="e-loader" data-text="<?php echo __( 'Loading', 'elementor' ); ?>">
+			<div></div>
 		</div>
 		<div id="elementor-responsive-bar"></div>
 		<div id="elementor-preview-responsive-wrapper" class="elementor-device-desktop elementor-device-rotate-portrait">

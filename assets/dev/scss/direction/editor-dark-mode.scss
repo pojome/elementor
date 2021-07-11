@@ -156,6 +156,12 @@ body {
 	background-color: $theme-dark-gray;
 }
 
+.e-loader {
+	--background-color: #{$theme-dark-gray-darkest};
+	--circle-color: #{$theme-dark-gray};
+	--text-color: #{$editor-light};
+}
+
 //Safemode Toast
 .elementor-safe-mode-toast {
 	background-color: $theme-dark-gray;

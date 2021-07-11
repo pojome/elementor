@@ -1,7 +1,7 @@
 
 // Loading Editor screen
 
-#elementor-loading {
+#elementor-loading:not( .e-loader ) {
 	position: fixed;
 	top: 0;
 	left: 0;

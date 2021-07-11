@@ -70,3 +70,137 @@
 	font-size: 10px;
 	width: 100%;
 }
+
+// Optimized DOM loader.
+.e-loader {
+	// Settings.
+	--circle-size: 150px;
+	--letter-size: 70px;
+	--gap: 30px;
+	--animation-time: 1.8s;
+
+	// Colors.
+	--background-color: #{$editor-background-light};
+	--circle-color: rgba( 255, 255, 255, 0.9 );
+	--circle-shadow: rgba( 0, 0, 0, 0.02 );
+	--letter-color: #{$editor-lightest-rgb}; /* Has to be RGB values */
+	--text-color: #{$editor-light};
+
+	// Calculations.
+	--offset: calc( .5 * var( --gap ) );
+	--radius: calc( var( --circle-size ) / 2 );
+	--line-height: calc( 0.2 * var( --letter-size ) );
+	--line-width: calc( 0.6 * var( --letter-size ) );
+
+	background:
+		// Circle.
+		radial-gradient( circle var( --radius ) at 50% calc( 50% - var( --offset ) ),
+			var( --circle-color ) 100%,
+			transparent 101%
+		),
+
+		// Shadow.
+		radial-gradient( circle var( --radius ) at calc( 50% + 2px ) calc( 50% - var( --offset ) + 2px ),
+			var( --circle-shadow ) 95%,
+			transparent 105%
+		);
+
+	background-repeat: no-repeat;
+	background-color: var( --background-color );
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: $editor-layer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+// For editor screen.
+.e-loader#elementor-loading {
+	position: fixed;
+}
+
+// Vertical line.
+.e-loader::before {
+	content: '';
+	display: block;
+	height: var( --letter-size );
+	width: var( --line-height );
+	background: rgba( var( --letter-color ), 1 );
+	position: absolute;
+	left: 50%;
+	top: calc( 50% - var( --offset ) );
+	transform: translateY( -50% );
+	margin-left: calc( -.5 * var( --letter-size ) );
+}
+
+// Loading text.
+.e-loader::after {
+	$spacing: 7px;
+
+	content: attr( data-text );
+	display: block;
+	position: absolute;
+	top: calc( 50% + var( --radius ) + var( --offset ) );
+	color: var( --text-color );
+	text-transform: uppercase;
+	letter-spacing: $spacing;
+	text-indent: $spacing;
+	font-size: 10px;
+}
+
+.e-loader::before,
+.e-loader > div,
+.e-loader > div::before,
+.e-loader > div::after {
+	animation: loading-bar var( --animation-time ) linear infinite;
+}
+
+// Horizontal lines.
+.e-loader > div,
+.e-loader > div::before,
+.e-loader > div::after {
+	--animation-delay: calc( var( --animation-time ) / -4 );
+
+	content: '';
+	display: block;
+	position: absolute;
+	height: var( --line-height );
+	width: var( --line-width );
+	background: rgba( var( --letter-color ), 1 );
+	left: 50%;
+	top: 50%;
+	transform: translate( -50%, -50% );
+}
+
+// Center Line.
+.e-loader > div {
+	top: calc( 50% - var( --offset ) );
+	animation-delay: calc( var( --animation-delay ) * 2 );
+	margin-left: calc( .5 * var( --letter-size ) - .5 * var( --line-width ) );
+}
+
+// Top line.
+.e-loader > div::before {
+	animation-delay: var( --animation-delay );
+	margin-top: calc( -.4 * var( --letter-size ) );
+}
+
+// Bottom line.
+.e-loader > div::after {
+	animation-delay: calc( var( --animation-delay ) * 3 );
+	margin-top: calc( .4 * var( --letter-size ) );
+}
+
+@keyframes loading-bar {
+	0%, 100% {
+		background: rgba( var( --letter-color ), .3 );
+	}
+
+	50% {
+		background: rgba( var( --letter-color ), 1 );
+	}
+}
