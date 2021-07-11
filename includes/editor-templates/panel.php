@@ -226,14 +226,7 @@ $document = Plugin::$instance->documents->get( Plugin::$instance->editor->get_po
 		<div class="elementor-control-responsive-switchers__holder">
 		<#
 			const activeBreakpoints = elementor.config.responsive.activeBreakpoints,
-				devicesForDisplay = Object.keys( activeBreakpoints ).reverse();
-
-			// Insert the 'desktop' device in the correct position.
-			if ( -1 !== devicesForDisplay.indexOf( 'widescreen' ) ) {
-				devicesForDisplay.splice( 1, 0, 'desktop' );
-			} else {
-				devicesForDisplay.unshift( 'desktop' );
-			}
+				devicesForDisplay = elementor.breakpoints.getActiveDevicesList( true );
 
 			var devices = responsive.devices || devicesForDisplay;
 

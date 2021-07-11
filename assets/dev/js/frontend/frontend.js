@@ -9,6 +9,7 @@ import URLActions from './utils/url-actions';
 import Swiper from './utils/swiper-bc';
 import LightboxManager from './utils/lightbox/lightbox-manager';
 import AssetsLoader from './utils/assets-loader';
+import Breakpoints from 'elementor-utils/breakpoints';
 
 import Shapes from 'elementor/modules/shapes/assets/js/frontend/frontend';
 
@@ -113,7 +114,7 @@ export default class Frontend extends elementorModules.ViewModule {
 			return this.getWidescreenSetting( settings, settingKey );
 		}
 
-		const devices = Object.keys( this.config.responsive.activeBreakpoints ).reverse();
+		const devices = elementorFrontend.breakpoints.getActiveBreakpointsList( true );
 
 		// Manually add 'desktop' to the devices array to support the 'desktop' value in the deviceMode parameter.
 		devices.unshift( 'desktop' );
@@ -354,6 +355,8 @@ export default class Frontend extends elementorModules.ViewModule {
 
 	init() {
 		this.hooks = new EventManager();
+
+		this.breakpoints = new Breakpoints( this.config.responsive );
 
 		this.storage = new Storage();
 

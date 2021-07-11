@@ -1,4 +1,16 @@
 $screen-sm-max: ELEMENTOR_SCREEN_MOBILE_MAX;
+// mobile-next = mobile max + 1
+$screen-mobile-next: ELEMENTOR_SCREEN_MOBILE_NEXT;
+$screen-mobile-extra-min: ELEMENTOR_SCREEN_MOBILE_EXTRA_MIN;
+$screen-mobile-extra-max: ELEMENTOR_SCREEN_MOBILE_EXTRA_MAX;
 $screen-md-min: ELEMENTOR_SCREEN_TABLET_MIN;
 $screen-md-max: ELEMENTOR_SCREEN_TABLET_MAX;
+// tablet-next = tablet max + 1
+$screen-tablet-next: ELEMENTOR_SCREEN_TABLET_NEXT;
+$screen-tablet-extra-min: ELEMENTOR_SCREEN_TABLET_EXTRA_MIN;
+$screen-tablet-extra-max: ELEMENTOR_SCREEN_TABLET_EXTRA_MAX;
+$screen-laptop-min: ELEMENTOR_SCREEN_LAPTOP_MIN;
+$screen-laptop-max: ELEMENTOR_SCREEN_LAPTOP_MAX;
 $screen-lg-min: ELEMENTOR_SCREEN_DESKTOP_MIN;
+$screen-lg-max: ELEMENTOR_SCREEN_DESKTOP_MAX;
+$screen-widescreen-min: ELEMENTOR_SCREEN_WIDESCREEN_MIN;

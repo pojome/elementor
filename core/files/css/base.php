@@ -5,6 +5,7 @@ use Elementor\Base_Data_Control;
 use Elementor\Control_Repeater;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
+use Elementor\Core\Breakpoints\Manager as Breakpoints_Manager;
 use Elementor\Core\Files\Base as Base_File;
 use Elementor\Core\DynamicTags\Manager;
 use Elementor\Core\DynamicTags\Tag;
@@ -398,7 +399,7 @@ abstract class Base extends Base_File {
 				$pure_device_rules = $pure_device_rules[1];
 
 				foreach ( $pure_device_rules as $device_rule ) {
-					if ( Element_Base::RESPONSIVE_DESKTOP === $device_rule ) {
+					if ( Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP === $device_rule ) {
 						continue;
 					}
 
@@ -415,7 +416,7 @@ abstract class Base extends Base_File {
 			if ( ! $query && ! empty( $control['responsive'] ) ) {
 				$query = array_intersect_key( $control['responsive'], array_flip( [ 'min', 'max' ] ) );
 
-				if ( ! empty( $query['max'] ) && Element_Base::RESPONSIVE_DESKTOP === $query['max'] ) {
+				if ( ! empty( $query['max'] ) && Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP === $query['max'] ) {
 					unset( $query['max'] );
 				}
 			}

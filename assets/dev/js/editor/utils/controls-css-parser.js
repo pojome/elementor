@@ -257,9 +257,8 @@ ControlsCSSParser = elementorModules.ViewModule.extend( {
 
 		// it's a global settings with additional controls in group.
 		if ( control.groupType ) {
-			// Create a regex expression containing all of the active breakpoints' prefixes ('_mobile', '_tablet' etc.)
-			const activeBreakpoints = elementorFrontend.config.responsive.activeBreakpoints,
-				responsivePrefixRegex = new RegExp( Object.keys( activeBreakpoints ).map( ( device ) => '_' + device ).join( '|' ) + '$' );
+			// A regex containing all of the active breakpoints' prefixes ('_mobile', '_tablet' etc.).
+			const responsivePrefixRegex = elementor.breakpoints.getActiveMatchRegex();
 
 			let propertyName = control.name.replace( control.groupPrefix, '' ).replace( responsivePrefixRegex, '' );
 

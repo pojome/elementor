@@ -5,13 +5,13 @@
 		}
 	}
 
-	@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+	@media (min-width: $screen-mobile-next) and (max-width: $screen-md-max) {
 		.elementor-hidden-tablet {
 			display: none;
 		}
 	}
 
-	@media (min-width: $screen-lg-min) {
+	@media (min-width: $screen-tablet-next) {
 		.elementor-hidden-desktop {
 			display: none;
 		}

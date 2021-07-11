@@ -1,6 +1,8 @@
 <?php
 namespace Elementor;
 
+use Elementor\Core\Breakpoints\Manager as Breakpoints_Manager;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -132,18 +134,18 @@ class Element_Column extends Element_Base {
 				'max' => 98,
 				'required' => true,
 				'device_args' => [
-					Controls_Stack::RESPONSIVE_TABLET => [
+					Breakpoints_Manager::BREAKPOINT_KEY_TABLET => [
 						'max' => 100,
 						'required' => false,
 					],
-					Controls_Stack::RESPONSIVE_MOBILE => [
+					Breakpoints_Manager::BREAKPOINT_KEY_MOBILE => [
 						'max' => 100,
 						'required' => false,
 					],
 				],
 				'min_affected_device' => [
-					Controls_Stack::RESPONSIVE_DESKTOP => Controls_Stack::RESPONSIVE_TABLET,
-					Controls_Stack::RESPONSIVE_TABLET => Controls_Stack::RESPONSIVE_TABLET,
+					Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP => Breakpoints_Manager::BREAKPOINT_KEY_TABLET,
+					Breakpoints_Manager::BREAKPOINT_KEY_TABLET => Breakpoints_Manager::BREAKPOINT_KEY_TABLET,
 				],
 				'selectors' => [
 					'{{WRAPPER}}' => 'width: {{VALUE}}%',

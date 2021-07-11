@@ -1,6 +1,7 @@
 <?php
 namespace Elementor;
 
+use Elementor\Core\Breakpoints\Manager as Breakpoints_Manager;
 use Elementor\Modules\DynamicTags\Module as TagsModule;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -335,7 +336,7 @@ class Group_Control_Background extends Group_Control_Base {
 			],
 			'required' => true,
 			'device_args' => [
-				Controls_Stack::RESPONSIVE_TABLET => [
+				Breakpoints_Manager::BREAKPOINT_KEY_TABLET => [
 					'selectors' => [
 						'{{SELECTOR}}' => 'background-position: {{SIZE}}{{UNIT}} {{ypos_tablet.SIZE}}{{ypos_tablet.UNIT}}',
 					],
@@ -344,7 +345,7 @@ class Group_Control_Background extends Group_Control_Base {
 						'position_tablet' => [ 'initial' ],
 					],
 				],
-				Controls_Stack::RESPONSIVE_MOBILE => [
+				Breakpoints_Manager::BREAKPOINT_KEY_MOBILE => [
 					'selectors' => [
 						'{{SELECTOR}}' => 'background-position: {{SIZE}}{{UNIT}} {{ypos_mobile.SIZE}}{{ypos_mobile.UNIT}}',
 					],
@@ -401,7 +402,7 @@ class Group_Control_Background extends Group_Control_Base {
 			],
 			'required' => true,
 			'device_args' => [
-				Controls_Stack::RESPONSIVE_TABLET => [
+				Breakpoints_Manager::BREAKPOINT_KEY_TABLET => [
 					'selectors' => [
 						'{{SELECTOR}}' => 'background-position: {{xpos_tablet.SIZE}}{{xpos_tablet.UNIT}} {{SIZE}}{{UNIT}}',
 					],
@@ -410,7 +411,7 @@ class Group_Control_Background extends Group_Control_Base {
 						'position_tablet' => [ 'initial' ],
 					],
 				],
-				Controls_Stack::RESPONSIVE_MOBILE => [
+				Breakpoints_Manager::BREAKPOINT_KEY_MOBILE => [
 					'selectors' => [
 						'{{SELECTOR}}' => 'background-position: {{xpos_mobile.SIZE}}{{xpos_mobile.UNIT}} {{SIZE}}{{UNIT}}',
 					],
@@ -528,7 +529,7 @@ class Group_Control_Background extends Group_Control_Base {
 				'image[url]!' => '',
 			],
 			'device_args' => [
-				Controls_Stack::RESPONSIVE_TABLET => [
+				Breakpoints_Manager::BREAKPOINT_KEY_TABLET => [
 					'selectors' => [
 						'{{SELECTOR}}' => 'background-size: {{SIZE}}{{UNIT}} auto',
 					],
@@ -537,7 +538,7 @@ class Group_Control_Background extends Group_Control_Base {
 						'size_tablet' => [ 'initial' ],
 					],
 				],
-				Controls_Stack::RESPONSIVE_MOBILE => [
+				Breakpoints_Manager::BREAKPOINT_KEY_MOBILE => [
 					'selectors' => [
 						'{{SELECTOR}}' => 'background-size: {{SIZE}}{{UNIT}} auto',
 					],

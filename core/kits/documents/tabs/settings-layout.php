@@ -269,6 +269,11 @@ class Settings_Layout extends Tab_Base {
 		$default_breakpoints_config = Breakpoints_Manager::get_default_config();
 		$prefix = Breakpoints_Manager::BREAKPOINT_SETTING_PREFIX;
 
+		// If the ACB experiment is inactive, only add the mobile and tablet controls.
+		if ( ! Plugin::$instance->experiments->is_feature_active( 'additional_custom_breakpoints' ) ) {
+			$default_breakpoints_config = array_intersect_key( $default_breakpoints_config, array_flip( [ Breakpoints_Manager::BREAKPOINT_KEY_MOBILE, Breakpoints_Manager::BREAKPOINT_KEY_TABLET ] ) );
+		}
+
 		// Add a control for each of the **default** breakpoints.
 		foreach ( $default_breakpoints_config as $breakpoint_key => $default_breakpoint_config ) {
 			$this->add_control(

@@ -43,13 +43,3 @@
 		display: none; //TEMP
 	}
 }
-
-// Muted elements in the editor
-[data-elementor-device-mode="desktop"] .elementor-edit-area-active .elementor-hidden-desktop,
-[data-elementor-device-mode="tablet"] .elementor-edit-area-active .elementor-hidden-tablet,
-[data-elementor-device-mode="mobile"] .elementor-edit-area-active .elementor-hidden-phone {
-
-	> .elementor-widget-container, > .elementor-column-wrap {
-		filter: alpha(0.4) saturate(0);
-	}
-}

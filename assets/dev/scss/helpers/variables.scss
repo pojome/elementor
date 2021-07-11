@@ -220,9 +220,13 @@ $panel-xl-width: 300px;
 $breakpoints: (
 		sm: 480px, // Mobile landscape
 		md: 768px, // Tablet
+		mobile-extra: 880px,
 		lg: 1025px, // Desktop
+		tablet-extra: 1200px,
+		laptop: 1366,
 		xl: 1440px, // Larger devices
-		xxl: 1600px // Largest devices
+		xxl: 1600px, // Largest devices
+		widescreen: 2400px
 );
 
 $devices: 'widescreen', 'desktop', 'laptop', 'tablet_extra', 'tablet', 'mobile_extra', 'mobile';
