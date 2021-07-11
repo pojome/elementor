@@ -11,6 +11,7 @@ class Post extends PageBase {
 		$properties = parent::get_properties();
 
 		$properties['support_kit'] = true;
+		$properties['cpt'] = [ 'post' ];
 
 		return $properties;
 	}
