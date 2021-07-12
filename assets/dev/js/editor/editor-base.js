@@ -954,7 +954,9 @@ export default class EditorBase extends Marionette.Application {
 				exclude: excludeWidgets,
 			},
 			success: ( data ) => {
-				this.addWidgetsCache( data );
+				this.addWidgetsCache(
+					elementor.hooks.applyFilters( 'editor/widgets-cache', data )
+				);
 
 				if ( this.loaded ) {
 					this.kitManager.renderGlobalsDefaultCSS();
@@ -994,32 +996,35 @@ export default class EditorBase extends Marionette.Application {
 		if ( ! this.checkEnvCompatibility() ) {
 			this.onEnvNotCompatible();
 		}
+		Promise.all(
+			elementor.hooks.applyFilters( 'editor/before-on-start', [] ).map( ( callback ) => callback() )
+		).then( () => {
+			this.initPreview();
 
-		this.initPreview();
+			this.requestWidgetsConfig();
 
-		this.requestWidgetsConfig();
+			this.channels.dataEditMode.reply( 'activeMode', 'edit' );
 
-		this.channels.dataEditMode.reply( 'activeMode', 'edit' );
+			this.listenTo( this.channels.dataEditMode, 'switch', this.onEditModeSwitched );
 
-		this.listenTo( this.channels.dataEditMode, 'switch', this.onEditModeSwitched );
+			this.listenTo( elementor.channels.deviceMode, 'change', this.updatePreviewResizeOptions );
 
-		this.listenTo( elementor.channels.deviceMode, 'change', this.updatePreviewResizeOptions );
+			this.initClearPageDialog();
 
-		this.initClearPageDialog();
+			this.addBackgroundClickArea( document );
 
-		this.addBackgroundClickArea( document );
+			this.addDeprecatedConfigProperties();
 
-		this.addDeprecatedConfigProperties();
+			elementorCommon.elements.$window.trigger( 'elementor:loaded' );
 
-		elementorCommon.elements.$window.trigger( 'elementor:loaded' );
+			return $e.run( 'editor/documents/open', { id: this.config.initial_document.id } );
+		} ).then( () => {
+			elementorCommon.elements.$window.trigger( 'elementor:init' );
 
-		$e.run( 'editor/documents/open', { id: this.config.initial_document.id } )
-			.then( () => {
-				elementorCommon.elements.$window.trigger( 'elementor:init' );
-				this.initNavigator();
-			} );
+			this.initNavigator();
 
-		this.logSite();
+			this.logSite();
+		} );
 	}
 
 	onPreviewLoaded() {

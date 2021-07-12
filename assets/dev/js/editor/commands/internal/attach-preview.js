@@ -22,7 +22,7 @@ export class AttachPreview extends CommandInternalBaseBase {
 				return $e.internal( 'panel/open-default', {
 					refresh: true,
 				} );
-		} );
+			} );
 	}
 
 	attachDocumentToPreview( document ) {

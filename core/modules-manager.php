@@ -93,6 +93,7 @@ class Modules_Manager {
 			'elements-color-picker',
 			'shapes',
 			'admin-top-bar',
+			'default-values',
 		];
 	}
 

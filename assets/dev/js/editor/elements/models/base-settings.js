@@ -62,7 +62,7 @@ BaseSettingsModel = Backbone.Model.extend( {
 			}
 
 			if ( undefined === attrs[ controlName ] ) {
-				attrs[ controlName ] = defaults[ controlName ];
+				attrs[ controlName ] = elementor.hooks.applyFilters( 'editor/controls/base/default-value', defaults[ controlName ], control, self );
 			}
 		} );
 
@@ -358,7 +358,7 @@ BaseSettingsModel = Backbone.Model.extend( {
 		return settings;
 	},
 
-	removeDataDefaults( data, controls ) {
+	removeDataDefaults( data, controls, onlyHardCodedDefaults = false ) {
 		jQuery.each( data, ( key ) => {
 			const control = controls[ key ];
 
@@ -379,7 +379,11 @@ BaseSettingsModel = Backbone.Model.extend( {
 				return;
 			}
 
-			if ( _.isEqual( data[ key ], control.default ) ) {
+			const defaultValue = onlyHardCodedDefaults ?
+				control.default :
+				elementor.hooks.applyFilters( 'editor/controls/base/default-value', control.default, control, this );
+
+			if ( _.isEqual( data[ key ], defaultValue ) ) {
 				delete data[ key ];
 			}
 		} );
@@ -402,6 +406,10 @@ BaseSettingsModel = Backbone.Model.extend( {
 
 		if ( options.remove && -1 !== options.remove.indexOf( 'default' ) ) {
 			this.removeDataDefaults( data, this.controls );
+		}
+
+		if ( options.remove && -1 !== options.remove.indexOf( 'hard-coded-default' ) ) {
+			this.removeDataDefaults( data, this.controls, true );
 		}
 
 		return elementorCommon.helpers.cloneObject( data );
