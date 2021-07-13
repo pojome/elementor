@@ -23,6 +23,8 @@ SVN_PATH="$GITHUB_WORKSPACE/svn"
 
 cd $ELEMENTOR_PATH
 mkdir -p $SVN_PATH
+
+echo "Change readme.txt file in trunk"
 cd $SVN_PATH
 svn co https://plugins.svn.wordpress.org/elementor/trunk
 
@@ -31,9 +33,18 @@ cd $SVN_PATH/trunk
 cp $ELEMENTOR_PATH/readme.txt .
 svn status
 
-echo "Commit readme file to trunk"
+echo "Commit readme.txt file to trunk"
 svn ci readme.txt -m "Upload v${PLUGIN_VERSION}" --no-auth-cache --non-interactive  --username "$SVN_USERNAME" --password "$SVN_PASSWORD"
 
-echo "Copy files from trunk to tag ${PLUGIN_VERSION}"
-svn cp https://plugins.svn.wordpress.org/elementor/trunk https://plugins.svn.wordpress.org/elementor/tags/${PLUGIN_VERSION} --message "Tagged ${PLUGIN_VERSION}" --no-auth-cache --non-interactive  --username "$SVN_USERNAME" --password "$SVN_PASSWORD"
-svn update
+echo "Change readme.txt file in ${PLUGIN_VERSION}"
+cd $SVN_PATH
+svn co https://plugins.svn.wordpress.org/elementor/tags/${PLUGIN_VERSION}
+
+echo "Preparing files"
+cd $SVN_PATH/${PLUGIN_VERSION}
+cp $ELEMENTOR_PATH/readme.txt .
+svn status
+
+echo "Commit readme.txt file to ${PLUGIN_VERSION}"
+svn ci readme.txt -m "Upload v${PLUGIN_VERSION}" --no-auth-cache --non-interactive  --username "$SVN_USERNAME" --password "$SVN_PASSWORD"
+
