@@ -1155,7 +1155,7 @@ abstract class Controls_Stack extends Base_Object {
 
 				$dynamic_property = ! empty( $dynamic_settings['property'] ) ? $dynamic_settings['property'] : null;
 
-				if ( $dynamic_property ) {
+				if ( $dynamic_property && isset( $settings[ $control_name ][ $dynamic_property ] ) ) {
 					$settings[ $control_name ][ $dynamic_property ] = $parsed_value;
 				} else {
 					$settings[ $control_name ] = $parsed_value;
