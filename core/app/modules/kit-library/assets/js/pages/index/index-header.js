@@ -29,7 +29,7 @@ export default function IndexHeader( props ) {
 			text: __( 'Import', 'elementor-pro' ),
 			hideText: true,
 			icon: 'eicon-upload-circle-o',
-			onClick: () => navigate( '/import' ),
+			onClick: () => navigate( '/import?referrer=kit-library' ),
 		},
 	], [ props.isFetching, props.refetch ] );
 

@@ -1,5 +1,27 @@
-.e-app-import {
+$e-app-import-back-to-library-color: tints(500);
+$e-app-import-back-to-library-dark-color: dark-tints(200);
+
+$root: e-app-import;
+
+.#{$root} {
+	--e-app-import-back-to-library-color: #{$e-app-import-back-to-library-color};
+
 	&__drop-zone {
 		margin-top: spacing(20);
+	}
+
+	&__back-to-library {
+		color: var(--e-app-import-back-to-library-color);
+		margin-bottom: spacing(24);
+
+		> i {
+			margin-inline-end: spacing(8);
+		}
+	}
+}
+
+.eps-theme-dark {
+	.#{$root} {
+		--e-app-import-back-to-library-color: #{$e-app-import-back-to-library-dark-color};
 	}
 }
