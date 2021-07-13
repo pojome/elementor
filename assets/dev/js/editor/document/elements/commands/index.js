@@ -5,6 +5,7 @@ export { Copy } from './copy';
 export { CopyAll } from './copy-all';
 export { Create } from './create';
 export { Delete } from './delete';
+export { BrowserImport } from './browser-import';
 export { Duplicate } from './duplicate';
 export { Empty } from './empty';
 export { Import } from './import';

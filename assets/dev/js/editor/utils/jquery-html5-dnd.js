@@ -1,6 +1,8 @@
 /**
  * HTML5 - Drag and Drop
  */
+import BrowserImportManager from './browser-import/manager';
+
 ( function( $ ) {
 	var hasFullDataTransferSupport = function( event ) {
 		try {
@@ -89,7 +91,10 @@
 			elementsCache = {},
 			currentElement,
 			currentSide,
+			browserImport,
+			isDroppingAllowedState = false,
 			defaultSettings = {
+				view: null,
 				element: '',
 				items: '>',
 				horizontalSensitivity: '10%',
@@ -199,6 +204,10 @@
 				isGroupMatch,
 				droppingAllowed;
 
+			if ( browserImport.isAllowed() ) {
+				return true;
+			}
+
 			if ( settings.groups && hasFullDataTransferSupport( event ) ) {
 				dataTransferTypes = event.originalEvent.dataTransfer.types;
 
@@ -241,7 +250,7 @@
 			return true;
 		};
 
-		var onDragEnter = function( event ) {
+		var onDragEnter = async function( event ) {
 			event.stopPropagation();
 
 			if ( currentElement ) {
@@ -262,7 +271,17 @@
 
 			setSide( event );
 
-			if ( ! isDroppingAllowed( event ) ) {
+			browserImport = await ( new BrowserImportManager() )
+				.import(
+					Array.from( event.originalEvent.dataTransfer.items )
+						.map( ( item ) => {
+							return new File( [], null, { type: item.type } );
+						} )
+				);
+
+			isDroppingAllowedState = isDroppingAllowed( event );
+
+			if ( ! isDroppingAllowedState ) {
 				return;
 			}
 
@@ -288,7 +307,7 @@
 
 			setSide( event );
 
-			if ( ! isDroppingAllowed( event ) ) {
+			if ( ! isDroppingAllowedState ) {
 				return;
 			}
 
@@ -318,19 +337,32 @@
 			$( currentElement ).removeClass( settings.currentElementClass );
 
 			self.doDragLeave();
+
+			isDroppingAllowedState = false;
 		};
 
 		var onDrop = function( event ) {
 			setSide( event );
 
-			if ( ! isDroppingAllowed( event ) ) {
+			if ( ! isDroppingAllowedState ) {
 				return;
 			}
 
 			event.preventDefault();
 
 			if ( 'function' === typeof settings.onDropping ) {
-				settings.onDropping.call( this, currentSide, event, self );
+				if ( browserImport.isAllowed() ) {
+					$e.run( 'document/elements/browser-import', {
+						container: settings.view.getContainer?.() || elementor.getPreviewContainer(),
+						items: event.originalEvent.dataTransfer.files,
+						options: {
+							event,
+							side: currentSide,
+						},
+					} );
+				} else {
+					settings.onDropping.call( this, currentSide, event, self );
+				}
 			}
 		};
 
