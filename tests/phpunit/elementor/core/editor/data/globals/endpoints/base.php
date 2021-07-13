@@ -2,25 +2,18 @@
 
 namespace Elementor\Tests\Phpunit\Elementor\Core\Editor\Data\Globals\Endpoints;
 
-use Elementor\Data\Manager;
-use Elementor\Testing\Elementor_Test_Base;
 use Elementor\Core\Editor\Data;
+use Elementor\Tests\Phpunit\Elementor\Data\V2\Base\Data_Test_Base;
 
-abstract class Base extends Elementor_Test_Base {
-
-	/**
-	 * @var \Elementor\Core\Base\Module|\Elementor\Data\Manager
-	 */
-	protected $manager;
-
+abstract class Base extends Data_Test_Base {
 	public function setUp() {
 		parent::setUp();
 
-		$this->set_manager();
-
 		$this->manager->kill_server();
 
-		$this->manager->register_controller( $this->get_controller_class() );
+		$controller_class = $this->get_controller_class();
+
+		$this->manager->register_controller( new $controller_class );
 
 		wp_set_current_user( $this->factory()->get_administrator_user()->ID);
 	}
@@ -29,22 +22,6 @@ abstract class Base extends Elementor_Test_Base {
 		parent::tearDown();
 
 		$this->manager->kill_server();
-	}
-
-	public function set_manager( $manager = null ) {
-		if ( ! $manager ) {
-			$manager = Manager::instance();
-		}
-
-		$this->manager = $manager;
-	}
-
-	public function get_manager() {
-		if ( ! $this->manager ) {
-			$this->manager = Manager::instance();
-		}
-
-		return $this->manager;
 	}
 
 	public function get_endpoint( $id = null ) {

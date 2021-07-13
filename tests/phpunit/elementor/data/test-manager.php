@@ -1,5 +1,5 @@
 <?php
-namespace Elementor\Tests\Phpunit\Elementor\Core\Data;
+namespace Elementor\Tests\Phpunit\Elementor\Data;
 
 use Elementor\Data\Base\Processor;
 use Elementor\Data\Manager;
@@ -270,10 +270,7 @@ class Test_Manager extends Elementor_Test_Base {
 	public function test_commands_formats() {
 		$this->manager->run_server();
 
-		$this->assertEquals( [
-			'globals/index' => 'globals/index',
-			'globals/colors' => 'globals/colors/{id}',
-			'globals/typography' => 'globals/typography/{id}',
-		], $this->manager->command_formats );
+		// Deprecated.
+		$this->assertEquals( [], $this->manager->command_formats );
 	}
 }

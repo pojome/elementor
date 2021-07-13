@@ -8,6 +8,10 @@ class Colors extends Base {
 		return 'colors';
 	}
 
+	public function get_format() {
+		return 'globals/colors/{id}';
+	}
+
 	protected function get_kit_items() {
 		$result = [];
 		$kit = Plugin::$instance->kits_manager->get_active_kit_for_frontend();

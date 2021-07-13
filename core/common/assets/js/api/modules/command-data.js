@@ -202,10 +202,12 @@ export default class CommandData extends CommandBase {
 	}
 
 	/**
-	 * Called after apply() failed.
-	 *
-	 * @param e
+	 * @param {BaseError} e
 	 */
+	applyAfterCatch( e ) {
+		e.notify();
+	}
+
 	onCatchApply( e ) {
 		// TODO: If the errors that returns from the server is consistent remove the '?' from 'e'
 		const status = e?.data?.status || 0;
@@ -221,6 +223,6 @@ export default class CommandData extends CommandBase {
 
 		this.runCatchHooks( e );
 
-		e.notify();
+		this.applyAfterCatch( e );
 	}
 }

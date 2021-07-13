@@ -3,7 +3,7 @@ namespace Elementor\Tests\Phpunit\Elementor\Data\Base;
 
 use Elementor\Data\Manager;
 use Elementor\Testing\Elementor_Test_Base;
-use \Elementor\Data\Base\Controller as ControllerBase;
+use Elementor\Data\Base\Controller as ControllerBase;
 use Elementor\Tests\Phpunit\Elementor\Data\Base\Mock\Processor\Controller as ControllerWithProcessor;
 use Elementor\Tests\Phpunit\Elementor\Data\Base\Mock\Simple\Controller as ControllerSimple;
 use Elementor\Tests\Phpunit\Elementor\Data\Base\Mock\Template\Controller as ControllerTemplate;
@@ -172,11 +172,6 @@ class Test_Controller extends Elementor_Test_Base {
 	}
 
 	public function test_get_items_recursive_simulated() {
-		/**
-		 * TODO: Create Base Endpoint\Internal
-		 * TODO: Create Base Endpoint\Internal\Index
-		 */
-
 		$controller = $this->manager->register_controller_instance( new Mock\Recursive\Controller );
 		$this->manager->run_server(); // Ensure controller loaded.
 

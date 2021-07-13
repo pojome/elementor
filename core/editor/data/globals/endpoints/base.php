@@ -1,21 +1,21 @@
 <?php
 namespace Elementor\Core\Editor\Data\Globals\Endpoints;
 
-use Elementor\Data\Base\Endpoint;
-use Elementor\Plugin;
 use Elementor\Core\Utils\Exceptions;
+use Elementor\Data\V2\Base\Endpoint;
+use Elementor\Plugin;
 
 abstract class Base extends Endpoint {
-	public static function get_format() {
-		return '{id}';
-	}
-
 	protected function register() {
 		parent::register();
 
-		$this->register_item_route();
-		$this->register_item_route( \WP_REST_Server::CREATABLE );
-		$this->register_item_route( \WP_REST_Server::DELETABLE );
+		$args = [
+			'id_arg_type_regex' => '[\w]+',
+		];
+
+		$this->register_item_route( \WP_REST_Server::READABLE, $args );
+		$this->register_item_route( \WP_REST_Server::CREATABLE, $args );
+		$this->register_item_route( \WP_REST_Server::DELETABLE, $args );
 	}
 
 	public function get_items( $request ) {

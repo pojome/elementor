@@ -1,7 +1,7 @@
 <?php
 namespace Elementor\Tests\Phpunit\Elementor\Data\Base\Mock\Template\Endpoint;
 
-use \Elementor\Tests\Phpunit\Elementor\Data\Base\Mock\Template\BaseTrait;
+use Elementor\Tests\Phpunit\Elementor\Data\Base\Mock\Template\BaseTrait;
 
 class Format extends \Elementor\Data\Base\Endpoint {
 

@@ -1,15 +1,17 @@
 <?php
-
-namespace Elementor\Data;
+namespace Elementor\Data\V2;
 
 use Elementor\Core\Base\Module as BaseModule;
-use Elementor\Data\Base\Processor;
-use Elementor\Plugin;
+use Elementor\Data\V2\Base\Processor;
+use Elementor\Data\V2\Base\Controller;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+/**
+ * @method static \Elementor\Data\V2\Manager instance()
+ */
 class Manager extends BaseModule {
 
 	const ROOT_NAMESPACE = 'elementor';
@@ -36,7 +38,7 @@ class Manager extends BaseModule {
 	/**
 	 * Loaded controllers.
 	 *
-	 * @var \Elementor\Data\Base\Controller[]
+	 * @var \Elementor\Data\V2\Base\Controller[]
 	 */
 	public $controllers = [];
 
@@ -47,35 +49,28 @@ class Manager extends BaseModule {
 	 */
 	public $command_formats = [];
 
-	/**
-	 * Fix issue with 'Potentially polymorphic call. The code may be inoperable depending on the actual class instance passed as the argument.'.
-	 *
-	 * @return \Elementor\Core\Base\Module|\Elementor\Data\Manager
-	 */
-	public static function instance() {
-		return ( parent::instance() );
-	}
-
-	public function __construct() {
-		add_action( 'elementor/init', function ( ) {
-			Plugin::$instance->modules_manager->get_modules( 'dev-tools' )->deprecation->deprecated_function(
-				'Elementor\Data\Manager',
-				'3.4.0',
-				'Elementor\Data\V2\Manager'
-			);
-		} );
-		add_action( 'rest_api_init', [ $this, 'register_rest_error_handler' ] );
-	}
-
 	public function get_name() {
-		return 'data-manager';
+		return 'data-manager-v2';
 	}
 
 	/**
-	 * @return \Elementor\Data\Base\Controller[]
+	 * @return \Elementor\Data\V2\Base\Controller[]
 	 */
 	public function get_controllers() {
 		return $this->controllers;
+	}
+
+	/**
+	 * @param string $name
+	 *
+	 * @return \Elementor\Data\V2\Base\Controller|false
+	 */
+	public function get_controller( $name ) {
+		if ( isset( $this->controllers[ $name ] ) ) {
+			return $this->controllers[ $name ];
+		}
+
+		return false;
 	}
 
 	private function get_cache( $key ) {
@@ -89,26 +84,11 @@ class Manager extends BaseModule {
 	/**
 	 * Register controller.
 	 *
-	 * @param string $controller_class_name
+	 * @param \Elementor\Data\V2\Base\Controller $controller_instance
 	 *
-	 * @return \Elementor\Data\Base\Controller
+	 * @return \Elementor\Data\V2\Base\Controller
 	 */
-	public function register_controller( $controller_class_name ) {
-		$controller_instance = new $controller_class_name();
-
-		return $this->register_controller_instance( $controller_instance );
-	}
-
-	/**
-	 * Register controller instance.
-	 *
-	 * @param \Elementor\Data\Base\Controller $controller_instance
-	 *
-	 * @return \Elementor\Data\Base\Controller
-	 */
-	public function register_controller_instance( $controller_instance ) {
-		// TODO: Validate instance.
-
+	public function register_controller( Controller $controller_instance ) {
 		$this->controllers[ $controller_instance->get_name() ] = $controller_instance;
 
 		return $controller_instance;
@@ -122,18 +102,7 @@ class Manager extends BaseModule {
 	 *
 	 */
 	public function register_endpoint_format( $command, $format ) {
-		$this->command_formats[ $command ] = rtrim( $format, '/' );
-	}
-
-	public function register_rest_error_handler() {
-		// TODO: Remove - Find better solution.
-		return;
-
-		if ( ! $this->is_internal() ) {
-			$logger_manager = \Elementor\Core\Logger\Manager::instance();
-
-			set_error_handler( [ $logger_manager, 'rest_error_handler' ], E_ALL );
-		}
+		$this->command_formats[ $command ] = untrailingslashit( $format );
 	}
 
 	/**
@@ -143,7 +112,7 @@ class Manager extends BaseModule {
 	 *
 	 * @param string $command
 	 *
-	 * @return false|\Elementor\Data\Base\Controller
+	 * @return false|\Elementor\Data\V2\Base\Controller
 	 */
 	public function find_controller_instance( $command ) {
 		$command_parts = explode( '/', $command );
@@ -184,7 +153,7 @@ class Manager extends BaseModule {
 
 			parse_str( $query_string, $temp );
 
-			$result->command = rtrim( $pure_command, '/' );
+			$result->command = untrailingslashit( $pure_command );
 			$result->args = array_merge( $args, $temp );
 		}
 
@@ -276,8 +245,8 @@ class Manager extends BaseModule {
 	/**
 	 * Run processor.
 	 *
-	 * @param \Elementor\Data\Base\Processor $processor
-	 * @param array                          $data
+	 * @param \Elementor\Data\V2\Base\Processor $processor
+	 * @param array $data
 	 *
 	 * @return mixed
 	 */
@@ -294,7 +263,7 @@ class Manager extends BaseModule {
 	 *
 	 * Filter them by class.
 	 *
-	 * @param \Elementor\Data\Base\Processor[] $processors
+	 * @param \Elementor\Data\V2\Base\Processor[] $processors
 	 * @param string $filter_by_class
 	 * @param array $data
 	 *
@@ -311,7 +280,7 @@ class Manager extends BaseModule {
 						$data[1] = $result;
 					}
 				} else {
-					// TODO: error
+					trigger_error( "Invalid processor filter: '${ $filter_by_class }'" );
 					break;
 				}
 			}
@@ -332,10 +301,10 @@ class Manager extends BaseModule {
 	 *
 	 * @return \WP_REST_Response
 	 */
-	private function run_request( $endpoint, $args, $method ) {
+	public function run_request( $endpoint, $args = [], $method = \WP_REST_Server::READABLE ) {
 		$this->run_server();
 
-		$endpoint = '/' . self::ROOT_NAMESPACE . '/v' . self::VERSION . '/' . $endpoint;
+		$endpoint = '/' . self::ROOT_NAMESPACE . '/v' . self::VERSION . '/' . trim( $endpoint, '/' );
 
 		// Run reset api.
 		$request = new \WP_REST_Request( $method, $endpoint );
@@ -361,6 +330,7 @@ class Manager extends BaseModule {
 	 * @return array
 	 */
 	public function run_endpoint( $endpoint, $args = [], $method = 'GET' ) {
+		// The method become public since it used in `Elementor\Data\V2\Base\Endpoint\Index\AllChildren`.
 		$response = $this->run_request( $endpoint, $args, $method );
 
 		return $response->get_data();

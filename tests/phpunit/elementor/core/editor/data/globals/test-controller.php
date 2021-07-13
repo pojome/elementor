@@ -2,29 +2,10 @@
 
 namespace Elementor\Tests\Phpunit\Elementor\Core\Editor\Data\Globals;
 
-use Elementor\Data\Manager;
-use Elementor\Plugin;
-use Elementor\Testing\Elementor_Test_Base;
 use Elementor\Core\Editor\Data\Globals;
+use Elementor\Tests\Phpunit\Elementor\Data\V2\Base\Data_Test_Base;
 
-class Test_Controller extends Elementor_Test_Base  {
-	/**
-	 * @var \Elementor\Data\Manager
-	 */
-	protected $manager;
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->manager = Manager::instance();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-
-		$this->manager->kill_server();
-	}
-
+class Test_Controller extends Data_Test_Base  {
 	public function test_get_permission_callback() {
 		$controller = new Globals\Controller();
 		$methods = explode( ', ', \WP_REST_Server::ALLMETHODS );
@@ -34,7 +15,7 @@ class Test_Controller extends Elementor_Test_Base  {
 
 		foreach ( $methods as $method ) {
 			$request = new \WP_REST_Request( $method );
-			$this->assertEquals( $controller->get_permission_callback( $request ), true );
+			$this->assertEquals( true, $controller->get_permission_callback( $request ) );
 		}
 
 		// Set subscriber.
@@ -42,8 +23,8 @@ class Test_Controller extends Elementor_Test_Base  {
 
 		foreach ( $methods as $method ) {
 			$request = new \WP_REST_Request( $method );
-			$this->assertEquals( $controller->get_permission_callback( $request ), false );
-		}
 
+			$this->assertEquals( false, $controller->get_permission_callback( $request ) );
+		}
 	}
 }
