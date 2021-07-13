@@ -303,7 +303,7 @@ class Plugin {
 	 * @since 1.0.0
 	 * @access public
 	 *
-	 * @var System_Info\Main
+	 * @var System_Info_Module
 	 */
 	public $system_info;
 
