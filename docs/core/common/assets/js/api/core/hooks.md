@@ -99,7 +99,9 @@ the hooks attached to $e.commands and each hook fired _after/before_ running a c
             }
         }
         ```
-  * Hook conventions
+  * Hook conventions 
+    - The hook file name should describe what it does and where it takes place. For example, if the hook is a part of the navigator mechanism and it toggles the navigator, it could be called:
+    `navigator-toggle-state`.  
     ```javascript class:"lineNo"
     1 // {FILE_PATH}/{FILE_NAME} - This is line should be deleted - just for the exmaple.
     2 import HookUIAfter from 'elementor-api/modules/hooks/{TYPE}/after';
@@ -110,7 +112,7 @@ the hooks attached to $e.commands and each hook fired _after/before_ running a c
     7  	}
     8  
     9  	getId() {
-    10		return '{FILE_NAME_WITHOUT_JS}--{COMMAND}';
+    10		return '{FILE_NAME_WITHOUT_JS}';
     11	}
     12
     13	getContainerType() {
@@ -154,7 +156,7 @@ the hooks attached to $e.commands and each hook fired _after/before_ running a c
     7  	}
     8
     9  	getId() {
-    10		return 'footer-save-refresh-menu--document/elements/settings';
+    10		return 'footer-saver-refresh-menu';
     11	}
     12
     13	getContainerType() {
