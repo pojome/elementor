@@ -32,6 +32,8 @@ export class KitUpdateBreakpointsPreview extends $e.modules.hookUI.After {
 				elementorFrontend.config.responsive.activeBreakpoints[ breakpointName ] = elementorFrontend.config.responsive.breakpoints[ breakpointName ];
 			} );
 
+			elementor.activeBreakpointsUpdated = true;
+
 			// If this is the modified setting, no need to do further checks.
 			return;
 		}

@@ -10,7 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 // TODO: Use API data instead of this static array, once it is available.
 $breakpoints = Plugin::$instance->breakpoints->get_active_breakpoints();
 
-$breakpoints['desktop'] = [];
+// Insert the 'desktop' device in the correct position.
+if ( array_key_exists( 'widescreen', $breakpoints ) ) {
+	$widescreen_index = array_search( 'widescreen', array_keys( $breakpoints ), true );
+
+	$breakpoints = array_slice( $breakpoints, 0, $widescreen_index, true ) +
+			[ 'desktop' => '' ] +
+			array_slice( $breakpoints, $widescreen_index, null, true );
+} else {
+	$breakpoints['desktop'] = [];
+}
+
+$breakpoint_classes_map = array_intersect_key( Plugin::$instance->breakpoints->get_responsive_icons_classes_map(), $breakpoints );
 
 /* translators: %1$s: Device Name */
 $breakpoint_label = __( '%1$s <br> Settings added to %1$s device will apply to %2$spx screens and down', 'elementor' );
@@ -32,9 +43,9 @@ $breakpoint_label = __( '%1$s <br> Settings added to %1$s device will apply to %
 					data-tooltip="%2$s">
 
 					<input type="radio" name="breakpoint" id="e-responsive-bar-switch-%1$s" value="%1$s">
-					<i class="eicon-device-%1$s" aria-hidden="true"></i>
+					<i class="%3$s" aria-hidden="true"></i>
 					<span class="screen-reader-text">%2$s</span>
-				</label>', $name, $tooltip_label );
+				</label>', $name, $tooltip_label, $breakpoint_classes_map[ $name ] );
 			} ?>
 			</div>
 			<div id="e-responsive-bar-scale">

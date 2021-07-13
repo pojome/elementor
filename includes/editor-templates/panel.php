@@ -225,14 +225,25 @@ $document = Plugin::$instance->documents->get( Plugin::$instance->editor->get_po
 	<div class="elementor-control-responsive-switchers">
 		<div class="elementor-control-responsive-switchers__holder">
 		<#
-			var devices = responsive.devices || [ 'desktop', 'tablet', 'mobile' ];
+			const activeBreakpoints = elementor.config.responsive.activeBreakpoints,
+				devicesForDisplay = Object.keys( activeBreakpoints ).reverse();
+
+			// Insert the 'desktop' device in the correct position.
+			if ( -1 !== devicesForDisplay.indexOf( 'widescreen' ) ) {
+				devicesForDisplay.splice( 1, 0, 'desktop' );
+			} else {
+				devicesForDisplay.unshift( 'desktop' );
+			}
+
+			var devices = responsive.devices || devicesForDisplay;
 
 			_.each( devices, function( device ) {
-				var deviceLabel = device.charAt(0).toUpperCase() + device.slice(1),
+				// The 'Desktop' label is made accessible via the global config because it needs to be translated.
+				var deviceLabel = 'desktop' === device ? '<?php esc_html_e( 'Desktop', 'elementor' ); ?>' : activeBreakpoints[ device ].label,
 					tooltipDir = "<?php echo is_rtl() ? 'e' : 'w'; ?>";
 			#>
 				<a class="elementor-responsive-switcher tooltip-target elementor-responsive-switcher-{{ device }}" data-device="{{ device }}" data-tooltip="{{ deviceLabel }}" data-tooltip-pos="{{ tooltipDir }}">
-					<i class="eicon-device-{{ device }}"></i>
+					<i class="{{ elementor.config.responsive.icons_map[ device ] }}"></i>
 				</a>
 			<# } );
 		#>

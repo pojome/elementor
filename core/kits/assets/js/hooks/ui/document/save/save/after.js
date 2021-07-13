@@ -29,6 +29,24 @@ export class KitAfterSave extends After {
 				],
 			} );
 		}
+
+		if ( elementor.activeBreakpointsUpdated ) {
+			const reloadConfirm = elementorCommon.dialogsManager.createWidget( 'alert', {
+				id: 'elementor-save-kit-refersh-page',
+				headerMessage: __( 'Reload Elementor Editor', 'elementor' ),
+				message: __( 'You have made modifications to the list of Active Breakpoints. For these changes to take effect, you need to reload Elementor Editor.', 'elementor' ),
+				position: {
+					my: 'center center',
+					at: 'center center',
+				},
+				strings: {
+					confirm: __( 'Reload Now', 'elementor' ),
+				},
+				onConfirm: () => location.reload(),
+			} );
+
+			reloadConfirm.show();
+		}
 	}
 }
 

@@ -774,7 +774,13 @@ abstract class Controls_Stack extends Base_Object {
 	 * Add new responsive control to stack.
 	 *
 	 * Register a set of controls to allow editing based on user screen size.
-	 * This method registers three screen sizes: Desktop, Tablet and Mobile.
+	 * This method registers one or more controls per screen size/device, depending on the current Responsive Control
+	 * Duplication Mode. There are 3 control duplication modes:
+	 * * 'off' - Only a single control is generated. In the Editor, this control is duplicated in JS.
+	 * * 'on' - Multiple controls are generated, one control per enabled device/breakpoint + a default/desktop control.
+	 * * 'dynamic' - If the control includes the `'dynamic' => 'active' => true` property - the control is duplicated,
+	 *               once for each device/breakpoint + default/desktop.
+	 *               If the control doesn't include the `'dynamic' => 'active' => true` property - the control is not duplicated.
 	 *
 	 * @since 1.4.0
 	 * @access public
@@ -787,11 +793,11 @@ abstract class Controls_Stack extends Base_Object {
 	final public function add_responsive_control( $id, array $args, $options = [] ) {
 		$args['responsive'] = [];
 
-		$devices = [
-			self::RESPONSIVE_DESKTOP,
-			self::RESPONSIVE_TABLET,
-			self::RESPONSIVE_MOBILE,
-		];
+		$active_breakpoints = Plugin::$instance->breakpoints->get_active_breakpoints();
+
+		$devices = array_keys( $active_breakpoints );
+
+		$devices[] = self::RESPONSIVE_DESKTOP;
 
 		if ( isset( $args['devices'] ) ) {
 			$devices = array_intersect( $devices, $args['devices'] );
@@ -799,6 +805,34 @@ abstract class Controls_Stack extends Base_Object {
 			$args['responsive']['devices'] = $devices;
 
 			unset( $args['devices'] );
+		}
+
+		$responsive_duplication_mode = Plugin::$instance->breakpoints->get_responsive_control_duplication_mode();
+		$additional_breakpoints_active = Plugin::$instance->experiments->is_feature_active( 'additional_custom_breakpoints' );
+		$control_is_dynamic = ! empty( $args['dynamic']['active'] );
+		$is_frontend_available = ! empty( $args['frontend_available'] );
+		$has_prefix_class = ! empty( $args['prefix_class'] );
+
+		// If the new responsive controls experiment is active, create only one control - duplicates per device will
+		// be created in JS in the Editor.
+		if (
+			$additional_breakpoints_active
+			&& ( 'off' === $responsive_duplication_mode || ( 'dynamic' === $responsive_duplication_mode && ! $control_is_dynamic ) )
+			// Some responsive controls need responsive settings to be available to the widget handler, even when empty.
+			&& ! $is_frontend_available
+			&& ! $has_prefix_class
+		) {
+			$args['is_responsive'] = true;
+
+			if ( ! empty( $options['overwrite'] ) ) {
+				$this->update_control( $id, $args, [
+					'recursive' => ! empty( $options['recursive'] ),
+				] );
+			} else {
+				$this->add_control( $id, $args, $options );
+			}
+
+			return;
 		}
 
 		if ( isset( $args['default'] ) ) {
@@ -824,7 +858,13 @@ abstract class Controls_Stack extends Base_Object {
 				$control_args['prefix_class'] = sprintf( $args['prefix_class'], $device_to_replace );
 			}
 
-			$control_args['responsive']['max'] = $device_name;
+			$direction = 'max';
+
+			if ( self::RESPONSIVE_DESKTOP !== $device_name ) {
+				$direction = $active_breakpoints[ $device_name ]->get_direction();
+			}
+
+			$control_args['responsive'][ $direction ] = $device_name;
 
 			if ( isset( $control_args['min_affected_device'] ) ) {
 				if ( ! empty( $control_args['min_affected_device'][ $device_name ] ) ) {

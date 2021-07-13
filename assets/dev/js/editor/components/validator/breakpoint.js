@@ -1,5 +1,3 @@
-import Stylesheet from 'elementor-editor-utils/stylesheet';
-
 const NumberValidator = require( 'elementor-validator/number' );
 
 export default class BreakpointValidator extends NumberValidator {
@@ -13,12 +11,13 @@ export default class BreakpointValidator extends NumberValidator {
 	}
 
 	initBreakpointProperties() {
-		const validationTerms = this.getSettings( 'validationTerms' );
+		const validationTerms = this.getSettings( 'validationTerms' ),
+			activeBreakpoints = elementorFrontend.config.responsive.activeBreakpoints,
+			breakpointKeys = Object.keys( activeBreakpoints );
 
-		this.breakpointKeysArray = Object.keys( elementorFrontend.config.responsive.activeBreakpoints );
-		this.breakpointIndex = this.breakpointKeysArray.indexOf( validationTerms.breakpointName );
-		this.topBreakpoint = elementorFrontend.config.responsive.activeBreakpoints[ this.breakpointKeysArray[ this.breakpointIndex + 1 ] ]?.value;
-		this.bottomBreakpoint = Stylesheet.getDeviceMinBreakpoint( validationTerms.breakpointName );
+		this.breakpointIndex = breakpointKeys.indexOf( validationTerms.breakpointName );
+		this.topBreakpoint = activeBreakpoints[ breakpointKeys[ this.breakpointIndex + 1 ] ]?.value;
+		this.bottomBreakpoint = activeBreakpoints[ breakpointKeys[ this.breakpointIndex - 1 ] ]?.value;
 	}
 
 	validationMethod( newValue ) {

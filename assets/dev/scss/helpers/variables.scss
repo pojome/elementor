@@ -224,3 +224,5 @@ $breakpoints: (
 		xl: 1440px, // Larger devices
 		xxl: 1600px // Largest devices
 );
+
+$devices: 'widescreen', 'desktop', 'laptop', 'tablet_extra', 'tablet', 'mobile_extra', 'mobile';

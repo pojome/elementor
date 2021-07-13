@@ -177,6 +177,17 @@ abstract class Base extends Base_File {
 	}
 
 	/**
+	 * Get Responsive Control Duplication Mode
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return string
+	 */
+	protected function get_responsive_control_duplication_mode() {
+		return 'on';
+	}
+
+	/**
 	 * Enqueue CSS.
 	 *
 	 * Either enqueue the CSS file in Elementor or add inline style.
@@ -613,6 +624,10 @@ abstract class Base extends Base_File {
 	 * @access protected
 	 */
 	protected function parse_content() {
+		$initial_responsive_controls_duplication_mode = Plugin::$instance->breakpoints->get_responsive_control_duplication_mode();
+
+		Plugin::$instance->breakpoints->set_responsive_control_duplication_mode( $this->get_responsive_control_duplication_mode() );
+
 		$this->render_css();
 
 		$name = $this->get_name();
@@ -629,6 +644,8 @@ abstract class Base extends Base_File {
 		 * @param Base $this The current CSS file.
 		 */
 		do_action( "elementor/css-file/{$name}/parse", $this );
+
+		Plugin::$instance->breakpoints->set_responsive_control_duplication_mode( $initial_responsive_controls_duplication_mode );
 
 		return $this->get_stylesheet()->__toString();
 	}
@@ -772,7 +789,15 @@ abstract class Base extends Base_File {
 		$id = $global_args[1];
 
 		if ( ! empty( $control['groupType'] ) ) {
-			$property_name = str_replace( [ $control['groupPrefix'], '_tablet', '_mobile' ], '', $control['name'] );
+			$strings_to_replace = [ $control['groupPrefix'] ];
+
+			$active_breakpoint_keys = array_keys( Plugin::$instance->breakpoints->get_active_breakpoints() );
+
+			foreach ( $active_breakpoint_keys as $breakpoint ) {
+				$strings_to_replace[] = '_' . $breakpoint;
+			}
+
+			$property_name = str_replace( $strings_to_replace, '', $control['name'] );
 
 			// TODO: This check won't retrieve the proper answer for array values (multiple controls).
 			if ( empty( $data['value'][ Global_Typography::TYPOGRAPHY_GROUP_PREFIX . $property_name ] ) ) {

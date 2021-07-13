@@ -28,7 +28,9 @@ ControlBaseView = Marionette.CompositeView.extend( {
 		}
 
 		if ( ! _.isEmpty( responsive ) ) {
-			classes += ' elementor-control-responsive-' + responsive.max;
+			const responsiveControlName = responsive.max || responsive.min;
+
+			classes += ' elementor-control-responsive-' + responsiveControlName;
 		}
 
 		return classes;

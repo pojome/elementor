@@ -163,11 +163,17 @@ class Settings_Layout extends Tab_Base {
 			$options[ $prefix . $breakpoint_key ] = $breakpoint['label'];
 		}
 
+		if ( Plugin::$instance->experiments->is_feature_active( 'additional_custom_breakpoints' ) ) {
+			$active_breakpoints_control_type = Controls_Manager::SELECT2;
+		} else {
+			$active_breakpoints_control_type = Controls_Manager::HIDDEN;
+		}
+
 		$this->add_control(
 			self::ACTIVE_BREAKPOINTS_CONTROL_ID,
 			[
 				'label' => __( 'Active Breakpoints', 'elementor' ),
-				'type' => Controls_Manager::HIDDEN,
+				'type' => $active_breakpoints_control_type,
 				'description' => __( 'Mobile and Tablet options cannot be deleted.', 'elementor' ),
 				'options' => $options,
 				'default' => [
