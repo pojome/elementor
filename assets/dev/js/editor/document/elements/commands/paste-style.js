@@ -41,6 +41,10 @@ export class PasteStyle extends CommandHistory {
 		const { containers = [ args.container ], storageKey = 'clipboard' } = args,
 			storageData = elementorCommon.storage.get( storageKey );
 
+		this.applyPasteStyleData( containers, storageData );
+	}
+
+	applyPasteStyleData( containers, data ) {
 		containers.forEach( ( targetContainer ) => {
 			const targetSettings = targetContainer.settings,
 				targetSettingsAttributes = targetSettings.attributes,
@@ -58,7 +62,7 @@ export class PasteStyle extends CommandHistory {
 					}
 				};
 
-			storageData.forEach( ( sourceModel ) => {
+			data.forEach( ( sourceModel ) => {
 				const sourceSettings = sourceModel.settings;
 
 				addExtraControls( sourceSettings, '__globals__' );

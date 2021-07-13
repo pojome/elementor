@@ -1,5 +1,6 @@
 import ArgsObject from '../../modules/imports/args-object';
 import Panel from './panel';
+import ChildrenCollection from './model/children-collection';
 
 /**
  * TODO: ViewsOptions
@@ -63,9 +64,9 @@ export default class Container extends ArgsObject {
 	/**
 	 * Container children(s).
 	 *
-	 * @type {Array}
+	 * @type {ChildrenCollection}
 	 */
-	children = [];
+	children = new ChildrenCollection();
 
 	/**
 	 * Container dynamic.
@@ -209,6 +210,57 @@ export default class Container extends ArgsObject {
 		return result;
 	}
 
+	/**
+	 * Function getUtilizedControls().
+	 *
+	 * Should return all controls that effecting the container.
+	 */
+	getUtilizedControls() {
+		const result = {},
+			activeControls = this.settings.getActiveControls();
+
+		Object.entries( activeControls ).forEach( ( [ controlName, control ] ) => {
+			const controlValue = this.settings.get( control.name );
+
+			if ( control.global && ! controlValue?.length ) {
+				if ( this.globals.get( control.name )?.length || this.getGlobalDefault( controlName ).length ) {
+					control.global.utilized = true;
+
+					result[ controlName ] = control;
+
+					return;
+				}
+			}
+
+			if ( control.dynamic ) {
+				if ( this.dynamic.get( controlName ) ) {
+					control.dynamic.utilized = true;
+
+					result[ controlName ] = control;
+
+					return;
+				}
+			}
+
+			if ( controlValue === control.default ) {
+				return;
+			}
+
+			if ( ! controlValue ) {
+				return;
+			}
+
+			if ( 'object' === typeof controlValue &&
+				Object.values( controlValue ).join() === Object.values( control.default ).join() ) {
+				return;
+			}
+
+			result[ controlName ] = control;
+		} );
+
+		return result;
+	}
+
 	handleChildrenRecursive() {
 		if ( this.view.children?.length ) {
 			Object.values( this.view.children._views ).forEach( ( view ) => {
@@ -221,7 +273,7 @@ export default class Container extends ArgsObject {
 				container.handleChildrenRecursive();
 			} );
 		} else {
-			this.children = [];
+			this.children.clear();
 		}
 	}
 
@@ -369,54 +421,6 @@ export default class Container extends ArgsObject {
 		}
 
 		return result;
-	}
-
-	/**
-	 * Function findChildrenRecursive().
-	 *
-	 * Will run over children recursively and pass the children to the callback till the callback returns positive value.
-	 *
-	 * @param {function(container:Container)} callback
-	 *
-	 * @returns {false|Container}
-	 */
-	findChildrenRecursive( callback ) {
-		if ( callback( this ) ) {
-			return this;
-		}
-
-		if ( this.children.length ) {
-			for ( const container of this.children ) {
-				const foundChildren = container.findChildrenRecursive( callback );
-
-				if ( foundChildren ) {
-					return foundChildren;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Function forEachChildrenRecursive().
-	 *
-	 * Will run over children recursively.
-	 *
-	 * @param {function(container:Container)} callback
-	 *
-	 * @returns {false|Container}
-	 */
-	forEachChildrenRecursive( callback ) {
-		callback( this );
-
-		if ( this.children.length ) {
-			for ( const container of this.children ) {
-				container.forEachChildrenRecursive( callback );
-			}
-		}
-
-		return false;
 	}
 
 	/**
