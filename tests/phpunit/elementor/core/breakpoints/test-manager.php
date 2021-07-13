@@ -148,5 +148,7 @@ class Test_Manager extends Elementor_Test_Base {
 		$laptop_breakpoint = Plugin::$instance->breakpoints->get_breakpoints( 'laptop' );
 
 		$this->assertEquals( $laptop_breakpoint->get_value() + 1, Plugin::$instance->breakpoints->get_desktop_min_point() );
+
+		$this->reset_breakpoints_to_default();
 	}
 }

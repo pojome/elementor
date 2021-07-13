@@ -374,7 +374,7 @@ abstract class Base_App {
 	 * @return array
 	 */
 	protected function get_connect_info() {
-		$additional_info = apply_filters( 'elementor/connect/additional-connect-info', [] );
+		$additional_info = apply_filters( 'elementor/connect/additional-connect-info', [], $this );
 
 		return array_merge(
 			[

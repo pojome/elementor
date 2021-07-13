@@ -90,6 +90,17 @@ jobs:
           PACKAGE_VERSION=$(node -p "require('./package.json').last_dev_version")
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> $GITHUB_ENV
           npm ci
+      - name: Get beta tag
+        run: |
+          npm install --no-package-lock --no-save semver@7.3.4
+          BETA_TAG=$(node ./.github/scripts/get-beta-version.js)
+          echo "BETA_TAG=${BETA_TAG}" >> $GITHUB_ENV
+      - name: Add beta tag
+        if: ${{ env.BETA_TAG }}
+        env:
+          PACKAGE_VERSION: ${{ env.BETA_TAG }}
+        run: |
+          bash "${GITHUB_WORKSPACE}/.github/scripts/add-to-readme-beta-tag.sh"
       - name: Build
         env:
           PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}

@@ -95,7 +95,7 @@
 	}
 }
 
-@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+@media (min-width: $screen-mobile-next) and (max-width: $screen-md-max) {
 	@include reverse-columns(-tablet);
 }
 

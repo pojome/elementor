@@ -4,7 +4,7 @@ Tags: page builder, editor, landing page, drag-and-drop, elementor, visual edito
 Requires at least: 5.0
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 3.2.5
+Stable tag: 3.3.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -217,6 +217,73 @@ No. Elementor supports WordPress 5.0 or greater, and is compatible with PHP 5.6 
 7. **Shape Divider.** Choose from a wide array of shape dividers and separate your sections in endless ways, that until now were simply not possible.
 
 == Changelog ==
+
+= 3.3.0 - 2021-07-13 =
+* New: Introducing Kits Library - Create Entire Websites Faster Than Ever ([#4417](https://github.com/elementor/elementor/issues/4417), [#11341](https://github.com/elementor/elementor/issues/11341))
+* New: Meet the Color Color Sampler - fetch colors from every image and populated color control ([#14868](https://github.com/elementor/elementor/issues/14868))
+* Experiment: Improved CSS Loading - Load widgets CSS only when needed ([#13533](https://github.com/elementor/elementor/issues/13533), [#8572](https://github.com/elementor/elementor/issues/8572))
+* Tweak: Added Animations CSS library to be loaded conditionally when needed when Improved Asset Load experiment is active ([#13533](https://github.com/elementor/elementor/issues/13533), [#8572](https://github.com/elementor/elementor/issues/8572))
+* Tweak: Added the ability to fetch Image from external URL ([#413](https://github.com/elementor/elementor/issues/413))
+* Tweak: Added responsive capabilities to Content width in Section and Inner Section elements ([#12963](https://github.com/elementor/elementor/issues/12963))
+* Tweak: Added “Hidden Elements” User Preference control to choose whether to show or hide hidden elements in responsive mode ([#12316](https://github.com/elementor/elementor/issues/12316))
+* Tweak: Added User Preference control to set the default responsive device when the responsive view is triggered ([#14662](https://github.com/elementor/elementor/issues/14662))
+* Tweak: Added an Elementor top bar to all Elementor screens in the WordPress admin pages for better discoverability ([#15276](https://github.com/elementor/elementor/issues/15276), [#15250](https://github.com/elementor/elementor/issues/15250))
+* Tweak: Added gradient button capabilities to Button instances in Theme Style ([#14731](https://github.com/elementor/elementor/issues/14731))
+* Tweak: Changed Landing Pages experiment to be active by default on all websites 
+* Tweak: Improved Kit Import and Export tool to include Posts, Pages, Custom Post Types and WooCommerce Products
+* Tweak: Allow unlimited export of Elementor-created content in Import/Export tool
+* Tweak: Included Homepage setting in Import/Export tool
+* Tweak: Throw an error when running Import process via CLI if user is not Administrator role
+* Tweak: Added Informative modal links in Import/Export tool
+* Tweak: Modified Kit information area to be collapsible in Import/Export tool
+* Tweak: Added custom fields support to Import/Export Experiment
+* Tweak: Added future support for Additional Breakpoints
+* Tweak: Changing the `content-filters` to be accessed publicly
+* Tweak: Regenerate Files admin button resets all page-assets data
+* Tweak: Improved Kit Import and Export tool to include conditions conflicts resolver
+* Tweak: Added Kit information to Import and Export tool
+* Tweak: Added summary screens to Import and Export tool
+* Tweak: Converted Improved Asset Loading Experiment registration to the post save process instead of loading process
+* Tweak: Widgets search can accept non-english strings for better UX
+* Tweak: Polished Responsive top bar UI
+* Tweak: Created an Uploads manager util to better handle files being uploaded
+* Tweak: Added default height to Tablet and Mobile devices
+* Tweak: Polished Select2 control UI
+* Tweak: Added Pro promotion in Submission feature page
+* Tweak: Updated Font Awesome icons library to v5.15.3
+* Tweak: Added a new filter `elementor/document/save/data` to allow manipulation when document save starts
+* Tweak: Added usage schema in `schemas/usage`
+* Tweak: Recalculate elements usage each upgrade
+* Tweak: Added "Recreate Kit" button in Elementor settings only when the Default Kit does not exist
+* Tweak: Made `elementorFrontend.getDeviceSetting()` method dynamic
+* Fix: Inline editing not working when the Optimized DOM experiment is on ([#14703](https://github.com/elementor/elementor/issues/14703))
+* Fix: Exit animation flickers in several cases ([#14459](https://github.com/elementor/elementor/issues/14459), [#13180](https://github.com/elementor/elementor/issues/14703))
+* Fix: Lightbox is not working in the frontend ([#15080](https://github.com/elementor/elementor/issues/15080), [#15085](https://github.com/elementor/elementor/issues/15085))
+* Fix: Prevent Default Kit from being recreated when kit not exists ([#13299](https://github.com/elementor/elementor/issues/13299))
+* Fix: Social icons alignment shift right in Safari browsers ([#13122](https://github.com/elementor/elementor/issues/13122))
+* Fix: Gradient control doesn't work when using Global Colors ([#13288](https://github.com/elementor/elementor/issues/13288))
+* Fix: Social Icons and Share button space disappeared when optimizing the HTML ([#13279](https://github.com/elementor/elementor/issues/13279))
+* Fix: UI glitch in the empty state of Global widgets tab
+* Fix: Breakpoints values in the Panel are not enforced
+* Fix: Error thrown in Template library if Expert template been imported
+* Fix: Panel search bar appears above the overlay on load
+* Fix: Slides widget is not displaying properly in the Editor
+* Fix: Activation account connection error on IDN domains
+* Fix: Video item didn’t started playing without adding an image overlay in Media Carousel widget
+* Fix: Inline editing not working when the Optimized DOM experiment is active
+* Fix: Site Identity data been transferred when importing a Kit
+* Fix: WordPress content Featured images are not being imported when applying a Kit
+* Fix: Post Excerpt is not imported when applying a Kit via Import Kit tool
+* Fix: Default Kit file not being created in Multisite WordPress instances
+* Fix: Dark mode UI glitches in Import/Export tool
+* Fix: Close and back to dashboard buttons are not being redirected to the correct page in Import/Export experiment
+* Fix: Collapse button disappeared on mobile if the user not logged in Video Playlist widget
+* Fix: Import process fail message is shown when importing a Kit from ThemeForest
+* Fix: Large images optimized by WordPress can't be displayed properly via dynamic Toolset fields
+* Fix: Dynamic control is not working in Text Path widget
+* Fix: Column removed from a section in the Navigator resulted in an empty section
+* Fix: Unable to drag and drop columns from one above other
+* Deprecated: See all deprecations to this version in our [Developers Deprecations Post](https://developers.elementor.com/v3-3-planned-deprecations/)
 
 = 3.2.5 - 2021-06-16 =
 * Fix: Reverted Replace URL fix that caused the Default Kit to get regenerated in certain cases ([#14892](https://github.com/elementor/elementor/issues/14892))

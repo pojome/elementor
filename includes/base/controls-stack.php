@@ -4,6 +4,7 @@ namespace Elementor;
 use Elementor\Core\Base\Base_Object;
 use Elementor\Core\DynamicTags\Manager;
 use Elementor\Core\Schemes\Manager as Schemes_Manager;
+use Elementor\Core\Breakpoints\Manager as Breakpoints_Manager;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -22,16 +23,22 @@ abstract class Controls_Stack extends Base_Object {
 
 	/**
 	 * Responsive 'desktop' device name.
+	 *
+	 * @deprecated 3.4.0
 	 */
 	const RESPONSIVE_DESKTOP = 'desktop';
 
 	/**
 	 * Responsive 'tablet' device name.
+	 *
+	 * @deprecated 3.4.0
 	 */
 	const RESPONSIVE_TABLET = 'tablet';
 
 	/**
 	 * Responsive 'mobile' device name.
+	 *
+	 * @deprecated 3.4.0
 	 */
 	const RESPONSIVE_MOBILE = 'mobile';
 
@@ -785,7 +792,7 @@ abstract class Controls_Stack extends Base_Object {
 
 		$devices = array_keys( $active_breakpoints );
 
-		$devices[] = self::RESPONSIVE_DESKTOP;
+		$devices[] = Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP;
 
 		if ( isset( $args['devices'] ) ) {
 			$devices = array_intersect( $devices, $args['devices'] );
@@ -841,14 +848,14 @@ abstract class Controls_Stack extends Base_Object {
 			}
 
 			if ( ! empty( $args['prefix_class'] ) ) {
-				$device_to_replace = self::RESPONSIVE_DESKTOP === $device_name ? '' : '-' . $device_name;
+				$device_to_replace = Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP === $device_name ? '' : '-' . $device_name;
 
 				$control_args['prefix_class'] = sprintf( $args['prefix_class'], $device_to_replace );
 			}
 
 			$direction = 'max';
 
-			if ( self::RESPONSIVE_DESKTOP !== $device_name ) {
+			if ( Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP !== $device_name ) {
 				$direction = $active_breakpoints[ $device_name ]->get_direction();
 			}
 
@@ -870,7 +877,7 @@ abstract class Controls_Stack extends Base_Object {
 			unset( $control_args['tablet_default'] );
 			unset( $control_args['mobile_default'] );
 
-			$id_suffix = self::RESPONSIVE_DESKTOP === $device_name ? '' : '_' . $device_name;
+			$id_suffix = Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP === $device_name ? '' : '_' . $device_name;
 
 			if ( ! empty( $options['overwrite'] ) ) {
 				$this->update_control( $id . $id_suffix, $control_args, [
@@ -915,13 +922,13 @@ abstract class Controls_Stack extends Base_Object {
 	 */
 	final public function remove_responsive_control( $id ) {
 		$devices = [
-			self::RESPONSIVE_DESKTOP,
-			self::RESPONSIVE_TABLET,
-			self::RESPONSIVE_MOBILE,
+			Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP,
+			Breakpoints_Manager::BREAKPOINT_KEY_TABLET,
+			Breakpoints_Manager::BREAKPOINT_KEY_MOBILE,
 		];
 
 		foreach ( $devices as $device_name ) {
-			$id_suffix = self::RESPONSIVE_DESKTOP === $device_name ? '' : '_' . $device_name;
+			$id_suffix = Breakpoints_Manager::BREAKPOINT_KEY_DESKTOP === $device_name ? '' : '_' . $device_name;
 
 			$this->remove_control( $id . $id_suffix );
 		}

@@ -96,7 +96,7 @@
 	.elementor-video-container {
 		@include absolute-center;
 
-		@media (min-width: $screen-lg-min) {
+		@media (min-width: $screen-tablet-next) {
 			width: 75%;
 		}
 

@@ -24,8 +24,11 @@ export default class ImageCarousel extends elementorModules.frontend.handlers.Sw
 		const elementSettings = this.getElementSettings(),
 			slidesToShow = +elementSettings.slides_to_show || 3,
 			isSingleSlide = 1 === slidesToShow,
-			defaultLGDevicesSlidesCount = isSingleSlide ? 1 : 2,
-			elementorBreakpoints = elementorFrontend.config.responsive.activeBreakpoints;
+			elementorBreakpoints = elementorFrontend.config.responsive.activeBreakpoints,
+			defaultSlidesToShowMap = {
+				mobile: 1,
+				tablet: isSingleSlide ? 1 : 2,
+			};
 
 		const swiperOptions = {
 			slidesPerView: slidesToShow,
@@ -36,11 +39,11 @@ export default class ImageCarousel extends elementorModules.frontend.handlers.Sw
 
 		swiperOptions.breakpoints = {};
 
-		let lastBreakpointSlidesToShowValue = 1;
+		let lastBreakpointSlidesToShowValue = slidesToShow;
 
 		Object.keys( elementorBreakpoints ).reverse().forEach( ( breakpointName ) => {
 			// Tablet has a specific default `slides_to_show`.
-			const defaultSlidesToShow = 'tablet' === breakpointName ? defaultLGDevicesSlidesCount : lastBreakpointSlidesToShowValue;
+			const defaultSlidesToShow = defaultSlidesToShowMap[ breakpointName ] ? defaultSlidesToShowMap[ breakpointName ] : lastBreakpointSlidesToShowValue;
 
 			swiperOptions.breakpoints[ elementorBreakpoints[ breakpointName ].value ] = {
 				slidesPerView: +elementSettings[ 'slides_to_show_' + breakpointName ] || defaultSlidesToShow,

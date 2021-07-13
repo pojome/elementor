@@ -92,7 +92,7 @@
 
 .elementor-editor__ui-state__color-picker {
 	*:not( .e-element-color-picker__swatch ) {
-		cursor: url( '../images/eyedropper.svg' ), pointer;
+		cursor: url( '../images/eyedropper.svg' ) 0 20, pointer;
 	}
 
 	.e-element-color-picker:not( .e-picker-hidden ):hover,

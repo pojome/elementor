@@ -2,12 +2,28 @@
 
 	&:after {
 
+		@media (min-width: $screen-widescreen-min) {
+			content: 'widescreen';
+		}
+
 		@media (min-width: $screen-lg-min) {
 			content: 'desktop';
 		}
 
+		@media (max-width: $screen-laptop-max) {
+			content: 'laptop';
+		}
+
+		@media (max-width: $screen-tablet-extra-max) {
+			content: 'tablet_extra';
+		}
+
 		@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
 			content: 'tablet';
+		}
+
+		@media (max-width: $screen-mobile-extra-max) {
+			content: 'mobile_extra';
 		}
 
 		@media (max-width: $screen-sm-max) {
