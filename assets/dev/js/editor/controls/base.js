@@ -102,7 +102,11 @@ ControlBaseView = Marionette.CompositeView.extend( {
 		// TODO: this.elementSettingsModel is deprecated since 2.8.0.
 		const settings = this.container ? this.container.settings : this.elementSettingsModel;
 
-		this.listenTo( settings, 'change', this.toggleControlVisibility );
+		this.listenTo( settings, 'change', this.onAfterChange );
+	},
+
+	onAfterChange: function() {
+		this.toggleControlVisibility();
 	},
 
 	toggleControlVisibility: function() {

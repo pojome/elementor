@@ -5,7 +5,8 @@ import Select2 from 'elementor-editor-utils/select2.js';
 
 ControlSelect2ItemView = ControlBaseDataView.extend( {
 	getSelect2Placeholder: function() {
-		return this.ui.select.children( 'option:first[value=""]' ).text();
+		return this.ui.select.find( `[value="${ this.model.get( 'placeholder' ) }"]` ).text() ||
+			this.ui.select.children( 'option:first[value=""]' ).text();
 	},
 
 	getSelect2DefaultOptions: function() {
@@ -36,6 +37,13 @@ ControlSelect2ItemView = ControlBaseDataView.extend( {
 		return jQuery.extend( this.getSelect2DefaultOptions(), this.model.get( 'select2options' ) );
 	},
 
+	updatePlaceholder: function() {
+		if ( this.model.get( 'placeholder' ) ) {
+			this.select2Instance.elements.$container.find( '.select2-selection__placeholder' )
+				.addClass( 'e-select2-placeholder' );
+		}
+	},
+
 	applySavedValue: function() {
 		ControlBaseDataView.prototype.applySavedValue.apply( this, arguments );
 
@@ -48,6 +56,7 @@ ControlSelect2ItemView = ControlBaseDataView.extend( {
 				options: this.getSelect2Options(),
 			} );
 
+			this.updatePlaceholder();
 			this.handleLockedOptions();
 		} else {
 			this.ui.select.trigger( 'change' );
@@ -68,6 +77,12 @@ ControlSelect2ItemView = ControlBaseDataView.extend( {
 
 	onReady: function() {
 		elementorCommon.helpers.softDeprecated( 'onReady', '3.0.0' );
+	},
+
+	onBaseInputChange: function() {
+		ControlBaseDataView.prototype.onBaseInputChange.apply( this, arguments );
+
+		this.updatePlaceholder();
 	},
 
 	onBeforeDestroy: function() {

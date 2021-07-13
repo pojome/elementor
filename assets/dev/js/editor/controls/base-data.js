@@ -75,6 +75,10 @@ ControlBaseDataView = ControlBaseView.extend( {
 
 		this.registerValidators();
 
+		if ( this.model.get( 'responsive' ) ) {
+			this.setPlaceholderFromParent();
+		}
+
 		// TODO: this.elementSettingsModel is deprecated since 2.8.0.
 		const settings = this.container ? this.container.settings : this.elementSettingsModel;
 
@@ -170,6 +174,106 @@ ControlBaseDataView = ControlBaseView.extend( {
 		settings.set( settingKey, settingValue );
 	},
 
+	/**
+	 * Get the responsive parent view if exists.
+	 *
+	 * @returns {ControlBaseDataView|null}
+	 */
+	getResponsiveParentView: function() {
+		const parent = this.model.get( 'parent' );
+
+		return parent && this.container.panel.getControlView( parent );
+	},
+
+	/**
+	 * Get the responsive child view if exists.
+	 *
+	 * @returns {ControlBaseDataView|null}
+	 */
+	getResponsiveChildView: function() {
+		const child = this.model.get( 'child' );
+
+		return child && this.container.panel.getControlView( child );
+	},
+
+	/**
+	 * Get prepared placeholder from the responsive parent, and put it into current
+	 * control model as placeholder.
+	 */
+	setPlaceholderFromParent: function() {
+		const parent = this.getResponsiveParentView();
+
+		if ( parent ) {
+			this.model.set( 'placeholder', parent.preparePlaceholderForChildren() );
+		}
+	},
+
+	/**
+	 * Returns the value of the current control if exists, or the parent value if not,
+	 * so responsive children can set it as their placeholder. When there are multiple
+	 * inputs, the inputs which are empty on this control will inherit their values
+	 * from the responsive parent.
+	 * For example, if on desktop the padding of all edges is 10, and on tablet only
+	 * padding right and left is set to 15, the mobile control placeholder will
+	 * eventually be: { top: 10, right: 15, left: 15, bottom: 10 }, because of the
+	 * inheritance of multiple values.
+	 *
+	 * @returns {*}
+	 */
+	preparePlaceholderForChildren: function() {
+		const parentValue = this.getResponsiveParentView()?.preparePlaceholderForChildren(),
+			cleanValue = this.getCleanControlValue();
+
+		if ( cleanValue ) {
+			return Object.assign( {}, parentValue, cleanValue );
+		}
+
+		return this.getControlValue() || parentValue;
+	},
+
+	/**
+	 * Start the re-rendering recursive chain from the responsive child of this
+	 * control. It's useful when the current control value is changed and we want
+	 * to update all responsive children. In this case, the re-rendering is supposed
+	 * to be applied only from the responsive child of this control and on.
+	 */
+	propagatePlaceholder: function() {
+		const child = this.getResponsiveChildView();
+
+		if ( child ) {
+			child.renderWithChildren();
+		}
+	},
+
+	/**
+	 * Re-render current control and trigger this method on the responsive child.
+	 * The purpose of those actions is to recursively re-render all responsive
+	 * children.
+	 */
+	renderWithChildren: function() {
+		const child = this.getResponsiveChildView();
+
+		this.render();
+
+		if ( child ) {
+			child.renderWithChildren();
+		}
+	},
+
+	/**
+	 * This method's primary implementation is written under base-multiple view,
+	 * please refer there for explanation.
+	 */
+	getCleanControlValue: function() {},
+
+	onAfterChange: function( control ) {
+		if ( Object.keys( control.changed ).includes( this.model.get( 'name' ) ) ) {
+			this.propagatePlaceholder();
+		}
+
+		ControlBaseView.prototype.onAfterChange.apply( this, arguments );
+	},
+
 	getInputValue: function( input ) {
 		var $input = this.$( input );
 
@@ -237,6 +341,10 @@ ControlBaseDataView = ControlBaseView.extend( {
 				} ) );
 			} );
 		}
+	},
+
+	onBeforeRender: function() {
+		this.setPlaceholderFromParent();
 	},
 
 	onRender: function() {

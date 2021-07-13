@@ -810,6 +810,9 @@ abstract class Controls_Stack extends Base_Object {
 		foreach ( $devices as $device_name ) {
 			$control_args = $args;
 
+			// Set parent using the name from previous iteration.
+			$control_args['parent'] = isset( $control_name ) ? $control_name : null;
+
 			if ( isset( $control_args['device_args'] ) ) {
 				if ( ! empty( $control_args['device_args'][ $device_name ] ) ) {
 					$control_args = array_merge( $control_args, $control_args['device_args'][ $device_name ] );
@@ -842,14 +845,17 @@ abstract class Controls_Stack extends Base_Object {
 			unset( $control_args['tablet_default'] );
 			unset( $control_args['mobile_default'] );
 
-			$id_suffix = self::RESPONSIVE_DESKTOP === $device_name ? '' : '_' . $device_name;
+			$control_name = $id . ( self::RESPONSIVE_DESKTOP === $device_name ? '' : '_' . $device_name );
+
+			// Set this control as child of previous iteration control.
+			$this->update_control( $control_args['parent'], [ 'child' => $control_name ] );
 
 			if ( ! empty( $options['overwrite'] ) ) {
-				$this->update_control( $id . $id_suffix, $control_args, [
+				$this->update_control( $control_name, $control_args, [
 					'recursive' => ! empty( $options['recursive'] ),
 				] );
 			} else {
-				$this->add_control( $id . $id_suffix, $control_args, $options );
+				$this->add_control( $control_name, $control_args, $options );
 			}
 		}
 	}

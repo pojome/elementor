@@ -1,7 +1,7 @@
 var Conditions;
 
 Conditions = function() {
-	var self = this;
+	const self = this;
 
 	this.compare = function( leftValue, rightValue, operator ) {
 		switch ( operator ) {
@@ -35,24 +35,42 @@ Conditions = function() {
 	};
 
 	this.check = function( conditions, comparisonObject ) {
-		var isOrCondition = 'or' === conditions.relation,
-			conditionSucceed = ! isOrCondition;
+		const isOrCondition = 'or' === conditions.relation;
+		let conditionSucceed = ! isOrCondition;
 
 		jQuery.each( conditions.terms, function() {
-			var term = this,
-				comparisonResult;
+			const term = this;
+			let comparisonResult;
 
 			if ( term.terms ) {
 				comparisonResult = self.check( term, comparisonObject );
 			} else {
-				var parsedName = term.name.match( /(\w+)(?:\[(\w+)])?/ ),
-					value = comparisonObject[ parsedName[ 1 ] ];
+				// A term consists of a control name to be examined, and a sub key if needed. For example, a term
+				// can look like 'image_overlay[url]' (the 'url' is the sub key). Here we want to isolate the
+				// condition name and the sub key, so later it can be retrieved and examined.
+				const parsedName = term.name.match( /(\w+)(?:\[(\w+)])?/ ),
+					conditionRealName = parsedName[ 1 ],
+					conditionSubKey = parsedName[ 2 ],
+					// We use null-safe operator since we're trying to get the control model, which is not always
+					// exists, since it's only created when the specific control appears in the panel.
+					placeholder = elementor.getPanelView().getCurrentPageView()
+						?.getControlModel?.( conditionRealName )?.get( 'placeholder' );
 
-				if ( parsedName[ 2 ] ) {
-					value = value[ parsedName[ 2 ] ];
+				// If a placeholder exists for the examined control, we check against it. In any other case, we
+				// use the 'comparisonObject', which includes all values of the selected widget.
+				let value = placeholder || comparisonObject[ conditionRealName ];
+
+				if ( comparisonObject.__dynamic__ && comparisonObject.__dynamic__[ conditionRealName ] ) {
+					value = comparisonObject.__dynamic__[ conditionRealName ];
 				}
 
-				comparisonResult = self.compare( value, term.value, term.operator );
+				if ( value && conditionSubKey ) {
+					value = value[ conditionSubKey ];
+				}
+
+				comparisonResult = undefined !== value ?
+					self.compare( value, term.value, term.operator ) :
+					true;
 			}
 
 			if ( isOrCondition ) {

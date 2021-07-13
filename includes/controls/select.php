@@ -66,8 +66,7 @@ class Control_Select extends Base_Data_Control {
 			<# } #>
 			<div class="elementor-control-input-wrapper elementor-control-unit-5">
 				<select id="<?php echo $control_uid; ?>" data-setting="{{ data.name }}">
-				<#
-					var printOptions = function( options ) {
+				<# var printOptions = function( options ) {
 						_.each( options, function( option_title, option_value ) { #>
 								<option value="{{ option_value }}">{{{ option_title }}}</option>
 						<# } );

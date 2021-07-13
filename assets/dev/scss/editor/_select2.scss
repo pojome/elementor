@@ -4,6 +4,10 @@
 	z-index: $editor-layer;
 	font-size: 12px;
 
+	.e-select2-placeholder {
+		color: $editor-light;
+	}
+
 	&.select2-container--default {
 
 		.select2-selection--single {

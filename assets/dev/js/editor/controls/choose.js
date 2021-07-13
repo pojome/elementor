@@ -18,6 +18,23 @@ ControlChooseItemView = ControlBaseDataView.extend( {
 		} );
 	},
 
+	updatePlaceholder: function() {
+		const placeholder = this.model.get( 'placeholder' );
+
+		if ( ! this.getControlValue() && placeholder ) {
+			// Find the input which has value equals to the placeholder (which is the parent's value),
+			// and add it a placeholder class, to indicate which value is selected in the parent.
+			this.ui.inputs.filter( `[value="${ this.model.get( 'placeholder' ) }"]` )
+				.addClass( 'e-choose-placeholder' );
+		} else {
+			this.ui.inputs.removeClass( 'e-choose-placeholder' );
+		}
+	},
+
+	onReady: function() {
+		this.updatePlaceholder();
+	},
+
 	applySavedValue: function() {
 		const currentValue = this.getControlValue();
 
@@ -45,6 +62,12 @@ ControlChooseItemView = ControlBaseDataView.extend( {
 		if ( $selectedInput.data( 'checked' ) ) {
 			$selectedInput.prop( 'checked', false ).trigger( 'change' );
 		}
+	},
+
+	onBaseInputChange: function( event ) {
+		ControlBaseDataView.prototype.onBaseInputChange.apply( this, arguments );
+
+		this.updatePlaceholder();
 	},
 }, {
 

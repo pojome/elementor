@@ -42,6 +42,12 @@
 	input {
 		display: none;
 
+		&.e-choose-placeholder + .elementor-choices-label {
+			color: $white;
+			background-color: $editor-lighter;
+			border-color: $editor-lighter;
+		}
+
 		&:checked + .elementor-choices-label {
 			color: #fff;
 			background-color: $editor-light;

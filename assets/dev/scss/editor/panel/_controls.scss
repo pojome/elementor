@@ -177,6 +177,14 @@
 				@include padding-start(5px); //fix for Chrome
 				@include padding-end(20px);
 				cursor: pointer;
+
+				&.e-select-placeholder {
+					color: $editor-light;
+				}
+			}
+
+			option.e-option-placeholder {
+				display: none;
 			}
 
 			&:after {
@@ -360,6 +368,11 @@
 
 		&:not(:checked) + label {
 			color: $editor-light;
+		}
+
+		&.e-units-placeholder + label {
+			color: $editor-lighter;
+			text-decoration: underline;
 		}
 
 		&:checked + label {

@@ -44,11 +44,16 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend( {
 	},
 
 	applySavedValue: function() {
-		const url = this.getControlValue( 'url' ),
+		const value = this.getControlValue( 'url' ),
+			url = value || this.model.get( 'placeholder' )?.url,
 			mediaType = this.getMediaType();
 
 		if ( [ 'image', 'svg' ].includes( mediaType ) ) {
 			this.ui.mediaImage.css( 'background-image', url ? 'url(' + url + ')' : '' );
+
+			if ( ! value && url ) {
+				this.ui.mediaImage.css( 'opacity', 0.5 );
+			}
 		} else if ( 'video' === mediaType ) {
 			this.ui.mediaVideo.attr( 'src', url );
 		} else {
@@ -56,7 +61,7 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend( {
 			this.ui.fileName.text( fileName );
 		}
 
-		this.ui.controlMedia.toggleClass( 'elementor-media-empty', ! url );
+		this.ui.controlMedia.toggleClass( 'elementor-media-empty', ! value );
 	},
 
 	openFrame: function( e ) {
@@ -224,7 +229,12 @@ ControlMediaItemView = ControlMultipleBaseItemView.extend( {
 				source: attachment.source,
 			} );
 
-			this.applySavedValue();
+			if ( this.model.get( 'responsive' ) ) {
+				// Render is already calls `applySavedValue`, therefore there's no need for it in this case.
+				this.renderWithChildren();
+			} else {
+				this.applySavedValue();
+			}
 		}
 
 		this.trigger( 'after:select' );

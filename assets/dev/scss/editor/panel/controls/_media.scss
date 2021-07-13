@@ -3,7 +3,9 @@
 	&.elementor-media-empty {
 
 		.elementor-control-media-area {
-			display: none;
+			.elementor-control-media__remove, .elementor-control-media__content__remove {
+				display: none;
+			}
 		}
 	}
 
@@ -33,6 +35,7 @@
 		height: 100%;
 		background-size: cover;
 		background-position: center;
+		background-color: $editor-lightest;
 	}
 
 	&-area {
