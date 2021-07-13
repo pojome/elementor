@@ -1,10 +1,10 @@
 # API - `$e.components`
 The new Components API (since 2.7.0), provides a simple and convenient way to bind all route and commands, and keyboard shortcuts that belong to a UI component – into one controller.
 The full list of components, including custom & 3rd routes, is available via: `$e.components.getAll();`
-Each component has it’s unique namespace, that all it’s command and routes are nested under it.
+Each component have unique namespace, that have commands and routes, they are nested under him, ( `component-name/command-name )`.
 
-On route, to a component route, when the component becomes “active”, it allows binding of keyboard shortcuts for each component.
-The components are extensible so a 3rd party plugin can add some routes, command and shortcuts to an existing component.
+On route, to a one of component routes, when the component becomes “active”, it allows binding of keyboard shortcuts for each component.
+The components are extensible, so a 3rd party plugin can add some routes, command and shortcuts to an existing component.
 
 *  **Description**: `$e.components` API is a manager for whole **api** components.
 *  **Location**: *core/common/assets/js/api/core/components.js*
@@ -112,4 +112,4 @@ The components are extensible so a 3rd party plugin can add some routes, command
     export default class Component;
     ```
 
-### [Back](../readme.md) 
+### [Back](../index.md) 

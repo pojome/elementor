@@ -141,6 +141,23 @@ The full list of commands, including custom & 3rd commands, is available via: `$
             }
             ```
     * Commands data
+    
+        * > #### Avoid create 'commands-data' as files
+        * Example: 
+            ```javascript
+            class Component extends $e.modules.ComponentBase {
+                getNamespace() {
+                  return 'best-practices';
+                }
+          
+                defaultData() {
+                    return {
+                      'command-name': 'endpoint-format',
+                      'best-practices': 'best-practices/{id}',
+                    }
+                }
+            }
+            ```
         * Example:
             ```html class:"lineNo"
             1  📦 component
@@ -171,4 +188,4 @@ The full list of commands, including custom & 3rd commands, is available via: `$
             ```
 ### **Note:** further information about [`{$e.modules.CommandBase}`](../modules/command-base.full.md)**class**.
 
-### [Back](../readme.md) 
+### [Back](../index.md) 
