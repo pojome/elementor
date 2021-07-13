@@ -157,7 +157,7 @@ class Api {
 	public static function get_promotion_widgets() {
 		$data = self::get_info_data();
 
-		return $data['pro_widgets'];
+		return isset( $data['pro_widgets'] ) ? $data['pro_widgets'] : false;
 	}
 
 	/**
