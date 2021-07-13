@@ -28,6 +28,13 @@ class Repeater extends Element_Base {
 	private static $counter = 0;
 
 	/**
+	 * Holds the count of the CURRENT instance
+	 *
+	 * @var int
+	 */
+	private $id;
+
+	/**
 	 * Repeater constructor.
 	 *
 	 * Initializing Elementor repeater element.
@@ -41,6 +48,8 @@ class Repeater extends Element_Base {
 	 */
 	public function __construct( array $data = [], array $args = null ) {
 		self::$counter++;
+
+		$this->id = self::$counter;
 
 		parent::__construct( $data, $args );
 
@@ -63,7 +72,7 @@ class Repeater extends Element_Base {
 	 * @return string Repeater name.
 	 */
 	public function get_name() {
-		return 'repeater-' . self::$counter;
+		return 'repeater-' . $this->id;
 	}
 
 	/**
