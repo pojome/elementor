@@ -522,7 +522,7 @@ class Widget_Icon_List extends Widget_Base {
 			Group_Control_Typography::get_type(),
 			[
 				'name' => 'icon_typography',
-				'selector' => '{{WRAPPER}} .elementor-icon-list-item, {{WRAPPER}} .elementor-icon-list-item a',
+				'selector' => '{{WRAPPER}} .elementor-icon-list-item > .elementor-icon-list-text, {{WRAPPER}} .elementor-icon-list-item > a',
 				'global' => [
 					'default' => Global_Typography::TYPOGRAPHY_TEXT,
 				],

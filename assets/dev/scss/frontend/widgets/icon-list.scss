@@ -57,7 +57,8 @@
 
 		&, a {
 			display: flex;
-			align-items: flex-start;
+			align-items: center;
+			font-size: inherit;
 		}
 	}
 
@@ -67,7 +68,7 @@
 	}
 
 	.elementor-icon-list-icon {
-		flex-shrink: 0;
+		display: flex;
 
 		i {
 			width: 1.25em;
