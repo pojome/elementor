@@ -1,6 +1,8 @@
 <?php
 namespace Elementor;
 
+use Elementor\Core\Breakpoints\Manager as Breakpoints_Manager;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -705,12 +707,12 @@ class Widget_Common extends Widget_Base {
 					'_element_width' => 'initial',
 				],
 				'device_args' => [
-					Controls_Stack::RESPONSIVE_TABLET => [
+					Breakpoints_Manager::BREAKPOINT_KEY_TABLET => [
 						'condition' => [
 							'_element_width_tablet' => [ 'initial' ],
 						],
 					],
-					Controls_Stack::RESPONSIVE_MOBILE => [
+					Breakpoints_Manager::BREAKPOINT_KEY_MOBILE => [
 						'condition' => [
 							'_element_width_mobile' => [ 'initial' ],
 						],

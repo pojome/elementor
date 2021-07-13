@@ -2,15 +2,31 @@
 
 	&:after {
 
-		@media (min-width: $screen-lg-min) {
+		@media (min-width: $screen-widescreen-min) {
+			content: 'widescreen';
+		}
+
+		@media (min-width: $screen-desktop-min) {
 			content: 'desktop';
 		}
 
-		@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+		@media (max-width: $screen-laptop-max) {
+			content: 'laptop';
+		}
+
+		@media (max-width: $screen-tablet-extra-max) {
+			content: 'tablet_extra';
+		}
+
+		@media (min-width: $screen-tablet-min) and (max-width: $screen-tablet-max) {
 			content: 'tablet';
 		}
 
-		@media (max-width: $screen-sm-max) {
+		@media (max-width: $screen-mobile-extra-max) {
+			content: 'mobile_extra';
+		}
+
+		@media (max-width: $screen-mobile-max) {
 			content: 'mobile';
 		}
 	}

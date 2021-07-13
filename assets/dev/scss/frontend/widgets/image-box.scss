@@ -7,7 +7,7 @@
 		width: 100%; // Hack for Chrome in flex mode
 	}
 
-	@media (min-width: $screen-md-min) {
+	@media (min-width: $screen-mobile-next) {
 
 		&.elementor-position- {
 
@@ -67,7 +67,7 @@
 		}
 	}
 
-	@media (max-width: $screen-sm-max) {
+	@media (max-width: $screen-mobile-max) {
 
 		// TEMP code to override the image spacing
 		.elementor-image-box-img {

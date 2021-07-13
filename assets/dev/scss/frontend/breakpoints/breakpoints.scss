@@ -1,11 +1,11 @@
 $screen-xs-max: map_get($breakpoints, sm) - 1;
-$screen-sm-min: map_get($breakpoints, sm);
+$screen-mobile-min: map_get($breakpoints, sm);
 
 // Start editable breakpoints area
 @import "proxy";
 // End
 
-$screen-lg-max: map_get($breakpoints, xl) - 1;
+$screen-desktop-max: map_get($breakpoints, xl) - 1;
 $screen-xl-min: map_get($breakpoints, xl);
 $screen-xl-max: map_get($breakpoints, xxl) - 1;
 $screen-xxl-min: map_get($breakpoints, xxl);

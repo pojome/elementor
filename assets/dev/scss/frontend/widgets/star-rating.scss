@@ -89,11 +89,11 @@
 
 @include star-rating-align('');
 
-@media (max-width: $screen-md-max) {
+@media (max-width: $screen-tablet-max) {
 	@include star-rating-align(-tablet);
 }
 
-@media (max-width: $screen-sm-max) {
+@media (max-width: $screen-mobile-max) {
 	@include star-rating-align(-mobile);
 }
 

@@ -153,7 +153,7 @@
 		}
 	}
 
-	@media (max-width: $screen-md-max) {
+	@media (max-width: $screen-tablet-max) {
 		&.elementor-tablet-align-center {
 
 			.elementor-icon-list-items {
@@ -223,7 +223,7 @@
 		}
 	}
 
-	@media (max-width: $screen-sm-max) {
+	@media (max-width: $screen-mobile-max) {
 		&.elementor-mobile-align-center {
 
 			.elementor-icon-list-items {

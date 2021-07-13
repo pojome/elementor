@@ -80,11 +80,11 @@
 
 	@include social-icons-align-right-safari();
 
-	@media (max-width: $screen-md-max) {
+	@media (max-width: $screen-tablet-max) {
 	  	@include social-icons-align-right-safari('-tablet');
 	}
 
-	@media (max-width: $screen-sm-max) {
+	@media (max-width: $screen-mobile-max) {
 	  	@include social-icons-align-right-safari('-mobile');
 	}
 }

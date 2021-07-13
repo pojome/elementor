@@ -13,7 +13,7 @@
 		margin-left: auto;
 		position: relative;
 
-		@media (max-width: $screen-md-max) {
+		@media (max-width: $screen-tablet-max) {
 			flex-wrap: wrap;
 		}
 	}
@@ -56,7 +56,7 @@
 		}
 	}
 
-	@media (min-width: $screen-md-min) {
+	@media (min-width:$screen-mobile-next) {
 
 		// Section Full Height (note: don't be smart - min-height does not work well with the content position)
 		&.elementor-section-height-full {
@@ -118,7 +118,7 @@
 	width: 100%;
 	display: flex;
 
-	@media (max-width: $screen-md-max) {
+	@media (max-width: $screen-tablet-max) {
 		flex-wrap: wrap;
 	}
 }
@@ -227,7 +227,7 @@
 }
 
 // Responsive Grid
-@media (min-width: $screen-md-min) {
+@media (min-width:$screen-mobile-next) {
 
 	.elementor-column {
 		@include elementor-grid-classes;
@@ -240,11 +240,11 @@
 		@include elementor-responsive(xs);
 	}
 
-	@media (max-width: $screen-sm-max) {
+	@media (max-width: $screen-mobile-max) {
 		@include elementor-responsive(sm);
 	}
 
-	@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+	@media (min-width:$screen-mobile-next) and (max-width: $screen-tablet-max) {
 		@include elementor-responsive(md);
 	}
 }
@@ -260,11 +260,11 @@
 	}
 }
 
-@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+@media (min-width:$screen-mobile-next) and (max-width: $screen-tablet-max) {
 	@include reverse-columns(-tablet);
 }
 
-@media (max-width: $screen-sm-max) {
+@media (max-width: $screen-mobile-max) {
 	@include reverse-columns(-mobile);
 
 	.elementor-column {
@@ -322,11 +322,27 @@ ul.elementor-icon-list-items.elementor-inline-items {
 
 	@include grid_loop('');
 
-	@media (max-width: $screen-md-max) {
+	@media (min-width: $screen-widescreen-min) {
+		@include grid_loop(-widescreen);
+	}
+
+	@media (max-width: $screen-laptop-max) {
+		@include grid_loop(-laptop);
+	}
+
+	@media (max-width: $screen-tablet-extra-max) {
+		@include grid_loop(-tablet_extra);
+	}
+
+	@media (max-width: $screen-tablet-max) {
 		@include grid_loop(-tablet);
 	}
 
-	@media (max-width: $screen-sm-max) {
+	@media (max-width: $screen-mobile-extra-max) {
+		@include grid_loop(-mobile_extra);
+	}
+
+	@media (max-width: $screen-mobile-max) {
 		@include grid_loop(-mobile);
 	}
 }

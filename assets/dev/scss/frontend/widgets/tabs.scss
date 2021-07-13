@@ -116,7 +116,7 @@
 }
 
 // Responsive mode
-@media (max-width: $screen-sm-max) {
+@media (max-width: $screen-mobile-max) {
 
 	.elementor-tabs {
 
@@ -140,7 +140,7 @@
 	}
 }
 
-@media (min-width: $screen-md-min) {
+@media (min-width: $screen-mobile-next) {
 
 	.elementor-widget-tabs {
 

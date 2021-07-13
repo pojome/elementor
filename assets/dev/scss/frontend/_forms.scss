@@ -254,14 +254,14 @@
 	@include btn-align();
 }
 
-@media screen and ( max-width: $screen-md-max ){
+@media screen and ( max-width: $screen-tablet-max ){
 
 	.elementor-tablet-button-align- {
 		@include btn-align();
 	}
 }
 
-@media screen and ( max-width: $screen-sm-max ){
+@media screen and ( max-width: $screen-mobile-max ){
 
 	.elementor-mobile-button-align- {
 		@include btn-align();

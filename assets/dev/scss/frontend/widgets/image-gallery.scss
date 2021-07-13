@@ -36,7 +36,7 @@
 		}
 	}
 
-	@media (min-width: $screen-md-min) {
+	@media (min-width: $screen-mobile-next) {
 
 		.gallery-columns- {
 
@@ -79,7 +79,7 @@
 	}
 
 	// Responsive mode
-	@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+	@media (min-width: $screen-mobile-min) and (max-width: $screen-mobile-max) {
 
 		// All selectors needed for some themes and plugins
 		.gallery.gallery-columns- {

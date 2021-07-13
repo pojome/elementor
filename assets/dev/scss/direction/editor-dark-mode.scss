@@ -455,8 +455,6 @@ a.elementor-responsive-switcher {
 	}
 }
 
-$devices: 'desktop', 'tablet', 'mobile';
-
 @each $device in $devices {
 	.elementor-device-#{ $device } {
 		.elementor-responsive-switchers-open:not(:hover) {

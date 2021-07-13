@@ -2,7 +2,7 @@ import CommandBase from 'elementor-api/modules/command-base';
 
 export class ChangeDeviceMode extends CommandBase {
 	apply( args = {} ) {
-		const devices = [ 'desktop', 'tablet', 'mobile' ];
+		const devices = Object.keys( elementorFrontend.config.responsive.activeBreakpoints ).reverse();
 		let { device } = args;
 
 		if ( ! device ) {

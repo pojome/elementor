@@ -31,10 +31,10 @@ $direction: ltr;
 		}
 		@include grid_loop('');
 
-		@media (max-width: $screen-md-max) {
+		@media (max-width: $screen-tablet-max) {
 			@include grid_loop(-tablet);
 		}
-		@media (max-width: $screen-sm-max) {
+		@media (max-width: $screen-mobile-max) {
 			@include grid_loop(-mobile);
 		}
 	}
@@ -51,10 +51,10 @@ $direction: ltr;
 		}
 		@include product_loop('');
 
-		@media (max-width: $screen-md-max) {
+		@media (max-width: $screen-tablet-max) {
 			@include product_loop(-tablet);
 		}
-		@media (max-width: $screen-sm-max) {
+		@media (max-width: $screen-mobile-max) {
 			@include product_loop(-mobile);
 		}
 	}

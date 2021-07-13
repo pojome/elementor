@@ -1,12 +1,20 @@
 $editor-screen-xs-max: map_get($breakpoints, sm) - 1;
-$editor-screen-sm-min: map_get($breakpoints, sm);
-$editor-screen-sm-max: map_get($breakpoints, md) - 1;
-$editor-screen-md-min: map_get($breakpoints, md);
-$editor-screen-md-max: map_get($breakpoints, lg) - 1;
-$editor-screen-lg-min: map_get($breakpoints, lg);
-$editor-screen-lg-max: map_get($breakpoints, xl) - 1;
+$editor-screen-mobile-min: map_get($breakpoints, sm);
+$editor-screen-mobile-max: map_get($breakpoints, md) - 1;
+$editor-screen-tablet-min: map_get($breakpoints, md);
+$editor-screen-tablet-max: map_get($breakpoints, lg) - 1;
+$editor-screen-desktop-min: map_get($breakpoints, lg);
+$editor-screen-desktop-max: map_get($breakpoints, xl) - 1;
 $editor-screen-xl-min: map_get($breakpoints, xl);
 $editor-screen-xl-max: map_get($breakpoints, xxl) - 1;
 $editor-screen-xxl-min: map_get($breakpoints, xxl);
+
+// Aliases
+$editor-screen-sm-min: $editor-screen-mobile-min;
+$editor-screen-sm-max: $editor-screen-mobile-max;
+$editor-screen-md-min: $editor-screen-tablet-min;
+$editor-screen-md-max: $editor-screen-tablet-max;
+$editor-screen-lg-min: $editor-screen-desktop-min;
+$editor-screen-lg-max: $editor-screen-desktop-max;
 
 $library_screen_breakpoint: $editor-screen-lg-max;

@@ -268,6 +268,18 @@ class Manager extends Base_Object {
 			'release_status' => self::RELEASE_STATUS_BETA,
 			'default' => self::STATE_ACTIVE,
 		] );
+
+		$this->add_feature( [
+			'name' => 'additional_custom_breakpoints',
+			'title' => esc_html__( 'Additional Custom Breakpoints', 'elementor' ),
+			'description' => esc_html__( 'Add Additional Custom Breakpoints (beyond just \'mobile\' and \'tablet\') Optimize your site\'s performance when using responsive controls.', 'elementor' )
+							. '<br /><strong>' . esc_html__( 'Please note! Conditioning controls on values of responsive controls is not supported when this mode is active.', 'elementor' ) . '</strong>',
+			'release_status' => self::RELEASE_STATUS_DEV,
+			'new_site' => [
+				'default_active' => true,
+				'minimum_installation_version' => '3.4.0-beta',
+			],
+		] );
 	}
 
 	/**

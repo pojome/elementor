@@ -1,4 +1,22 @@
-$screen-sm-max: ELEMENTOR_SCREEN_MOBILE_MAX;
-$screen-md-min: ELEMENTOR_SCREEN_TABLET_MIN;
-$screen-md-max: ELEMENTOR_SCREEN_TABLET_MAX;
-$screen-lg-min: ELEMENTOR_SCREEN_DESKTOP_MIN;
+$screen-mobile-max: ELEMENTOR_SCREEN_MOBILE_MAX;
+// mobile-next = mobile max + 1
+$screen-mobile-next: ELEMENTOR_SCREEN_MOBILE_NEXT;
+$screen-mobile-extra-min: ELEMENTOR_SCREEN_MOBILE_EXTRA_MIN;
+$screen-mobile-extra-max: ELEMENTOR_SCREEN_MOBILE_EXTRA_MAX;
+$screen-tablet-min: ELEMENTOR_SCREEN_TABLET_MIN;
+$screen-tablet-max: ELEMENTOR_SCREEN_TABLET_MAX;
+// tablet-next = tablet max + 1
+$screen-tablet-next: ELEMENTOR_SCREEN_TABLET_NEXT;
+$screen-tablet-extra-min: ELEMENTOR_SCREEN_TABLET_EXTRA_MIN;
+$screen-tablet-extra-max: ELEMENTOR_SCREEN_TABLET_EXTRA_MAX;
+$screen-laptop-min: ELEMENTOR_SCREEN_LAPTOP_MIN;
+$screen-laptop-max: ELEMENTOR_SCREEN_LAPTOP_MAX;
+$screen-desktop-min: ELEMENTOR_SCREEN_DESKTOP_MIN;
+$screen-desktop-max: ELEMENTOR_SCREEN_DESKTOP_MAX;
+$screen-widescreen-min: ELEMENTOR_SCREEN_WIDESCREEN_MIN;
+
+// Aliases
+$screen-sm-max: $screen-mobile-max;
+$screen-md-min: $screen-tablet-min;
+$screen-md-max: $screen-tablet-max;
+$screen-lg-min: $screen-desktop-min;

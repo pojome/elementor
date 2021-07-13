@@ -21,7 +21,8 @@
 			hash = hash.split( '-' ).filter( String );
 
 			hash.forEach( function( singleQuery ) {
-				var queryParts = singleQuery.split( '_' ),
+				// split {max}/{min}_{device name} to separate strings
+				var queryParts = singleQuery.split( /_(.+)/ ),
 					endPoint = queryParts[ 0 ],
 					deviceName = queryParts[ 1 ];
 

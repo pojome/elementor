@@ -71,7 +71,7 @@
 		height: 100%;
 		margin: auto;
 
-		@media (max-width: $screen-sm-max) {
+		@media (max-width: $screen-mobile-max) {
 			padding: 70px 0;
 		}
 	}
@@ -96,11 +96,11 @@
 	.elementor-video-container {
 		@include absolute-center;
 
-		@media (min-width: $screen-lg-min) {
+		@media (min-width: $screen-tablet-next) {
 			width: 75%;
 		}
 
-		@media (max-width: $screen-md-max) {
+		@media (max-width: $screen-tablet-max) {
 			width: 100%;
 		}
 	}
@@ -135,7 +135,7 @@
 			right: 0;
 		}
 
-		@media (max-width: $screen-sm-max) {
+		@media (max-width: $screen-mobile-max) {
 			&:focus {
 				outline: none;
 			}

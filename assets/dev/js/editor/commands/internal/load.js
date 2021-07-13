@@ -10,6 +10,12 @@ export class Load extends CommandInternalBase {
 	apply( args ) {
 		const { config } = args;
 
+		if ( elementorCommon.config.experimentalFeatures.additional_custom_breakpoints ) {
+			// When the Responsive Optimization experiment is active, the responsive controls are generated on the
+			// JS side instead of the PHP.
+			config.settings.controls = elementor.generateResponsiveControls( config.settings.controls );
+		}
+
 		elementor.config.document = config;
 
 		elementor.setAjax();

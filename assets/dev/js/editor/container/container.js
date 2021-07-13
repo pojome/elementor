@@ -497,7 +497,11 @@ export default class Container extends ArgsObject {
 
 		// it's a global settings with additional controls in group.
 		if ( control.groupType ) {
-			let propertyName = control.name.replace( control.groupPrefix, '' ).replace( /(_tablet|_mobile)$/, '' );
+			// Create a regex expression containing all of the active breakpoints' prefixes ('_mobile', '_tablet' etc.)
+			const activeBreakpoints = elementorFrontend.config.responsive.activeBreakpoints,
+				responsivePrefixRegex = new RegExp( Object.keys( activeBreakpoints ).map( ( device ) => '_' + device ).join( '|' ) + '$' );
+
+			let propertyName = control.name.replace( control.groupPrefix, '' ).replace( responsivePrefixRegex, '' );
 
 			if ( ! data.value[ elementor.config.kit_config.typography_prefix + propertyName ] ) {
 				return;

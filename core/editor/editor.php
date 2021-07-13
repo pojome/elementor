@@ -588,6 +588,11 @@ class Editor {
 			],
 			// Empty array for BC to avoid errors.
 			'i18n' => [],
+			// 'responsive' contains the custom breakpoints config introduced in Elementor v3.2.0
+			'responsive' => [
+				'breakpoints' => Plugin::$instance->breakpoints->get_breakpoints_config(),
+				'icons_map' => Plugin::$instance->breakpoints->get_responsive_icons_classes_map(),
+			],
 		];
 
 		if ( ! Utils::has_pro() && current_user_can( 'manage_options' ) ) {

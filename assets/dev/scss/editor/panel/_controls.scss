@@ -17,6 +17,10 @@
 		&:hover {
 			border-bottom-color: inherit;
 		}
+
+		&.elementor-responsive-switcher {
+			border-bottom: 0;
+		}
 	}
 
 	//Avoid collapsing margin in the repeater control
@@ -134,24 +138,12 @@
 
 	&.elementor-control-responsive- {
 
-		&desktop {
+		@each $device in $devices {
 
-			body:not(.elementor-device-desktop) & {
-				display: none;
-			}
-		}
-
-		&tablet {
-
-			body:not(.elementor-device-tablet) & {
-				display: none;
-			}
-		}
-
-		&mobile {
-
-			body:not(.elementor-device-mobile) & {
-				display: none;
+			&#{ $device } {
+				body:not(.elementor-device-#{ $device }) & {
+					display: none;
+				}
 			}
 		}
 	}
@@ -448,8 +440,6 @@ a.elementor-responsive-switcher {
 		color: $editor-info;
 	}
 }
-
-$devices: 'desktop', 'tablet', 'mobile';
 
 @each $device in $devices {
 	.elementor-device-#{ $device } {

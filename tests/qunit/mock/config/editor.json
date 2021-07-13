@@ -34,5 +34,9 @@
 		"soft_notices": []
 	}
   },
+  "responsive": {
+	"breakpoints":  {},
+	"activeBreakpoints": {}
+  },
   "experimentalFeatures": {}
 }
