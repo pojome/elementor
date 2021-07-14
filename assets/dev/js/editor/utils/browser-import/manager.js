@@ -133,6 +133,7 @@ export default class BrowserImportManager {
 	 *
 	 * @param widgetType
 	 * @param options
+	 * @returns {*}
 	 */
 	createWidget( widgetType, options = {} ) {
 		const view = this.getContainer().view,
@@ -144,10 +145,15 @@ export default class BrowserImportManager {
 			.trigger( 'element:drag:start' );
 
 		const widget = onDropping.call( view, side, event );
-		widget.settings.setExternalChange( options );
-		widget.view.render();
+
+		$e.run( 'document/elements/settings', {
+			container: widget,
+			settings: options,
+		} );
 
 		elementor.channels.panelElements.trigger( 'element:drag:end' );
+
+		return widget;
 	}
 
 	/**

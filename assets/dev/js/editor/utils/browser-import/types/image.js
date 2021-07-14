@@ -5,20 +5,17 @@ export class Image extends Type {
 	 * @inheritDoc
 	 */
 	render() {
-		const reader = new FileReader();
-
-		reader.readAsDataURL( this.getFile() );
-
-		reader.onloadend = () => {
-			this.getManager().createWidget( 'image', {
-				image: {
-					url: reader.result,
-					id: '',
-					alt: 'hello',
-					source: 'url',
-				},
+		$e.data.run( 'create', 'wp/media', { file: this.getFile(), options: {} } )
+			.then( ( { data } ) => {
+				this.getManager().createWidget( 'image', {
+					image: {
+						url: data.source_url,
+						id: data.id,
+						alt: 'hello',
+						source: 'library',
+					},
+				} );
 			} );
-		};
 	}
 
 	/**

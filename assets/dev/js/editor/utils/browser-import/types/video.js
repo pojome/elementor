@@ -5,23 +5,18 @@ export class Video extends Type {
 	 * @inheritDoc
 	 */
 	render() {
-		this.getManager.createWidget( 'video', {
-			video_type: 'hosted',
-			insert_url: 'yes',
-			external_url: {
-				url: 'test',
-				is_external: '',
-				nofollow: '',
-				custom_attributes: '',
-			},
-		} );
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	static widgetType() {
-		return 'video';
+		$e.data.run( 'create', 'wp/media', { file: this.getFile(), options: {} } )
+			.then( ( { data } ) => {
+				this.getManager().createWidget( 'video', {
+					video_type: 'hosted',
+					hosted_url: {
+						url: data.source_url,
+						id: data.id,
+						alt: 'hello',
+						source: 'library',
+					},
+				} );
+			} );
 	}
 
 	/**
