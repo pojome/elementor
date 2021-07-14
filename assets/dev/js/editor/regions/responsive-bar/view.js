@@ -91,7 +91,7 @@ export default class View extends Marionette.ItemView {
 
 	scalePreview() {
 		const scale = this.scalePercentage / 100;
-		elementor.$previewResponsiveWrapper.css( 'transform', 'scale(' + ( scale ) + ')' );
+		elementor.$previewWrapper.css( '--e-preview-scale', scale );
 	}
 
 	resetScale() {

@@ -9,13 +9,13 @@ body {
 		--e-preview-width: calc(100% - var(--e-editor-panel-width, 300px) - var(--e-editor-navigator-width, 0px));
 	}
 
-  	&.elementor-device-desktop {
+	&.elementor-device-desktop {
 
 		#elementor-preview {
 			overflow-y: hidden;
 			align-items: flex-start;
 		}
-  	}
+	}
 
 	&:not(.elementor-device-desktop) & {
 		overflow-y: auto;
@@ -38,6 +38,7 @@ body {
 #elementor-preview-responsive-wrapper {
 	transform-origin: top center;
 	padding: 20px;
+	transform: scale( var( --e-preview-scale, 1 ) );
 
 	.elementor-device-desktop & {
 		min-width: map_get($breakpoints, lg);
