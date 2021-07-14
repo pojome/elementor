@@ -246,7 +246,7 @@ $document = Plugin::$instance->documents->get( Plugin::$instance->editor->get_po
 	</div>
 </script>
 <script type="text/template" id="tmpl-elementor-control-element-color-picker">
-	<div class="elementor-control-element-color-picker e-control-tool" data-tooltip="<?php echo __( 'Element Color Picker', 'elementor' ); ?>">
+	<div class="elementor-control-element-color-picker e-control-tool" data-tooltip="<?php echo esc_attr__( 'Color Sampler', 'elementor' ); ?>">
 		<i class="eicon-eyedropper"></i>
 	</div>
 </script>

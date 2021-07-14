@@ -1328,5 +1328,9 @@ class WP_Import extends \WP_Importer {
 	public function __construct( $file, $args = [] ) {
 		$this->requested_file_path = $file;
 		$this->args = $args;
+
+		if ( ! empty( $this->args['fetch_attachments'] ) ) {
+			$this->fetch_attachments = true;
+		}
 	}
 }

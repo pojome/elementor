@@ -45,6 +45,7 @@ TemplateLibraryManager = function() {
 		const translationMap = {
 			page: __( 'Page', 'elementor' ),
 			section: __( 'Section', 'elementor' ),
+			container: __( 'Container', 'elementor' ),
 			[ elementor.config.document.type ]: elementor.config.document.panel.title,
 		};
 

@@ -69,7 +69,8 @@ class Control_Select extends Base_Data_Control {
 				<#
 					var printOptions = function( options ) {
 						_.each( options, function( option_title, option_value ) { #>
-								<option value="{{ option_value }}">{{{ option_title }}}</option>
+						<?php // If the option title is array of title & icon. ?>
+							<option value="{{ option_value }}">{{{ option_title?.title || option_title }}}</option>
 						<# } );
 					};
 

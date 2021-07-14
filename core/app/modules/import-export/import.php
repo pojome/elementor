@@ -22,11 +22,7 @@ class Import extends Iterator {
 
 		$manifest_data = $this->read_json_file( 'manifest' );
 
-		$this->init_adapters( $manifest_data );
-
-		foreach ( $this->adapters as $adapter ) {
-			$manifest_data = $adapter->get_manifest_data( $manifest_data );
-		}
+		$manifest_data = $this->adapt_manifest_structure( $manifest_data );
 
 		$root_directory = new Root( $this );
 
@@ -41,6 +37,16 @@ class Import extends Iterator {
 
 	final public function get_adapters() {
 		return $this->adapters;
+	}
+
+	final public function adapt_manifest_structure( array $manifest_data ) {
+		$this->init_adapters( $manifest_data );
+
+		foreach ( $this->adapters as $adapter ) {
+			$manifest_data = $adapter->get_manifest_data( $manifest_data );
+		}
+
+		return $manifest_data;
 	}
 
 	private function init_adapters( array $manifest_data ) {

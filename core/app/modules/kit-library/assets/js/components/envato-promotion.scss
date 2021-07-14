@@ -1,0 +1,18 @@
+$root: e-kit-library-bottom-promotion;
+
+.#{$root} {
+	--e-kit-library-bottom-promotion-color: tints(600);
+}
+
+.eps-theme-dark {
+	.#{$root} {
+		--e-kit-library-bottom-promotion-color: dark-tints(400);
+	}
+}
+
+.#{$root} {
+	width: 100%;
+	text-align: center;
+	margin-top: spacing(30);
+	color: var(--e-kit-library-bottom-promotion-color);
+}

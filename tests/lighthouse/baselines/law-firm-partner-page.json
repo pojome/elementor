@@ -12,9 +12,9 @@
   "first-contentful-paint": [ "error", { "minScore": 0.80 } ],
   "first-meaningful-paint": [ "error", { "minScore": 0.50 } ],
   "largest-contentful-paint": [ "error", { "minScore": 0.80 } ],
-  "legacy-javascript": [ "error", { "maxLength": 1 } ],
-  "render-blocking-resources": [ "error", { "maxLength": 8 } ],
-  "uses-long-cache-ttl": [ "warn", { "maxLength": 30 } ],
+  "legacy-javascript": [ "error", { "maxLength": 2 } ],
+  "render-blocking-resources": [ "error", { "maxLength": 9 } ],
+  "uses-long-cache-ttl": [ "warn", { "maxLength": 31 } ],
   "modern-image-formats": [ "warn", { "maxLength": 3 }],
   "csp-xss": [ "warn", { "minScore": 0 }]
 }

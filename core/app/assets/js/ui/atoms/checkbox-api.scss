@@ -24,5 +24,9 @@ $eps-checkbox-indicator-size-unit: ceil($eps-checkbox-indicator-scale-unit * $ep
   --checkbox-indicator-color: #{$eps-checkbox-indicator-color};
 }
 
+.eps-theme-dark {
+	--checkbox-background-color: transparent;
+}
+
 // Theming:
 // no dark theme detected

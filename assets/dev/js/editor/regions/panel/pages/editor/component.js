@@ -76,4 +76,39 @@ export default class Component extends ComponentBase {
 
 		return false;
 	}
+
+	/**
+	 * Callback on route open under the current namespace.
+	 *
+	 * @param {string} route - Route ID.
+	 *
+	 * @return {void}
+	 */
+	onRoute( route ) {
+		super.onRoute( route );
+
+		// Get the current element and set the direction mode.
+		const container = elementor.getCurrentElement().container,
+			direction = container?.view.getCurrentUiStates?.().directionMode;
+
+		if ( direction ) {
+			$e.uiStates.set( 'document/direction-mode', direction );
+			return;
+		}
+
+		$e.uiStates.remove( 'document/direction-mode' );
+	}
+
+	/**
+	 * Callback on route close under the current namespace.
+	 *
+	 * @param {string } route - Route ID.
+	 *
+	 * @return {void}
+	 */
+	onCloseRoute( route ) {
+		super.onCloseRoute( route );
+
+		$e.uiStates.remove( 'document/direction-mode' );
+	}
 }

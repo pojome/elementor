@@ -1,0 +1,70 @@
+// Temp flex icons
+[class ^= "eicon-flex"] {
+	background-size: auto;
+	background-position: center center;
+	height: 27px;
+	width: 27px;
+	background-repeat: no-repeat;
+	transition: .3s all;
+
+	&.eicon-inline {
+		max-height: 1em;
+		max-width: 1em;
+	}
+
+	.e-ui-state--document-direction-mode__column &:not( .eicon-flex-wrap ):not( .eicon-flex-no-wrap ) {
+		transform: rotate( 90deg );
+	}
+}
+
+.eicon-flex {
+
+	&-align {
+		&-start {
+			background-image: url( '../images/flex-icons/flex-align-start.svg' );
+		}
+
+		&-end {
+			background-image: url( '../images/flex-icons/flex-align-end.svg' );
+		}
+
+		&-center {
+			background-image: url( '../images/flex-icons/flex-align-center.svg' );
+		}
+
+		&-stretch {
+			background-image: url( '../images/flex-icons/flex-align-stretch.svg' );
+		}
+	}
+
+	&-justify {
+		&-start {
+			background-image: url( '../images/flex-icons/flex-justify-start.svg' );
+		}
+
+		&-end {
+			background-image: url( '../images/flex-icons/flex-justify-end.svg' );
+		}
+
+		&-center {
+			background-image: url( '../images/flex-icons/flex-justify-center.svg' );
+		}
+
+		&-space-around,
+		&-space-evenly {
+			background-image: url( '../images/flex-icons/flex-justify-space-around.svg' );
+		}
+
+		&-space-between{
+			background-image: url( '../images/flex-icons/flex-justify-space-between.svg' );
+		}
+	}
+
+	&-wrap {
+		background-image: url( '../images/flex-icons/flex-wrap.svg' );
+	}
+
+	&-no-wrap {
+		background-image: url( '../images/flex-icons/flex-no-wrap.svg' );
+	}
+}

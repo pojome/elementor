@@ -2,6 +2,8 @@
 
 namespace Elementor\Core\App\Modules\ImportExport\Compatibility;
 
+use Elementor\Plugin;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -27,7 +29,14 @@ class Envato extends Base_Adapter {
 
 				file_put_contents( $site_settings_file_destination, wp_json_encode( $site_settings ) );
 
-				$manifest_data['site-settings'] = true;
+				// Getting the site-settings because Envato stores them in one of the posts.
+				$kit = Plugin::$instance->kits_manager->get_active_kit();
+
+				$kit_tabs = $kit->get_tabs();
+
+				unset( $kit_tabs['settings-site-identity'] );
+
+				$manifest_data['site-settings'] = array_keys( $kit_tabs );
 
 				continue;
 			}

@@ -194,6 +194,28 @@ class Widget_Common extends Widget_Base {
 
 		$this->end_controls_section();
 
+		// Start flex.
+		$this->start_controls_section(
+			'_section_flex',
+			[
+				'label' => __( 'Flex', 'elementor' ),
+				'tab' => Controls_Manager::TAB_ADVANCED,
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Flex_Item::get_type(),
+			[
+				'name' => '_flex',
+				// Hack to increase specificity and make sure that the current widget overrides the
+				// parent flex settings.
+				'selector' => '{{WRAPPER}}.elementor-element',
+			]
+		);
+
+		$this->end_controls_section();
+		// End flex.
+
 		$this->start_controls_section(
 			'section_effects',
 			[

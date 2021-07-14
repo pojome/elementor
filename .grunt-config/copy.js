@@ -6,6 +6,7 @@ const getBuildFiles = [
 	'**',
 	'!.git/**',
 	'!.github/**',
+	'!.run/**',
 	'!.gitignore',
 	'!.gitmodules',
 	'!.jscsrc',

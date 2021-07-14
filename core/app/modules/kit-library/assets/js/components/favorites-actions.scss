@@ -1,4 +1,6 @@
-.e-kit-library__kit-favorite-actions {
+$root: e-kit-library__kit-favorite-actions;
+
+.#{$root} {
 	padding: spacing(5);
 	transition: 0.3s all;
 	border-radius: 4px;
@@ -13,6 +15,6 @@
 	}
 
 	&:hover {
-		background-color: tints(200);
+		background-color: rgba( theme-colors( danger ), $opacity-01 );
 	}
 }

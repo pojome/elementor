@@ -32,8 +32,8 @@ $card-image-overlay-background-color: rgba(theme-colors(dark), $opacity-02);
 $card-image-overlay-transition: $card-transition;
 
 // - Dark tokens
-$card-dark-background-color: rgba(dark-tints(600), $opacity-05);
-$card-dark-background-color-hover: dark-tints(600);
+$card-dark-background-color: dark-tints(600);
+$card-dark-background-color-hover: rgba( dark-tints(500), $opacity-08 );
 $card-dark-box-shadow: $eps-box-shadow;
 $card-dark-header-footer-border: $eps-border-width $eps-border-style dark-tints(700);
 $card-dark-header-footer-active-border: $eps-border-width $eps-border-style dark-tints(800);

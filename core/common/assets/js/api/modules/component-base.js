@@ -12,6 +12,7 @@ export default class ComponentBase extends elementorModules.Module {
 		this.shortcuts = this.defaultShortcuts();
 		this.utils = this.defaultUtils();
 		this.data = this.defaultData();
+		this.uiStates = this.defaultUiStates();
 
 		this.defaultRoute = '';
 		this.currentTab = '';
@@ -29,6 +30,8 @@ export default class ComponentBase extends elementorModules.Module {
 		Object.values( this.getHooks() ).forEach( ( instance ) => this.registerHook( instance ) );
 
 		Object.entries( this.getData() ).forEach( ( [ command, callback ] ) => this.registerData( command, callback ) );
+
+		Object.values( this.getUiStates() ).forEach( ( instance ) => this.registerUiState( instance ) );
 	}
 
 	/**
@@ -63,6 +66,15 @@ export default class ComponentBase extends elementorModules.Module {
 		return {};
 	}
 
+	/**
+	 * Get the component's default UI states.
+	 *
+	 * @return {Object}
+	 */
+	defaultUiStates() {
+		return {};
+	}
+
 	defaultShortcuts() {
 		return {};
 	}
@@ -85,6 +97,15 @@ export default class ComponentBase extends elementorModules.Module {
 
 	getHooks() {
 		return this.hooks;
+	}
+
+	/**
+	 * Retrieve the component's UI states.
+	 *
+	 * @return {Object}
+	 */
+	getUiStates() {
+		return this.uiStates;
 	}
 
 	getRoutes() {
@@ -112,6 +133,17 @@ export default class ComponentBase extends elementorModules.Module {
 	 */
 	registerHook( instance ) {
 		return instance.register();
+	}
+
+	/**
+	 * Register a UI state.
+	 *
+	 * @param {UiStateBase} instance - UI state instance.
+	 *
+	 * @return {void}
+	 */
+	registerUiState( instance ) {
+		$e.uiStates.register( instance, instance.getContexts() );
 	}
 
 	registerCommandInternal( command, callback ) {
@@ -290,6 +322,39 @@ export default class ComponentBase extends elementorModules.Module {
 		}
 
 		return hooks;
+	}
+
+	/**
+	 * Import & initialize the component's UI states.
+	 * Should be used inside `defaultUiState()`.
+	 *
+	 * @param {Object} statesFromImport - UI states from import.
+	 *
+	 * @return {Object}
+	 */
+	importUiStates( statesFromImport ) {
+		const uiStates = {};
+
+		Object.values( statesFromImport ).forEach( ( className ) => {
+			const uiState = new className( this );
+
+			uiStates[ uiState.getId() ] = uiState;
+		} );
+
+		return uiStates;
+	}
+
+	/**
+	 * Set a UI state value.
+	 * TODO: Should we provide such function? Maybe the developer should implicitly pass the full state ID?
+	 *
+	 * @param state - Non-prefixed state ID.
+	 * @param value - New state value.
+	 *
+	 * @return {void}
+	 */
+	setUiState( state, value ) {
+		$e.uiStates.set( `${ this.getNamespace() }/${ state }`, value );
 	}
 
 	toggleRouteClass( route, state ) {

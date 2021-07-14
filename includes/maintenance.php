@@ -34,11 +34,15 @@ class Maintenance {
 		wp_schedule_event( time(), 'daily', 'elementor/tracker/send_event' );
 		flush_rewrite_rules();
 
-		Manager::create_default_kit();
-
 		if ( is_multisite() && $network_wide ) {
+			static::create_default_kit(
+				get_sites( [ 'fields' => 'ids' ] )
+			);
+
 			return;
 		}
+
+		static::create_default_kit();
 
 		set_transient( 'elementor_activation_redirect', true, MINUTE_IN_SECONDS );
 	}
@@ -70,5 +74,32 @@ class Maintenance {
 	public static function init() {
 		register_activation_hook( ELEMENTOR_PLUGIN_BASE, [ __CLASS__, 'activation' ] );
 		register_uninstall_hook( ELEMENTOR_PLUGIN_BASE, [ __CLASS__, 'uninstall' ] );
+
+		add_action( 'wpmu_new_blog', function ( $site_id ) {
+			if ( ! is_plugin_active_for_network( ELEMENTOR_PLUGIN_BASE ) ) {
+				return;
+			}
+
+			static::create_default_kit( [ $site_id ] );
+		} );
+	}
+
+	/**
+	 * @param array $site_ids
+	 */
+	private static function create_default_kit( array $site_ids = [] ) {
+		if ( ! empty( $site_ids ) ) {
+			foreach ( $site_ids as $site_id ) {
+				switch_to_blog( $site_id );
+
+				Manager::create_default_kit();
+
+				restore_current_blog();
+			};
+
+			return;
+		}
+
+		Manager::create_default_kit();
 	}
 }

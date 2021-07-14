@@ -4,6 +4,7 @@ namespace Elementor\Core\Experiments;
 
 use Elementor\Core\Base\Base_Object;
 use Elementor\Core\Upgrade\Manager as Upgrade_Manager;
+use Elementor\Includes\Elements\Container;
 use Elementor\Plugin;
 use Elementor\Settings;
 use Elementor\Tracker;
@@ -265,6 +266,14 @@ class Manager extends Base_Object {
 			'description' => __( 'Design sites faster with a template kit that contains some or all components of a complete site, like templates, content & site settings.', 'elementor' )
 				. '<br>'
 				. __( 'You can import a kit and apply it to your site, or export the elements from this site to be used anywhere else.', 'elementor' ),
+			'release_status' => self::RELEASE_STATUS_BETA,
+			'default' => self::STATE_ACTIVE,
+		] );
+
+		$this->add_feature( [
+			'name' => 'container',
+			'title' => __( 'Flex Container', 'elementor' ),
+			'description' => __( 'Create advanced layouts and responsive designs using the new "Container" element - taking advantage of display:flex properties.', 'elementor' ),
 			'release_status' => self::RELEASE_STATUS_BETA,
 			'default' => self::STATE_ACTIVE,
 		] );

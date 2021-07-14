@@ -132,6 +132,10 @@ ColumnView = BaseElementView.extend( {
 
 		var elType = elementView.model.get( 'elType' );
 
+		if ( 'container' === elType ) {
+			return true;
+		}
+
 		if ( 'section' === elType ) {
 			return ! this.isInner();
 		}
@@ -168,7 +172,7 @@ ColumnView = BaseElementView.extend( {
 
 	getSortableOptions: function() {
 		return {
-			connectWith: '.elementor-widget-wrap',
+			connectWith: '.elementor-widget-wrap, .e-container',
 			items: '> .elementor-element',
 		};
 	},

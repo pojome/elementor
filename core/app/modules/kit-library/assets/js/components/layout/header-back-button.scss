@@ -1,13 +1,15 @@
 :root {
 	--e-kit-library-header-back-border: #{1px solid $eps-border-color};
+	--e-kit-library-header-back-color: #{tints(500)};
 }
 
 .eps-theme-dark {
 	--e-kit-library-header-back-border: #{1px solid $eps-dark-gray-400};
+	--e-kit-library-header-back-color: #{dark-tints(200)};
 }
 
 .e-kit-library__header-back {
-	color: tints(500);
+	color: var(--e-kit-library-header-back-color);
 	@include padding-end( spacing( 20 ) );
 	@include padding-start( spacing( 5 ) );
 	display: inline-flex;

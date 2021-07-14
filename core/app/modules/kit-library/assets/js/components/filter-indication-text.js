@@ -1,6 +1,6 @@
 import useSelectedTaxonomies from '../hooks/use-selected-taxonomies';
 import Badge from './badge';
-import { sprintf } from '@wordpress/i18n';
+import { sprintf, _n } from '@wordpress/i18n';
 import { Text, Button, Grid } from '@elementor/app-ui';
 
 import './filter-indication-text.scss';
@@ -11,7 +11,7 @@ export default function FilterIndicationText( props ) {
 	return (
 		<Grid container className="e-kit-library__filter-indication">
 			<Text className="e-kit-library__filter-indication-text">
-				{ sprintf( __( 'Showing %s Results For', 'elementor' ), props.resultCount ) }
+				{ sprintf( _n( 'Showing %s result for', 'Showing %s results for', props.resultCount, 'elementor' ), ! props.resultCount ? __( 'no', 'elementor' ) : props.resultCount ) }
 				{ ' ' }
 				{ props.queryParams.search && `"${ props.queryParams.search }"` }
 				{ ' ' }
@@ -35,7 +35,7 @@ export default function FilterIndicationText( props ) {
 			</Text>
 			<Button
 				className="e-kit-library__filter-indication-button"
-				text={ __( 'Clear All' ) }
+				text={ __( 'Clear all', 'elementor' ) }
 				variant="underlined"
 				onClick={ props.onClear }
 			/>

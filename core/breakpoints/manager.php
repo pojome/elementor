@@ -219,22 +219,13 @@ class Manager extends Module {
 	 */
 	private function init_breakpoints() {
 		$breakpoints = [];
-		$kit = Plugin::$instance->kits_manager->get_active_kit_for_frontend();
-		$active_breakpoint_keys = $kit->get_settings( Settings_Layout::ACTIVE_BREAKPOINTS_CONTROL_ID );
 		$default_config = self::get_default_config();
-		$prefix = self::BREAKPOINT_SETTING_PREFIX;
 
 		foreach ( $default_config as $breakpoint_name => $breakpoint_config ) {
 			$args = [ 'name' => $breakpoint_name ] + $breakpoint_config;
 
-			// Make sure the two default breakpoints (mobile, tablet) are always enabled.
-			if ( self::BREAKPOINT_KEY_MOBILE === $breakpoint_name || self::BREAKPOINT_KEY_TABLET === $breakpoint_name ) {
-				// Make sure the default Mobile and Tablet breakpoints are always enabled.
-				$args['is_enabled'] = true;
-			} else {
-				// If the breakpoint is in the active breakpoints array, make sure it's instantiated as enabled.
-				$args['is_enabled'] = in_array( $prefix . $breakpoint_name, $active_breakpoint_keys, true );
-			}
+			// Make sure the default Mobile and Tablet breakpoints are always enabled.
+			$args['is_enabled'] = self::BREAKPOINT_KEY_MOBILE === $breakpoint_name || self::BREAKPOINT_KEY_TABLET === $breakpoint_name;
 
 			$breakpoints[ $breakpoint_name ] = new Breakpoint( $args );
 		}

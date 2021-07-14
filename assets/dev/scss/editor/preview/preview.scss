@@ -16,6 +16,8 @@
 //Eyedropper Experiment
 @import "../../../../../modules/elements-color-picker/assets/scss/elements-color-picker";
 
+@import "../_flex-icons.scss";
+
 // Hidden WP Admin Bar
 html.elementor-html {
 	margin-top: 0 !important;
@@ -33,6 +35,17 @@ html.elementor-html {
 }
 
 .elementor-edit-area-active {
+
+	--primary-color: #{ $editor-info };
+	--secondary-color: #{ darken($editor-info, 20%) };
+	--outline-color: var( --primary-color );
+
+	.e-container {
+		// TODO: Use variable when available - waiting for final color from the Design.
+		--primary-color: #0098C7;
+		--secondary-color: #{ darken(#0098C7, 10%) };
+		--outline-color: var( --primary-color );
+	}
 
 	.elementor-inner-section {
 
@@ -217,8 +230,9 @@ html.elementor-html {
 	}
 }
 
-// Section
-.elementor-section {
+// Section & Container
+.elementor-section,
+.e-container {
 
 	> .elementor-element-overlay {
 		@include start(0);
@@ -230,7 +244,7 @@ html.elementor-html {
 			right: 2px;
 			top: 2px;
 			bottom: 2px;
-			outline: 2px solid $editor-info;
+			outline: 2px solid var( --outline-color );
 			animation: section-outline .75s;
 		}
 	}
@@ -351,13 +365,14 @@ html.elementor-html {
 	}
 }
 
-// Section - Overlay Settings
-.elementor-editor-section-settings {
+// Section & Container - Overlay Settings
+.elementor-editor-section-settings,
+.elementor-editor-container-settings {
 	height: 24px;
 	top: 1px;
 	@include start(50%);
 	transform: translateX(getValueByDirection(-50%, 50%)) translateY(-100%);
-	background-color: $editor-info;
+	background-color: var( --primary-color );
 	border-radius: 5px 5px 0 0;
 	box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.05);
 
@@ -368,7 +383,7 @@ html.elementor-html {
 	.elementor-editor-element-setting {
 
 		&:hover {
-			background-color: darken($editor-info, 20%);
+			background-color: var( --secondary-color );
 		}
 
 		&:first-child {
@@ -379,7 +394,7 @@ html.elementor-html {
 				position: absolute;
 				border: solid transparent;
 				top: 2px;
-				@include border-end-property(color, $editor-info);
+				@include border-end-property(color, var( --primary-color ));
 				border-width: getValueByDirection(22px 12px 0 0, 22px 0 0 12px);
 				@include end(calc(100% - 1px));
 			}
@@ -387,7 +402,7 @@ html.elementor-html {
 			&:hover {
 
 				&:before {
-					@include border-end-property(color, darken($editor-info, 20%));
+					@include border-end-property(color, var( --secondary-color ));
 				}
 			}
 		}
@@ -400,7 +415,7 @@ html.elementor-html {
 				position: absolute;
 				border: solid transparent;
 				top: 2px;
-				@include border-start-property(color, $editor-info);
+				@include border-start-property(color, var( --primary-color ));
 				border-width: getValueByDirection(22px 0 0 12px, 22px 12px 0 0);
 				@include start(calc(100% - 1px));
 			}
@@ -408,38 +423,38 @@ html.elementor-html {
 			&:hover {
 
 				&:after {
-					@include border-start-property(color, darken($editor-info, 20%));
+					@include border-start-property(color, var( --secondary-color ));
 				}
 			}
 		}
 	}
 }
 
-// Top Section (Handles inside)
+// Top Section / Container (Handles inside)
+.e-handles-inside,
 .elementor-section--handles-inside {
 
-	.elementor-editor-section-settings {
+	.elementor-element-overlay > .elementor-editor-element-settings {
 		transform: translateX(-50%);
 		border-radius: 0 0 5px 5px;
+	}
 
-		.elementor-editor-element-setting {
+	.elementor-editor-element-setting {
+		&:first-child {
+			border-radius: getValueByDirection(0 0 0 5px, 0 0 5px 0);
 
-			&:first-child {
-				border-radius: getValueByDirection(0 0 0 5px, 0 0 5px 0);
-
-				&:before {
-					top: 0;
-					border-width: getValueByDirection(0 12px 22px 0, 0 0 22px 12px);
-				}
+			&:before {
+				top: 0;
+				border-width: getValueByDirection(0 12px 22px 0, 0 0 22px 12px);
 			}
+		}
 
-			&:last-child {
-				border-radius: getValueByDirection(0 0 5px 0, 0 0 0 5px);
+		&:last-child {
+			border-radius: getValueByDirection(0 0 5px 0, 0 0 0 5px);
 
-				&:after {
-					top: 0;
-					border-width: getValueByDirection(0 0 22px 12px, 0 12px 22px 0);
-				}
+			&:after {
+				top: 0;
+				border-width: getValueByDirection(0 0 22px 12px, 0 12px 22px 0);
 			}
 		}
 	}
@@ -493,6 +508,8 @@ html.elementor-html {
 	border: 1px dashed $editor-lightest;
 	display: flex;
 	height: 100%;
+	width: 100%;
+	position: absolute;
 	align-items: center;
 	justify-content: center;
 
@@ -604,6 +621,16 @@ html.elementor-html {
 		opacity: .9;
 		width: 100%;
 		align-self: stretch;
+
+		// Make the placeholder centered in container element, like in other places.
+		.e-container .elementor-first-add & {
+			align-self: center;
+		}
+
+		// Hide the placeholder, since swappable containers don't need one.
+		.e-swappable--active > & {
+			display: none;
+		}
 	}
 }
 
@@ -649,6 +676,11 @@ html.elementor-html {
 		height: $widget-placeholder-size;
 		animation: placeholder-widget 500ms;
 		width: 100%;
+
+		.e-container & {
+			// Fix for multiple dragging placeholders in container element.
+			display: none;
+		}
 	}
 
 	.elementor-icon {
@@ -738,6 +770,7 @@ html.elementor-html {
 
 	.elementor-add-section-button {
 		background-color: $editor-accent;
+		@include margin-start(5px);
 	}
 
 	.elementor-add-template-button {
@@ -795,15 +828,34 @@ html.elementor-html {
 
 		&:hover {
 
-			path {
+			path,
+			rect {
 				fill: $editor-dark;
 			}
 		}
 
 		&:not(:hover) {
 
-			path {
+			path,
+			rect {
 				fill: $editor-lightest;
+			}
+		}
+
+		.e-preset--container {
+			position: relative;
+			display: flex;
+
+			&::before {
+				content: var( --text );
+				font-family: Roboto;
+				font-size: 13px;
+				font-weight: 500;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				color: $white;
+				transform: translate( -50%, -50% );
 			}
 		}
 
@@ -934,5 +986,107 @@ html.elementor-html {
 	//Compatibility for hidden element by the navigator
 	&.elementor-edit-hidden {
 		display: none;
+	}
+}
+
+// Container presets.
+.e-container-select-preset {
+	width: 100%;
+	position: relative;
+	padding: 35px;
+
+	// Views.
+	&[data-view="choose-preset"] > *:not( &--inner ) {
+		display: none;
+	}
+
+	&[data-view="drop-area"] > *:not( .elementor-first-add ) {
+		display: none;
+	}
+
+	// TODO: Temp fix - Find a better solution.
+	// 	Used to hide the preset selection in nested Containers.
+	:not( .elementor-section-wrap ) > .e-container & {
+		&--inner {
+			display: none;
+		}
+
+		.elementor-first-add {
+			display: flex;
+		}
+	}
+
+	&--close {
+		position: absolute;
+		inset-inline-end: 25px;
+		inset-block-start: 20px;
+		cursor: pointer;
+		color: $editor-lightest;
+		z-index: $second-layer;
+		transition: .3s all;
+
+		&:hover {
+			color: $editor-dark;
+		}
+	}
+
+	&--inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		gap: 25px;
+
+		// Dotted border.
+		&::before {
+			content: '';
+			display: block;
+			border: 1px dashed $editor-lightest;
+			position: absolute;
+			inset: 10px;
+			pointer-events: none;
+
+			.elementor-dragging-on-child & {
+				border: 3px dashed $editor-info;
+			}
+		}
+	}
+
+	&--title {
+		font-family: Roboto;
+		font-size: 13px;
+		font-weight: 500;
+		text-transform: uppercase;
+		color: $editor-darker;
+	}
+
+	&--list {
+		display: flex;
+		gap: 20px;
+		align-items: center;
+		justify-content: center;
+
+		.e-container-preset {
+			flex-basis: 90px;
+
+			svg {
+				width: 100%;
+				height: auto;
+			}
+
+			path,
+			rect {
+				fill: $editor-lightest;
+				transition: .3s all;
+			}
+
+			&:hover {
+				path,
+				rect {
+					fill: $editor-dark;
+				}
+			}
+		}
 	}
 }

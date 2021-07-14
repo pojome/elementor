@@ -124,6 +124,8 @@ class Module extends BaseModule {
 
 		$manifest_data = json_decode( file_get_contents( $session_dir . 'manifest.json', true ), true );
 
+		$manifest_data = $this->import->adapt_manifest_structure( $manifest_data );
+
 		$result = [
 			'session' => basename( $session_dir ),
 			'manifest' => $manifest_data,
@@ -134,16 +136,12 @@ class Module extends BaseModule {
 		return $result;
 	}
 
-	private function import_stage_2( array $import_settings ) {
+	private function import_stage_2( $settings_directory ) {
 		set_time_limit( 0 );
-
-		$import_settings['directory'] = Plugin::$instance->uploads_manager->get_temp_dir() . $import_settings['session'] . '/';
-
-		$this->import = new Import( $import_settings );
 
 		$result = $this->import->run();
 
-		Plugin::$instance->uploads_manager->remove_file_or_dir( $import_settings['directory'] );
+		Plugin::$instance->uploads_manager->remove_file_or_dir( $settings_directory );
 
 		return $result;
 	}
@@ -155,11 +153,15 @@ class Module extends BaseModule {
 
 		$import_settings = json_decode( stripslashes( $_POST['data'] ), true );
 
+		$import_settings['directory'] = Plugin::$instance->uploads_manager->get_temp_dir() . $import_settings['session'] . '/';
+
+		$this->import = new Import( $import_settings );
+
 		try {
 			if ( 1 === $import_settings['stage'] ) {
 				$result = $this->import_stage_1();
 			} elseif ( 2 === $import_settings['stage'] ) {
-				$result = $this->import_stage_2( $import_settings );
+				$result = $this->import_stage_2( $import_settings['directory'] );
 			}
 
 			wp_send_json_success( $result );

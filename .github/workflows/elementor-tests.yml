@@ -24,4 +24,4 @@ jobs:
           token: ${{ env.TOKEN }}
           repository: ${{ env.REMOTE_TESTS_REPO }}
           event-type: remote-tests
-          client-payload: '{ "repository": "${{ env.HEAD_REPO }}", "sha": "${{ github.head_ref || github.sha }}", "run_id": "${{ github.run_id }}" }'
+          client-payload: '{ "repository": "${{ env.HEAD_REPO }}", "sha": "${{ github.event.pull_request.head.sha || github.head_ref || github.sha }}", "run_id": "${{ github.run_id }}" }'

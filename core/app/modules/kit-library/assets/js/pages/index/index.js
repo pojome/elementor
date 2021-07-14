@@ -1,16 +1,18 @@
 import Content from '../../../../../../assets/js/layout/content';
+import EnvatoPromotion from '../../components/envato-promotion';
+import ErrorScreen from '../../components/error-screen';
 import FilterIndicationText from '../../components/filter-indication-text';
 import IndexHeader from './index-header';
-import IndexNoResults from './index-no-results';
 import IndexSidebar from './index-sidebar';
 import KitList from '../../components/kit-list';
 import Layout from '../../components/layout';
+import PageLoader from '../../components/page-loader';
 import SearchInput from '../../components/search-input';
 import SortSelect from '../../components/sort-select';
 import TaxonomiesFilter from '../../components/taxonomies-filter';
 import useKits, { defaultQueryParams } from '../../hooks/use-kits';
 import useTaxonomies from '../../hooks/use-taxonomies';
-import { Grid, Text, Button } from '@elementor/app-ui';
+import { Grid } from '@elementor/app-ui';
 import { useCallback, useMemo, useEffect } from 'react';
 import { useLastFilterContext } from '../../context/last-filter-context';
 import { useLocation } from '@reach/router';
@@ -210,33 +212,33 @@ export default function Index( props ) {
 				</Grid>
 				<Content className="e-kit-library__index-layout-main">
 					<>
-						{ isLoading && __( 'Loading...', 'elementor' ) }
-						{ isError && __( 'An error occurred', 'elementor' ) }
+						{ isLoading && <PageLoader /> }
+						{
+							isError && <ErrorScreen
+								title={ __( 'Something went wrong.', 'elementor' ) }
+								description={ __( 'Nothing to worry about, use 🔄 on the top right to try again. If the problem continues, head over to the Help Center.', 'elementor' ) }
+								button={ {
+									text: __( 'Learn More', 'elementor' ),
+									url: 'http://go.elementor.com/app-kit-library-error',
+									target: '_blank',
+								} }
+							/>
+						}
 						{ isSuccess && 0 < data.length && queryParams.ready && <KitList data={ data }/> }
 						{
 							isSuccess && 0 === data.length && queryParams.ready && props.renderNoResultsComponent( {
-								defaultComponent: <IndexNoResults
+								defaultComponent: <ErrorScreen
 									title={ __( 'No results matched your search.', 'elementor' ) }
-									description={ __( 'Try different keywords or continue browsing.', 'elementor' ) }
+									description={ __( 'Try different keywords or ', 'elementor' ) }
 									button={ {
-										text: __( 'Continue Browsing', 'elementor' ),
+										text: __( 'Continue browsing.', 'elementor' ),
 										action: clearQueryParams,
 									} }
 								/>,
 								isFilterActive,
 							} )
 						}
-						<Text className="e-kit-library__envato-promotion" variant="xl">
-							{ __( 'Looking for more Kits?', 'elementor' ) } { ' ' }
-							<Button
-								variant="underlined"
-								color="link"
-								url="https://go.elementor.com/app-envato-kits/"
-								target="_blank"
-								rel="noreferrer"
-								text={ __( 'Check Elementor Template Kits on ThemeForest', 'elementor' ) }
-							/>
-						</Text>
+						<EnvatoPromotion />
 					</>
 				</Content>
 			</div>

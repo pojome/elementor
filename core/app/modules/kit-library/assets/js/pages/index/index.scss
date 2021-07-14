@@ -9,7 +9,7 @@ $e-kit-library-sticky-search-z-index: 2;
 	}
 
 	&__index-layout-top-area {
-		padding: spacing(44);
+		padding: spacing(30) spacing(44);
 		position: sticky;
 		top: -1px;
 		width: 100%;
@@ -35,12 +35,5 @@ $e-kit-library-sticky-search-z-index: 2;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-	}
-
-	&__envato-promotion {
-		width: 100%;
-		text-align: center;
-		margin-top: spacing(30);
-		color: tints(600);
 	}
 }

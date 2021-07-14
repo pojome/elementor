@@ -6,6 +6,7 @@ use Elementor\Core\Base\Elements_Iteration_Actions\Base as Elements_Iteration_Ac
 use Elementor\Core\Files\CSS\Post as Post_CSS;
 use Elementor\Core\Settings\Page\Model as Page_Model;
 use Elementor\Core\Utils\Exceptions;
+use Elementor\Includes\Elements\Container;
 use Elementor\Plugin;
 use Elementor\Controls_Manager;
 use Elementor\Controls_Stack;
@@ -535,8 +536,17 @@ abstract class Document extends Controls_Stack {
 		];
 
 		if ( static::get_property( 'has_elements' ) ) {
+			$container = [];
+			$experiments_manager = Plugin::$instance->experiments;
+
+			if ( $experiments_manager->is_feature_active( 'container' ) ) {
+				$container = [
+					'container' => ( new Container() )->get_config(),
+				];
+			}
+
 			$config['elements'] = $this->get_elements_raw_data( null, true );
-			$config['widgets'] = Plugin::$instance->widgets_manager->get_widget_types_config();
+			$config['widgets'] = $container + Plugin::$instance->widgets_manager->get_widget_types_config();
 		}
 
 		$additional_config = apply_filters( 'elementor/document/config', [], $this->get_main_id() );
@@ -1316,6 +1326,7 @@ abstract class Document extends Controls_Stack {
 		return [
 			'content' => $content,
 			'settings' => $this->get_data( 'settings' ),
+			'metadata' => $this->get_export_metadata(),
 		];
 	}
 
@@ -1386,6 +1397,12 @@ abstract class Document extends Controls_Stack {
 
 			set_post_thumbnail( $this->get_main_post(), $attachment['id'] );
 		}
+
+		if ( ! empty( $data['metadata'] ) ) {
+			foreach ( $data['metadata'] as $key => $value ) {
+				$this->update_meta( $key, $value );
+			}
+		}
 	}
 
 	private function process_element_import_export( Controls_Stack $element, $method ) {
@@ -1415,6 +1432,22 @@ abstract class Document extends Controls_Stack {
 		}
 
 		return $element_data;
+	}
+
+	protected function get_export_metadata() {
+		$metadata = get_post_meta( $this->get_main_id() );
+
+		foreach ( $metadata as $meta_key => $meta_value ) {
+			if ( is_protected_meta( $meta_key, 'post' ) ) {
+				unset( $metadata[ $meta_key ] );
+
+				continue;
+			}
+
+			$metadata[ $meta_key ] = $meta_value[0];
+		}
+
+		return $metadata;
 	}
 
 	protected function get_remote_library_config() {

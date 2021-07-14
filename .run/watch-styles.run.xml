@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Elementor - Styles" type="js.build_tools.grunt">
+    <node-interpreter value="project" />
+    <gruntfile value="$PROJECT_DIR$/Gruntfile.js" />
+    <tasks>
+      <task value="watch_styles" />
+    </tasks>
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

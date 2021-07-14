@@ -1,9 +1,23 @@
-var SectionView = require( 'elementor-elements/views/section' ),
-	BaseContainer = require( 'elementor-views/base-container' ),
+var BaseContainer = require( 'elementor-views/base-container' ),
 	BaseSectionsContainerView;
 
 BaseSectionsContainerView = BaseContainer.extend( {
-	childView: SectionView,
+	getChildView( model ) {
+		let ChildView;
+		const elType = model.get( 'elType' );
+
+		switch ( elType ) {
+			case 'section':
+				ChildView = require( 'elementor-elements/views/section' );
+				break;
+
+			case 'container':
+				ChildView = require( 'elementor-elements/views/container' );
+				break;
+		}
+
+		return ChildView;
+	},
 
 	behaviors: function() {
 		var behaviors = {
@@ -19,12 +33,12 @@ BaseSectionsContainerView = BaseContainer.extend( {
 	getSortableOptions: function() {
 		return {
 			handle: '> .elementor-element-overlay .elementor-editor-element-edit',
-			items: '> .elementor-section',
+			items: '> .elementor-section, > .e-container',
 		};
 	},
 
 	getChildType: function() {
-		return [ 'section' ];
+		return [ 'section', 'container' ];
 	},
 
 	initialize: function() {

@@ -43,7 +43,7 @@ $button-dark-primary-background-color: dark-theme-colors(success);
 $button-dark-primary-color: dark-theme-colors(light);
 $button-dark-primary-hover-background-color: darken($button-dark-primary-background-color, $button-hover-constant);
 $button-dark-primary-active-background-color: darken($button-dark-primary-background-color, $button-active-constant);
-$button-dark-secondary-background-color: dark-tints(400);
+$button-dark-secondary-background-color: dark-tints(200);
 $button-dark-secondary-hover-background-color: darken($button-dark-secondary-background-color, $button-hover-constant);
 $button-dark-secondary-active-background-color: darken($button-dark-secondary-background-color, $button-active-constant);
 $button-dark-secondary-color: dark-theme-colors(light);

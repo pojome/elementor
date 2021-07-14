@@ -15,6 +15,7 @@ class AddSectionBase extends Marionette.ItemView {
 		return {
 			addNewSection: '.elementor-add-new-section',
 			closeButton: '.elementor-add-section-close',
+			addContainerButton: '.elementor-add-container-button',
 			addSectionButton: '.elementor-add-section-button',
 			addTemplateButton: '.elementor-add-template-button',
 			selectPreset: '.elementor-select-preset',
@@ -106,6 +107,16 @@ class AddSectionBase extends Marionette.ItemView {
 		];
 	}
 
+	createContainer( options = {} ) {
+		$e.run( 'document/elements/create', {
+			model: {
+				elType: 'container',
+			},
+			container: elementor.getPreviewContainer(),
+			options,
+		} );
+	}
+
 	onAddSectionButtonClick() {
 		this.showSelectPresets();
 	}
@@ -128,8 +139,15 @@ class AddSectionBase extends Marionette.ItemView {
 	onPresetSelected( event ) {
 		this.closeSelectPresets();
 
-		const selectedStructure = event.currentTarget.dataset.structure,
-			parsedStructure = elementor.presetsFactory.getParsedStructure( selectedStructure );
+		const selectedStructure = event.currentTarget.dataset.structure;
+
+		// If the selected preset is a Flex Container, create one.
+		if ( 'flex-container' === selectedStructure ) {
+			this.createContainer( this.options );
+			return;
+		}
+
+		const parsedStructure = elementor.presetsFactory.getParsedStructure( selectedStructure );
 
 		$e.run( 'document/elements/create', {
 			model: {
@@ -152,9 +170,10 @@ class AddSectionBase extends Marionette.ItemView {
 				type: 'add',
 				title: elementor.helpers.getModelLabel( selectedElement.model ),
 			} ),
-			eSection = $e.run( 'document/elements/create', {
+			isContainer = ( 'container' === selectedElement.model.get( 'elType' ) ),
+			containingElement = $e.run( 'document/elements/create', {
 				model: {
-					elType: 'section',
+					elType: isContainer ? 'container' : 'section',
 				},
 				container: elementor.getPreviewContainer(),
 				columns: 1,
@@ -168,8 +187,10 @@ class AddSectionBase extends Marionette.ItemView {
 				},
 			} );
 
-		// Create the element in column.
-		eSection.view.children.findByIndex( 0 ).addElementFromPanel();
+		if ( ! isContainer ) {
+			// Create the element in column.
+			containingElement.view.children.findByIndex( 0 ).addElementFromPanel();
+		}
 
 		$e.internal( 'document/history/end-log', { id: historyId } );
 	}

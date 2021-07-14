@@ -1,4 +1,16 @@
-.e-kit-library__kit-item {
+$root: e-kit-library__kit-item;
+
+.#{$root} {
+	--e-kit-library-kit-item-overlay-promotion-button-background-color: #{tints(100)};
+}
+
+.eps-theme-dark {
+	.#{$root} {
+		--e-kit-library-kit-item-overlay-promotion-button-background-color: #{dark-tints(600)};
+	}
+}
+
+.#{$root} {
 	&-overlay {
 		height: 100%;
 
@@ -35,6 +47,7 @@
 		padding: 10px;
 		font-size: 13px;
 		color: theme-colors( cta );
+		background: var(--e-kit-library-kit-item-overlay-promotion-button-background-color);
 
 		& > * {
 			margin: 0 3px;

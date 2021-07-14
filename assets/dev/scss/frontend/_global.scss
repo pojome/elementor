@@ -168,6 +168,34 @@
 	&.elementor-fixed {
 		z-index: 1;
 	}
+
+	// Set to initial values in order to avoid inheritance which might cause unexpected behavior.
+	--flex-direction: initial;
+	--flex-wrap: initial;
+	--justify-content: initial;
+	--align-items: initial;
+	--align-content: initial;
+	--gap: initial;
+	--flex-basis: initial;
+	--flex-grow: initial;
+	--flex-shrink: initial;
+	--order: initial;
+	--align-self: initial;
+
+	// Flex container.
+	flex-direction: var( --flex-direction );
+	flex-wrap: var( --flex-wrap );
+	justify-content: var( --justify-content );
+	align-items: var( --align-items );
+	align-content: var( --align-content );
+	gap: var( --gap );
+
+	// Flex item.
+	flex-basis: var( --flex-basis );
+	flex-grow: var( --flex-grow );
+	flex-shrink: var( --flex-shrink );
+	order: var( --order );
+	align-self: var( --align-self );
 }
 
 .elementor-invisible {

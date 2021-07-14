@@ -34,6 +34,7 @@ class WP_Post_Type extends Base {
 					'compare' => 'NOT EXISTS',
 				],
 			],
+			'include_post_featured_image_as_attachment' => true, // Will export 'featured_image' as attachment.
 		] );
 
 		$export_result = $wp_exporter->run();
@@ -44,7 +45,9 @@ class WP_Post_Type extends Base {
 	}
 
 	protected function import( array $import_settings ) {
-		$wp_importer = new WP_Import( $this->importer->get_archive_file_full_path( $this->post_type . '.xml' ) );
+		$wp_importer = new WP_Import( $this->importer->get_archive_file_full_path( $this->post_type . '.xml' ), [
+			'fetch_attachments' => true,
+		] );
 
 		$result = $wp_importer->run();
 

@@ -16,10 +16,6 @@ class Post_Type extends Base {
 
 	private $page_on_front_id;
 
-	protected function get_name() {
-		return $this->post_type;
-	}
-
 	public function __construct( Iterator $iterator, Base $parent, $post_type ) {
 		parent::__construct( $iterator, $parent );
 
@@ -57,6 +53,7 @@ class Post_Type extends Base {
 
 			$post_manifest_data = [
 				'title' => $post->post_title,
+				'excerpt' => $post->post_excerpt,
 				'doc_type' => $document->get_name(),
 				'thumbnail' => get_the_post_thumbnail_url( $post ),
 				'url' => get_permalink( $post ),
@@ -72,6 +69,49 @@ class Post_Type extends Base {
 		}
 
 		return $manifest_data;
+	}
+
+	public function import_post( $id, array $post_settings ) {
+		$post_data = $this->importer->read_json_file( $id );
+
+		$post_attributes = [
+			'post_title' => $post_settings['title'],
+			'post_type' => $this->post_type,
+			'post_status' => 'publish',
+		];
+
+		if ( ! empty( $post_settings['excerpt'] ) ) {
+			$post_attributes['post_excerpt'] = $post_settings['excerpt'];
+		}
+
+		$new_document = Plugin::$instance->documents->create(
+			$post_settings['doc_type'],
+			$post_attributes
+		);
+
+		if ( is_wp_error( $new_document ) ) {
+			return $new_document;
+		}
+
+		$post_data['import_settings'] = $post_settings;
+
+		$new_document->import( $post_data );
+
+		$new_id = $new_document->get_main_id();
+
+		if ( ! empty( $post_settings['show_on_front'] ) ) {
+			update_option( 'page_on_front', $new_id );
+
+			if ( ! $this->show_page_on_front ) {
+				update_option( 'show_on_front', 'page' );
+			}
+		}
+
+		return $new_id;
+	}
+
+	protected function get_name() {
+		return $this->post_type;
 	}
 
 	protected function import( array $import_settings ) {
@@ -97,39 +137,6 @@ class Post_Type extends Base {
 		}
 
 		return $result;
-	}
-
-	public function import_post( $id, array $post_settings ) {
-		$post_data = $this->importer->read_json_file( $id );
-
-		$new_document = Plugin::$instance->documents->create(
-			$post_settings['doc_type'],
-			[
-				'post_title' => $post_settings['title'],
-				'post_type' => $this->post_type,
-				'post_status' => 'publish',
-			]
-		);
-
-		if ( is_wp_error( $new_document ) ) {
-			return $new_document;
-		}
-
-		$post_data['import_settings'] = $post_settings;
-
-		$new_document->import( $post_data );
-
-		$new_id = $new_document->get_main_id();
-
-		if ( ! empty( $post_settings['show_on_front'] ) ) {
-			update_option( 'page_on_front', $new_id );
-
-			if ( ! $this->show_page_on_front ) {
-				update_option( 'show_on_front', 'page' );
-			}
-		}
-
-		return $new_id;
 	}
 
 	private function init_page_on_front_data() {

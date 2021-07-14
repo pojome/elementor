@@ -1,4 +1,6 @@
-.e-kit-library__preview-responsive-controls {
+$root: e-kit-library__preview-responsive-controls;
+
+.#{$root} {
 	width: auto;
 
 	&-item {
@@ -7,7 +9,7 @@
 		padding: spacing(5);
 
 		&:hover {
-			background: tints(200);
+			background: rgba( theme-colors( 'info' ), $opacity-01 );
 			border-radius: 3px;
 			transition: $transition-hover;
 		}

@@ -53,7 +53,7 @@ export default function IndexHeader( props ) {
 					<Heading tag="h3" variant="h3">{ __( 'Happy browsing!', 'elementor' ) }</Heading>
 					<Text>
 						<Button
-							url="https://go.elementor.com/app-what-are-kits"
+							url="https://go.elementor.com/app-kit-library-how-to-use-kits"
 							target="_blank"
 							rel="noreferrer"
 							text={ __( 'Learn more', 'elementor' ) }

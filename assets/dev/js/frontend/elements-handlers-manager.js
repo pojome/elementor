@@ -1,5 +1,6 @@
 import globalHandler from './handlers/global';
 import sectionHandlers from './handlers/section/section';
+import containerHandlers from './handlers/container/container';
 import columnHandlers from './handlers/column';
 
 module.exports = function( $ ) {
@@ -21,6 +22,7 @@ module.exports = function( $ ) {
 
 	const addElementsHandlers = () => {
 		this.elementsHandlers.section = sectionHandlers;
+		this.elementsHandlers.container = containerHandlers;
 		this.elementsHandlers.column = columnHandlers;
 
 		$.each( this.elementsHandlers, ( elementName, Handlers ) => {
@@ -34,7 +36,7 @@ module.exports = function( $ ) {
 		} );
 	};
 
-	const isClassHandler = ( Handler ) => Handler.prototype.getUniqueHandlerID;
+	const isClassHandler = ( Handler ) => Handler.prototype?.getUniqueHandlerID;
 
 	const addHandlerWithHook = ( elementName, Handler, skin = 'default' ) => {
 		skin = skin ? '.' + skin : '';

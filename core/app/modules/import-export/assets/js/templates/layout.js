@@ -35,7 +35,13 @@ export default function Layout( props ) {
 			headerButtons: [ getInfoButtonProps(), ...props.headerButtons ],
 			content: getContent(),
 			footer: props.footer,
-		};
+		},
+		moduleAdminTab = '#tab-import-export-kit';
+
+	// Targeting the return_url value to the import-export dedicated admin tab.
+	if ( -1 === elementorAppConfig.return_url.indexOf( moduleAdminTab ) ) {
+		elementorAppConfig.return_url += moduleAdminTab;
+	}
 
 	return <Page { ...config } />;
 }

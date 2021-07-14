@@ -46,5 +46,13 @@ class Module extends BaseModule {
 			->register_document_type( 'not-supported', Documents\Not_Supported::get_class_full_name() )
 			->register_document_type( 'page', Documents\Page::get_class_full_name() )
 			->register_document_type( 'section', Documents\Section::get_class_full_name() );
+
+		$experiments_manager = Plugin::$instance->experiments;
+
+		// Register `Container` document type only if the experiment is active.
+		if ( $experiments_manager->is_feature_active( 'container' ) ) {
+			Plugin::$instance->documents
+				->register_document_type( 'container', Documents\Container::get_class_full_name() );
+		}
 	}
 }

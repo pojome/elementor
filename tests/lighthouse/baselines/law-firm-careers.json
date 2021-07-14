@@ -8,8 +8,8 @@
   "first-contentful-paint": [ "error", { "minScore": 0.80 } ],
   "first-meaningful-paint": [ "error", { "minScore": 0.70 } ],
   "largest-contentful-paint": [ "error", { "minScore": 0.80 } ],
-  "legacy-javascript": [ "error", { "maxLength": 1 } ],
+  "legacy-javascript": [ "error", { "maxLength": 2 } ],
   "render-blocking-resources": [ "error", { "maxLength": 10 } ],
-  "uses-long-cache-ttl": [ "warn", { "maxLength": 22 } ],
+  "uses-long-cache-ttl": [ "warn", { "maxLength": 23 } ],
   "csp-xss": [ "warn", { "minScore": 0 }]
 }

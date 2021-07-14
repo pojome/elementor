@@ -1,13 +1,19 @@
-:root {
+$root: eps-search-input;
+
+.#{$root} {
 	--eps-search-input-background-color: #{tints(100)};
 	--eps-search-input-background-color-focus: #{theme-colors(light)};
 	--eps-search-input-color: #{tints(700)};
+	--eps-search-input-placeholder-color: #{tints(500)};
 }
 
 .eps-theme-dark {
-	--eps-search-input-background-color: #{$eps-dark-gray-600};
-	--eps-search-input-background-color-focus: #{$eps-dark-gray-500};
-	--eps-search-input-color: #{$eps-dark-gray-200};
+	.#{$root} {
+		--eps-search-input-background-color: #{$eps-dark-gray-600};
+		--eps-search-input-background-color-focus: #{$eps-dark-gray-500};
+		--eps-search-input-color: #{$eps-dark-gray-200};
+		--eps-search-input-placeholder-color: #{dark-tints(200)};
+	}
 }
 
 .eps-search-input {
@@ -31,7 +37,7 @@
 	}
 
 	&::placeholder {
-		color: tints(500);
+		color: var(--eps-search-input-placeholder-color);
 		font-style: italic;
 	}
 

@@ -120,6 +120,16 @@ class WP_Exporter {
 		// Grab a snapshot of post IDs, just in case it changes during the export.
 		$post_ids = $this->wpdb->get_col( "SELECT ID FROM {$this->wpdb->posts} $join WHERE $where $limit" );// phpcs:ignore
 
+		if ( ! empty( $this->args['include_post_featured_image_as_attachment'] ) ) {
+			foreach ( $post_ids as $post_id ) {
+				$thumbnail_id = get_post_meta( $post_id, '_thumbnail_id', true );
+
+				if ( $thumbnail_id && false === array_search( $thumbnail_id, $post_ids, true ) ) {
+					$post_ids [] = $thumbnail_id;
+				}
+			}
+		}
+
 		/*
 		 * Get the requested terms ready, empty unless posts filtered by category
 		 * or all content.
@@ -563,7 +573,7 @@ class WP_Exporter {
 					$comments  = array_map( 'get_comment', $_comments );
 					foreach ( $comments as $c ) {
 
-						$result .= $result .= $this->indent( 3 ) . '<wp:comment>' . PHP_EOL;
+						$result .= $this->indent( 3 ) . '<wp:comment>' . PHP_EOL;
 
 						$result .= $this->indent( 4 ) . '<wp:comment_id>' . (int) $c->comment_ID . '</wp:comment_id>' . PHP_EOL;
 						$result .= $this->indent( 4 ) . '<wp:comment_author>' . $this->wxr_cdata( $c->comment_author ) . '</wp:comment_author>' . PHP_EOL;
@@ -596,15 +606,15 @@ class WP_Exporter {
 								continue;
 							}
 
-							$result .= $result .= $this->indent( 4 ) . '<wp:commentmeta>' . PHP_EOL;
+							$result .= $this->indent( 4 ) . '<wp:commentmeta>' . PHP_EOL;
 
 							$result .= $this->indent( 5 ) . '<wp:meta_key>' . $this->wxr_cdata( $meta->meta_key ) . '</wp:meta_key>' . PHP_EOL;
 							$result .= $this->indent( 5 ) . '<wp:meta_value>' . $this->wxr_cdata( $meta->meta_key ) . '</wp:meta_value>' . PHP_EOL;
 
-							$result .= $result .= $this->indent( 4 ) . '</wp:commentmeta>' . PHP_EOL;
+							$result .= $this->indent( 4 ) . '</wp:commentmeta>' . PHP_EOL;
 						}
 
-						$result .= $result .= $this->indent( 3 ) . '</wp:comment>' . PHP_EOL;
+						$result .= $this->indent( 3 ) . '</wp:comment>' . PHP_EOL;
 					}
 
 					$result .= $this->indent( 2 ) . '</item>' . PHP_EOL;

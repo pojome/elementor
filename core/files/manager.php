@@ -121,7 +121,7 @@ class Manager {
 		delete_option( Global_CSS::META_KEY );
 		delete_option( Frontend::META_KEY );
 
-		$this->reset_assets_data_css();
+		$this->reset_assets_data();
 
 		/**
 		 * Elementor clear files.
@@ -163,22 +163,14 @@ class Manager {
 	}
 
 	/**
-	 * Reset Assets Data CSS.
+	 * Reset Assets Data.
 	 *
-	 * Reset the page assets CSS data.
+	 * Reset the page assets data.
 	 *
 	 * @since 3.3.0
 	 * @access private
 	 */
-	private function reset_assets_data_css() {
-		$assets_data_key = Page_Assets_Data_Manager::ASSETS_DATA_KEY;
-
-		$assets_inline_content = get_option( $assets_data_key, [] );
-
-		if ( isset( $assets_inline_content['css'] ) ) {
-			unset( $assets_inline_content['css'] );
-
-			update_option( $assets_data_key, $assets_inline_content );
-		}
+	private function reset_assets_data() {
+		delete_option( Page_Assets_Data_Manager::ASSETS_DATA_KEY );
 	}
 }

@@ -161,4 +161,38 @@ class Test_WP_Exporter extends Elementor_Test_Base {
 		// Assert.
 		$this->assertEquals( 0, $actual_items );
 	}
+
+	public function test_run__ensure_include_post_featured_image_as_attachment() {
+		// Arrange.
+		$attachment = $this->factory()->post->create_and_get( [
+			'post_type' => 'attachment',
+		] );
+
+		$this->factory()->post->create_and_get( [
+			'meta_input' => [
+				'_thumbnail_id' => $attachment->ID,
+			],
+		] );
+
+		$exporter = new WP_Exporter( [
+			'content' => 'post',
+			'status' => 'publish',
+			'meta_query' => [
+				[
+					'key' => '_elementor_edit_mode',
+					'compare' => 'NOT EXISTS',
+				],
+			],
+			'include_post_featured_image_as_attachment' => true,
+		] );
+
+		// Act.
+		$content = $exporter->run();
+
+		// Assert.
+		$this->assertCount( 2, $content['ids'] );
+
+		$include_attachment = (boolean) strstr( $content['xml'], '<wp:attachment_url>' );
+		$this->assertTrue( $include_attachment );
+	}
 }

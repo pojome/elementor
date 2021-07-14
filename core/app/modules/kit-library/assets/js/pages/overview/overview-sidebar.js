@@ -38,7 +38,7 @@ export default function OverviewSidebar( props ) {
 					isOpen={ isTagsCollapseOpen }
 					onChange={ setIsTagsCollapseOpen }
 					title={ __( 'TAGS', 'elementor' ) }
-					className="e-kit-library__item-sidebar-collapse"
+					className="e-kit-library__item-sidebar-collapse-tags"
 				>
 					<Grid container className="e-kit-library__item-sidebar-tags-container">
 						{ props.model.taxonomies.map( ( taxonomy ) => (
@@ -53,7 +53,7 @@ export default function OverviewSidebar( props ) {
 					isOpen={ isInformationCollapseOpen }
 					onChange={ setIsInformationCollapseOpen }
 					title={ __( 'WHAT\'S INSIDE', 'elementor' ) }
-					className="e-kit-library__item-sidebar-collapse"
+					className="e-kit-library__item-sidebar-collapse-info"
 				>
 					{
 						props.groupedKitContent.map( ( contentType ) => {

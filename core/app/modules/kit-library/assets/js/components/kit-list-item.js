@@ -10,7 +10,7 @@ export default function KitListItem( props ) {
 	const [ type, { subscriptionPlan } ] = useKitCallToAction( props.model.accessLevel );
 
 	return (
-		<Card>
+		<Card className="e-kit-library__kit-item">
 			<CardHeader>
 				<Heading
 					tag="h3"

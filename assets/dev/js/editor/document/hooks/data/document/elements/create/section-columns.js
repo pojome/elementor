@@ -16,7 +16,7 @@ export class SectionColumns extends After {
 	}
 
 	getConditions( args ) {
-		return ! args.model.elements;
+		return ! args.model.elements && 'section' === args.model.elType;
 	}
 
 	/**

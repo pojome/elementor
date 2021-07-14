@@ -69,5 +69,8 @@ export default {
 		runReadyTrigger: () => {
 		},
 	},
+	getCurrentDeviceMode: () => {
+		return 'desktop';
+	},
 	init: () => console.log( 'elementorFrontend::init' ), // eslint-disable-line no-console
 };

@@ -3,11 +3,18 @@ import ElementsHelper from '../../elements/helper';
 
 /**
  * TODO: Refactor whole file.
+ *
+ * Example usage:
+ *
+ * copySource: {
+ *     pasteTarget: true|false, ( true -> Copy allowed, false -> Copy not allowed )
+ * }
  */
 export const DEFAULT_PASTE_RULES = {
 	section: {
 		document: true,
 		section: true,
+		container: false,
 		column: false,
 		widget: false,
 		innerSection: {
@@ -16,9 +23,22 @@ export const DEFAULT_PASTE_RULES = {
 		},
 	},
 
+	container: {
+		document: true,
+		section: false,
+		container: true,
+		column: true,
+		widget: false,
+		innerSection: {
+			section: false,
+			column: true,
+		},
+	},
+
 	column: {
 		document: true,
 		section: true,
+		container: false,
 		column: true,
 		widget: false,
 		innerSection: {
@@ -30,6 +50,7 @@ export const DEFAULT_PASTE_RULES = {
 	widget: {
 		document: true,
 		section: true,
+		container: true,
 		column: true,
 		widget: true,
 		innerSection: {
@@ -41,6 +62,7 @@ export const DEFAULT_PASTE_RULES = {
 	innerSection: {
 		document: true,
 		section: false,
+		container: false,
 		column: true,
 		widget: false,
 		innerSection: {
@@ -141,6 +163,11 @@ const validateRule = ( assert, target, targetElType, source, sourceElType, isAll
 				}
 
 				passed = !! findChildrenContainer( searchTarget, copiedContainer );
+			}
+			break;
+
+			case 'container': {
+				passed = !! findChildrenContainer( target, copiedContainer );
 			}
 			break;
 

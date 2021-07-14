@@ -30,6 +30,7 @@ const checkTextDomain = {
 				'!build/**',
 				'!tests/**',
 				'!.github/**',
+				'!.run/**',
 				'!vendor/**',
 				'!*~'
 			],

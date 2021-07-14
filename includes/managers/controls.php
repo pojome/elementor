@@ -358,6 +358,8 @@ class Controls_Manager {
 			'box-shadow',
 			'css-filter',
 			'text-shadow',
+			'flex-container',
+			'flex-item',
 		];
 	}
 

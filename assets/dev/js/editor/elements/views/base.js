@@ -71,6 +71,10 @@ BaseElementView = BaseContainer.extend( {
 		};
 	},
 
+	getFloatingBarConfig() {
+		return {};
+	},
+
 	getElementType() {
 		return this.model.get( 'elType' );
 	},
@@ -87,12 +91,22 @@ BaseElementView = BaseContainer.extend( {
 		let ChildView;
 		const elType = model.get( 'elType' );
 
-		if ( 'section' === elType ) {
-			ChildView = require( 'elementor-elements/views/section' );
-		} else if ( 'column' === elType ) {
-			ChildView = require( 'elementor-elements/views/column' );
-		} else {
-			ChildView = elementor.modules.elements.views.Widget;
+		switch ( elType ) {
+			case 'section':
+				ChildView = require( 'elementor-elements/views/section' );
+				break;
+
+			case 'column':
+				ChildView = require( 'elementor-elements/views/column' );
+				break;
+
+			case 'container':
+				ChildView = require( 'elementor-elements/views/container' );
+				break;
+
+			default:
+				ChildView = elementor.modules.elements.views.Widget;
+				break;
 		}
 
 		return elementor.hooks.applyFilters( 'element/view', ChildView, model, this );
@@ -336,7 +350,8 @@ BaseElementView = BaseContainer.extend( {
 			model.widgetType = elementView.model.get( 'widgetType' );
 		} else if ( 'section' === model.elType ) {
 			model.isInner = true;
-		} else {
+		} else if ( 'container' !== model.elType ) {
+			// Don't allow adding anything other than widget, inner-section or a container.
 			return;
 		}
 
@@ -519,6 +534,93 @@ BaseElementView = BaseContainer.extend( {
 		this.renderCustomClasses();
 		this.renderCustomElementID();
 		this.enqueueFonts();
+		this.renderFloatingBar();
+	},
+
+	/**
+	 * Listen to floating bar setting change.
+	 *
+	 * @param {Event} e - A change event.
+	 *
+	 * @return {void}
+	 */
+	onFloatingBarSettingChange( e ) {
+		const { value, dataset: { setting } } = e.currentTarget;
+
+		$e.run( 'document/elements/settings', {
+			container: this.container,
+			settings: {
+				[ setting ]: value,
+			},
+			options: { external: true },
+		} );
+	},
+
+	/**
+	 * Generate a select tag markup of a floating bar control.
+	 *
+	 * @param {string} setting - Setting key.
+	 * @param {Object[]} options - Control options (from `select` / `choose` controls).
+	 *
+	 * @return {string} - Select box markup.
+	 */
+	generateSelect( setting, options ) {
+		const activeSetting = this.model.getSetting( setting );
+
+		let output = `<select data-setting="${ setting }">`;
+
+		Object.entries( options ).forEach( ( [ value, label ] ) => {
+			const selected = ( value === activeSetting ) ? 'selected' : '';
+
+			output += `<option value="${ value }" ${ selected }>${ label.title || label }</option>`;
+		} );
+
+		output += '</select>';
+
+		return output;
+	},
+
+	/**
+	 * Render the floating bar.
+	 *
+	 * @return {void}
+	 */
+	renderFloatingBar() {
+		const floatingBarConfig = this.getFloatingBarConfig();
+
+		if ( ! Object.keys( floatingBarConfig ).length ) {
+			return;
+		}
+
+		const { groups } = floatingBarConfig;
+
+		// Remove existing floating bar.
+		if ( this.floatingBar ) {
+			this.floatingBar.remove();
+		}
+
+		// Create the floating bar element.
+		this.floatingBar = document.createElement( 'div' );
+		this.floatingBar.classList.add( 'e-floating-bar' );
+
+		Object.entries( groups ).forEach( ( [ groupName, group ] ) => {
+			const settings = Object.keys( group.settings ),
+				widgetType = this.model.get( 'widgetType' ) || this.model.get( 'elType' ),
+				widgetSettings = elementor.widgetsCache[ widgetType ];
+
+			settings.forEach( ( setting ) => {
+				const control = widgetSettings.controls[ setting ];
+
+				this.floatingBar.innerHTML += this.generateSelect( setting, control.options );
+			} );
+		} );
+
+		this.$el[ 0 ].appendChild( this.floatingBar );
+
+		// TODO: TEMP - Refactor.
+		this.floatingBar.querySelectorAll( 'select' ).forEach( ( select ) => {
+			select.addEventListener( 'change', this.onFloatingBarSettingChange.bind( this ) );
+		} );
 	},
 
 	runReadyTrigger: function() {

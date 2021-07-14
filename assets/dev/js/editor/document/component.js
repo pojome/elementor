@@ -5,6 +5,7 @@ import CommandHistoryDebounce from './commands/base/command-history-debounce';
 
 import * as components from './';
 import * as hooks from './hooks/';
+import * as uiStates from './ui-states';
 
 export default class Component extends ComponentBase {
 	static getModules() {
@@ -57,6 +58,10 @@ export default class Component extends ComponentBase {
 
 	defaultHooks() {
 		return this.importHooks( hooks );
+	}
+
+	defaultUiStates() {
+		return this.importUiStates( uiStates );
 	}
 
 	defaultUtils() {

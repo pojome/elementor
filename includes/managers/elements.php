@@ -1,6 +1,8 @@
 <?php
 namespace Elementor;
 
+use Elementor\Includes\Elements\Container;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -246,6 +248,12 @@ class Elements_Manager {
 			$class_name = __NAMESPACE__ . '\Element_' . $element_name;
 
 			$this->register_element_type( new $class_name() );
+		}
+
+		$experiments_manager = Plugin::$instance->experiments;
+
+		if ( $experiments_manager->is_feature_active( 'container' ) ) {
+			$this->register_element_type( new Container() );
 		}
 
 		/**

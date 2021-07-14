@@ -26,7 +26,20 @@ class Root extends Base {
 		$include_site_settings = in_array( 'settings', $include, true );
 
 		if ( $include_site_settings ) {
-			$this->exporter->add_json_file( 'site-settings', $kit->get_export_data() );
+			$kit_data = $kit->get_export_data();
+
+			$excluded_kit_settings_keys = [
+				'site_name',
+				'site_description',
+				'site_logo',
+				'site_favicon',
+			];
+
+			foreach ( $excluded_kit_settings_keys as $setting_key ) {
+				unset( $kit_data['settings'][ $setting_key ] );
+			}
+
+			$this->exporter->add_json_file( 'site-settings', $kit_data );
 		}
 
 		$kit_post = $kit->get_post();
@@ -44,7 +57,11 @@ class Root extends Base {
 		];
 
 		if ( $include_site_settings ) {
-			$manifest_data['site-settings'] = array_keys( $kit->get_tabs() );
+			$kit_tabs = $kit->get_tabs();
+
+			unset( $kit_tabs['settings-site-identity'] );
+
+			$manifest_data['site-settings'] = array_keys( $kit_tabs );
 		}
 
 		return $manifest_data;

@@ -23,6 +23,10 @@ export default class DocumentHelper {
 				result = ElementsHelper.createSection( 1 );
 				break;
 
+			case 'container':
+				result = ElementsHelper.createContainer();
+				break;
+
 			case 'column':
 				result = ElementsHelper.createSection( 1, true );
 				break;

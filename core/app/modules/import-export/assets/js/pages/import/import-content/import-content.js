@@ -44,7 +44,7 @@ export default function ImportContent() {
 				<PageHeader
 					heading={ __( 'Import a Template Kit', 'elementor' ) }
 					description={ [
-						__( 'Choose which Elementor components - templates, content and site settings - to include in your file.', 'elementor' ),
+						__( 'Choose which Elementor components - templates, content and site settings - to include in your kit.', 'elementor' ),
 						<React.Fragment key="description-secondary-line">
 							{ __( 'By default, all of your components will be imported.', 'elementor' ) } { getLearnMoreLink() }
 						</React.Fragment>,

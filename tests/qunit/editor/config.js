@@ -5,6 +5,7 @@ import postCustomField from '../mock/dynamic-tags/post-custom-field';
 import postDate from '../mock/dynamic-tags/post-date';
 import button from '../mock/elments/button';
 import column from '../mock/elments/column';
+import container from '../mock/elments/container';
 import form from '../mock/elments/form';
 import heading from '../mock/elments/heading';
 import section from '../mock/elments/section';
@@ -29,6 +30,7 @@ config.settings = settings;
 // Elements.
 config.elements = {
 	section,
+	container,
 	column,
 };
 

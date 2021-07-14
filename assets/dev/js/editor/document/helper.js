@@ -14,7 +14,8 @@ export default class Helper extends BackwardsCompatibility {
 			return false;
 		}
 
-		if ( draggedElType === parentElType ) {
+		// Allow only nested containers.
+		if ( draggedElType === parentElType && 'container' !== draggedElType ) {
 			return false;
 		}
 
