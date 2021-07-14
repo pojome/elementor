@@ -10,10 +10,14 @@ import Cache from './data/cache';
  * @typedef {{}} RequestData
  * @property {ComponentBase} component
  * @property {string} command
+ * @property {{}} args
+ * @property {DataTypes} type
+ * @property {number} timestamp
  * @property {string} endpoint
- * @property {DataTypes} [type]
- * @property {{}} [args]
- * @property {number} [timestamp]
+ *
+ * @property {string} [baseEndpointAddress]
+ * @property {string} [namespace]
+ * @property {string} [version]
  * @property {('hit'|'miss')} [cache]
  */
 
@@ -37,17 +41,12 @@ export default class Data extends Commands {
 		this.args = Object.assign( args, {
 			namespace: 'elementor',
 			version: '1',
+			baseEndpointAddress: elementorCommon.config.urls.rest,
 		} );
 
 		this.cache = new Cache( this );
 		this.validatedRequests = {};
 		this.commandFormats = {};
-
-		this.baseEndpointAddress = '';
-
-		const { namespace, version } = this.args;
-
-		this.baseEndpointAddress = `${ elementorCommon.config.urls.rest }${ namespace }/v${ version }/`;
 	}
 
 	/**
@@ -108,6 +107,27 @@ export default class Data extends Commands {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Function getEndpointAddress().
+	 *
+	 * Get remote endpoint address.
+	 *
+	 * @param {RequestData} requestData
+	 * @param {string} [endpoint=requestData.endpoint]
+	 *
+	 * @returns {string}
+	 */
+	getEndpointAddress( requestData, endpoint = requestData.endpoint ) {
+		// Allow to request data override default namespace and args.
+		const {
+			baseEndpointAddress = this.args.baseEndpointAddress,
+			namespace = this.args.namespace,
+			version = this.args.version,
+		} = requestData;
+
+		return `${ baseEndpointAddress }${ namespace }/v${ version }/` + endpoint;
 	}
 
 	/**
@@ -289,10 +309,15 @@ export default class Data extends Commands {
 			}
 
 			Object.assign( headers, { 'Content-Type': 'application/json' } );
+
+			if ( requestData.args?.headers ) {
+				Object.assign( headers, requestData.args.headers );
+			}
+
 			Object.assign( params, {
 				method,
 				headers,
-				body: JSON.stringify( requestData.args.data ),
+				body: 'application/json' === headers[ 'Content-Type' ] ? JSON.stringify( requestData.args.data ) : requestData.args.data,
 			} );
 		} else {
 			throw Error( `Invalid type: '${ type }'` );
@@ -306,22 +331,23 @@ export default class Data extends Commands {
 	 * the main problem is with plain permalink mode + command with query params that creates a weird url,
 	 * the current method should fix it.
 	 *
-	 * @param endpoint
-	 * @returns {string}
+	 * @param {RequestData} requestData
+	 *
+	 * @returns {string} Endpoint URL
 	 */
-	prepareEndpoint( endpoint ) {
-		const splitUrl = endpoint.split( '?' ),
-			path = splitUrl.shift();
+	prepareEndpoint( requestData ) {
+		const splitEndpoint = requestData.endpoint.split( '?' ),
+			endpoint = splitEndpoint.shift();
 
-		let url = this.baseEndpointAddress + path;
+		let endpointAddress = this.getEndpointAddress( requestData, endpoint );
 
-		if ( splitUrl.length ) {
-			const separator = url.includes( '?' ) ? '&' : '?';
+		if ( splitEndpoint.length ) {
+			const separator = endpointAddress.includes( '?' ) ? '&' : '?';
 
-			url += separator + splitUrl.pop();
+			endpointAddress += separator + splitEndpoint.pop();
 		}
 
-		return url;
+		return endpointAddress;
 	}
 
 	/**
@@ -352,7 +378,7 @@ export default class Data extends Commands {
 			// This function is async because:
 			// it needs to wait for the results, to cache them before it resolve's the promise.
 			try {
-				const endpoint = this.prepareEndpoint( requestData.endpoint ),
+				const endpoint = this.prepareEndpoint( requestData ),
 					request = fetchAPI( endpoint, params ),
 					response = await request.then( async ( _response ) => {
 						if ( ! _response.ok ) {

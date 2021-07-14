@@ -116,6 +116,7 @@ class AddSectionBase extends Marionette.ItemView {
 
 	onRender() {
 		this.$el.html5Droppable( {
+			view: this,
 			axis: [ 'vertical' ],
 			groups: [ 'elementor-element' ],
 			placeholder: false,
@@ -169,9 +170,11 @@ class AddSectionBase extends Marionette.ItemView {
 			} );
 
 		// Create the element in column.
-		eSection.view.children.findByIndex( 0 ).addElementFromPanel();
+		const result = eSection.view.children.findByIndex( 0 ).addElementFromPanel();
 
 		$e.internal( 'document/history/end-log', { id: historyId } );
+
+		return result;
 	}
 
 	onAfterPaste() {}
